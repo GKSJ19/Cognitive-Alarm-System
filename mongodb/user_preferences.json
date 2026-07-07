@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "6a49f8fdb2c83b5138ea6171"
+  },
+  "preference_id": "UP001",
+  "user_id": 1,
+  "preferred_difficulty": "Beginner",
+  "current_difficulty": "Beginner",
+  "challenge_type_preference": "Math Problems",
+  "updated_at": "2026-07-05T06:30:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f8fdb2c83b5138ea6172"
+  },
+  "preference_id": "UP002",
+  "user_id": 2,
+  "preferred_difficulty": "Easy",
+  "current_difficulty": "Easy",
+  "challenge_type_preference": "Logic Puzzles",
+  "updated_at": "2026-07-05T06:35:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f8fdb2c83b5138ea6173"
+  },
+  "preference_id": "UP003",
+  "user_id": 3,
+  "preferred_difficulty": "Medium",
+  "current_difficulty": "Medium",
+  "challenge_type_preference": "Memory Challenges",
+  "updated_at": "2026-07-05T06:40:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f8fdb2c83b5138ea6174"
+  },
+  "preference_id": "UP004",
+  "user_id": 4,
+  "preferred_difficulty": "Hard",
+  "current_difficulty": "Hard",
+  "challenge_type_preference": "Word Games",
+  "updated_at": "2026-07-05T06:45:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f8fdb2c83b5138ea6175"
+  },
+  "preference_id": "UP005",
+  "user_id": 5,
+  "preferred_difficulty": "Expert",
+  "current_difficulty": "Expert",
+  "challenge_type_preference": "Pattern Recognition",
+  "updated_at": "2026-07-05T06:50:00Z"
+}]

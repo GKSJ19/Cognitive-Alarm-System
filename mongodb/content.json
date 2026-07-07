@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "6a49fcb4b2c83b5138ea6183"
+  },
+  "content_id": "CT001",
+  "category": "Sleep Improvement",
+  "title": "Maintain a Consistent Sleep Schedule",
+  "description": "Go to bed and wake up at the same time every day.",
+  "status": "Active",
+  "created_at": "2026-07-05T08:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fcb4b2c83b5138ea6184"
+  },
+  "content_id": "CT002",
+  "category": "Wake-up Optimization",
+  "title": "Place Alarm Away From Bed",
+  "description": "Keep the alarm away from your bed so you need to get up to turn it off.",
+  "status": "Active",
+  "created_at": "2026-07-05T08:05:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fcb4b2c83b5138ea6185"
+  },
+  "content_id": "CT003",
+  "category": "Habit Improvement",
+  "title": "Avoid Late Snoozing",
+  "description": "Try to reduce repeated snoozing to improve wake-up consistency.",
+  "status": "Active",
+  "created_at": "2026-07-05T08:10:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fcb4b2c83b5138ea6186"
+  },
+  "content_id": "CT004",
+  "category": "Productivity",
+  "title": "Start With a Morning Task",
+  "description": "Begin the day with one simple planned task.",
+  "status": "Active",
+  "created_at": "2026-07-05T08:15:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fcb4b2c83b5138ea6187"
+  },
+  "content_id": "CT005",
+  "category": "Personalized Challenge",
+  "title": "Use Your Preferred Challenge Type",
+  "description": "Choose challenge types that match your preference and current difficulty level.",
+  "status": "Active",
+  "created_at": "2026-07-05T08:20:00Z"
+}]

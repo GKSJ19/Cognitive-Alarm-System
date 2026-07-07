@@ -1,0 +1,112 @@
+[{
+  "_id": {
+    "$oid": "6a49f3b7b2c83b5138ea615c"
+  },
+  "challenge_id": "CH001",
+  "user_id": 1,
+  "challenge_type": "Math Problems",
+  "difficulty_level": "Easy",
+  "question": "What is 8 + 5?",
+  "correct_answer": "13",
+  "user_answer": "13",
+  "is_correct": true,
+  "completion_time_seconds": 12,
+  "attempted_at": "2026-07-05T06:00:00",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f4d5b2c83b5138ea615e"
+  },
+  "challenge_id": "CH002",
+  "user_id": 2,
+  "challenge_type": "Logic Puzzles",
+  "difficulty_level": "Easy",
+  "question": "Find the next number: 2, 4, 8, 16, ?",
+  "correct_answer": "32",
+  "user_answer": "32",
+  "is_correct": true,
+  "completion_time_seconds": 20,
+  "attempted_at": "2026-07-05T06:05:00Z",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f4e7b2c83b5138ea6160"
+  },
+  "challenge_id": "CH003",
+  "user_id": 3,
+  "challenge_type": "Memory Challenges",
+  "difficulty_level": "Medium",
+  "question": "Remember: Apple, Car, Moon. What was the second word?",
+  "correct_answer": "Car",
+  "user_answer": "Car",
+  "is_correct": true,
+  "completion_time_seconds": 18,
+  "attempted_at": "2026-07-05T06:10:00Z",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f4feb2c83b5138ea6162"
+  },
+  "challenge_id": "CH004",
+  "user_id": 4,
+  "challenge_type": "Word Games",
+  "difficulty_level": "Easy",
+  "question": "Unscramble: LPEAP",
+  "correct_answer": "Apple",
+  "user_answer": "Apple",
+  "is_correct": true,
+  "completion_time_seconds": 16,
+  "attempted_at": "2026-07-05T06:15:00Z",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f50bb2c83b5138ea6164"
+  },
+  "challenge_id": "CH005",
+  "user_id": 5,
+  "challenge_type": "Pattern Recognition",
+  "difficulty_level": "Medium",
+  "question": "Complete the pattern: Circle, Square, Circle, Square, ?",
+  "correct_answer": "Circle",
+  "user_answer": "Circle",
+  "is_correct": true,
+  "completion_time_seconds": 15,
+  "attempted_at": "2026-07-05T06:20:00Z",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f51db2c83b5138ea6166"
+  },
+  "challenge_id": "CH006",
+  "user_id": 6,
+  "challenge_type": "Riddles",
+  "difficulty_level": "Medium",
+  "question": "What has keys but can't open locks?",
+  "correct_answer": "Keyboard",
+  "user_answer": "Keyboard",
+  "is_correct": true,
+  "completion_time_seconds": 22,
+  "attempted_at": "2026-07-05T06:25:00Z",
+  "status": "completed"
+},
+{
+  "_id": {
+    "$oid": "6a49f52bb2c83b5138ea6168"
+  },
+  "challenge_id": "CH007",
+  "user_id": 7,
+  "challenge_type": "Quick Quizzes",
+  "difficulty_level": "Easy",
+  "question": "What is the capital of India?",
+  "correct_answer": "New Delhi",
+  "user_answer": "New Delhi",
+  "is_correct": true,
+  "completion_time_seconds": 10,
+  "attempted_at": "2026-07-05T06:30:00Z",
+  "status": "completed"
+}]

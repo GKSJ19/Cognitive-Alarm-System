@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618a"
+  },
+  "notification_id": "NT001",
+  "user_id": 1,
+  "notification_type": "Bedtime Reminder",
+  "message": "It is time to prepare for sleep.",
+  "status": "Pending",
+  "created_at": "2026-07-05T21:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618b"
+  },
+  "notification_id": "NT002",
+  "user_id": 2,
+  "notification_type": "Wake-up Reminder",
+  "message": "Wake up and complete your challenge.",
+  "status": "Pending",
+  "created_at": "2026-07-06T06:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618c"
+  },
+  "notification_id": "NT003",
+  "user_id": 3,
+  "notification_type": "Habit Alert",
+  "message": "Your wake-up consistency needs improvement.",
+  "status": "Pending",
+  "created_at": "2026-07-06T07:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618d"
+  },
+  "notification_id": "NT004",
+  "user_id": 4,
+  "notification_type": "Challenge Reminder",
+  "message": "Complete your cognitive challenge to dismiss the alarm.",
+  "status": "Pending",
+  "created_at": "2026-07-06T06:30:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618e"
+  },
+  "notification_id": "NT005",
+  "user_id": 5,
+  "notification_type": "Progress Notification",
+  "message": "Your habit progress has improved this week.",
+  "status": "Pending",
+  "created_at": "2026-07-06T09:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49fdd4b2c83b5138ea618f"
+  },
+  "notification_id": "NT006",
+  "user_id": 6,
+  "notification_type": "Platform Announcement",
+  "message": "New cognitive alarm features are available.",
+  "status": "Pending",
+  "created_at": "2026-07-06T10:00:00Z"
+}]

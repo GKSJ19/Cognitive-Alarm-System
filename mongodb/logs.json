@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6a49f9c4b2c83b5138ea6178"
+  },
+  "log_id": "LG001",
+  "user_id": 1,
+  "alarm_id": "A001",
+  "challenge_id": "CH001",
+  "verification_method": "Puzzle Completion",
+  "verification_status": "Verified",
+  "snooze_count": 0,
+  "wake_up_confirmed": true,
+  "verified_at": "2026-07-05T07:00:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f9c4b2c83b5138ea6179"
+  },
+  "log_id": "LG002",
+  "user_id": 2,
+  "alarm_id": "A002",
+  "challenge_id": "CH002",
+  "verification_method": "Multi-Step Challenges",
+  "verification_status": "Verified",
+  "snooze_count": 1,
+  "wake_up_confirmed": true,
+  "verified_at": "2026-07-05T07:05:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f9c4b2c83b5138ea617a"
+  },
+  "log_id": "LG003",
+  "user_id": 3,
+  "alarm_id": "A003",
+  "challenge_id": "CH003",
+  "verification_method": "Consecutive Correct Answers",
+  "verification_status": "Verified",
+  "snooze_count": 0,
+  "wake_up_confirmed": true,
+  "verified_at": "2026-07-05T07:10:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f9c4b2c83b5138ea617b"
+  },
+  "log_id": "LG004",
+  "user_id": 4,
+  "alarm_id": "A004",
+  "challenge_id": "CH004",
+  "verification_method": "Time-Based Challenges",
+  "verification_status": "Pending",
+  "snooze_count": 2,
+  "wake_up_confirmed": false,
+  "verified_at": "2026-07-05T07:15:00Z"
+},
+{
+  "_id": {
+    "$oid": "6a49f9c4b2c83b5138ea617c"
+  },
+  "log_id": "LG005",
+  "user_id": 5,
+  "alarm_id": "A005",
+  "challenge_id": "CH005",
+  "verification_method": "Cognitive Accuracy Checks",
+  "verification_status": "Verified",
+  "snooze_count": 0,
+  "wake_up_confirmed": true,
+  "verified_at": "2026-07-05T07:20:00Z"
+}]
