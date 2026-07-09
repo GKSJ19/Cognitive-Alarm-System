@@ -110,6 +110,60 @@ def process_attempt(
     }
 
 
+def get_difficulty_for_user(user_id: int) -> dict:
+    """
+    Full pipeline version: pulls a user's real challenge attempts and
+    stated preference via data_ingest.py, replays every attempt through
+    the Elo engine in chronological order, and returns their current
+    rating + recommended next difficulty.
+
+    Starting rating comes from the user's current_difficulty in
+    user_preferences.json (mapped to its baseline rating) -- this
+    means a brand-new user with no attempts yet still gets a sensible
+    starting point instead of always defaulting to 1000/"Easy".
+    """
+    import os
+    import sys
+
+    pipelines_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pipelines"
+    )
+    if pipelines_dir not in sys.path:
+        sys.path.append(pipelines_dir)
+
+    from data_ingest import build_user_context
+
+    context = build_user_context(user_id=user_id)
+    preferences = context.get("preferences") or {}
+    attempts = context.get("challenge_attempts") or []
+
+    starting_difficulty = preferences.get("current_difficulty", "Easy")
+    rating = DIFFICULTY_RATING.get(starting_difficulty, DEFAULT_USER_RATING)
+
+    # Replay attempts in chronological order so the rating reflects
+    # actual skill progression, not an arbitrary order.
+    sorted_attempts = sorted(attempts, key=lambda a: a.get("attempted_at", ""))
+
+    history = []
+    for attempt in sorted_attempts:
+        result = process_attempt(
+            user_rating=rating,
+            difficulty_level=attempt.get("difficulty_level", "Easy"),
+            is_correct=bool(attempt.get("is_correct", False)),
+            completion_time_seconds=attempt.get("completion_time_seconds", 20),
+        )
+        rating = result["new_rating"]
+        history.append(result)
+
+    return {
+        "user_id": user_id,
+        "starting_difficulty": starting_difficulty,
+        "current_rating": rating,
+        "next_difficulty": rating_to_difficulty(rating),
+        "attempts_processed": len(sorted_attempts),
+    }
+
+
 if __name__ == "__main__":
     # Simulated scenario using real field shapes from challenge_data.json
     print("=== Adaptive Difficulty Engine: Demo ===\n")
@@ -138,3 +192,8 @@ if __name__ == "__main__":
             f"| Next difficulty: {result['next_difficulty']}\n"
         )
         user_rating = result["new_rating"]
+
+    print("\n=== Adaptive Difficulty Engine: Demo on Real Users (1-5) ===\n")
+    for uid in range(1, 6):
+        real_result = get_difficulty_for_user(uid)
+        print(f"User {uid}: {real_result}")
