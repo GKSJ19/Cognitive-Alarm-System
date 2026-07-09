@@ -1,0 +1,20 @@
+[
+    {
+        "user": "User1",
+        "score": 92,
+        "difficulty": "Hard",
+        "success": true
+    },
+    {
+        "user": "User2",
+        "score": 60,
+        "difficulty": "Medium",
+        "success": true
+    },
+    {
+        "user": "User3",
+        "score": 35,
+        "difficulty": "Easy",
+        "success": false
+    }
+]
