@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "998211722827",
+    "project_id": "cognitive-alarm-platform",
+    "storage_bucket": "cognitive-alarm-platform.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998211722827:android:c3f3a4190ac85e8ad777ce",
+        "android_client_info": {
+          "package_name": "com.example.smart_alarm_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998211722827-b9qbvq8499maldj7qth8rafrimpul3bq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_alarm_system",
+            "certificate_hash": "ccc10a35b8a063b6a00073af6f7d5f9bafee08ce"
+          }
+        },
+        {
+          "client_id": "998211722827-i3ohu25hh7rfuh3i1rscmap4thf48tgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZrwGZ-TiMzXFfJhT2oZAVKJbdpz9YW9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998211722827-i3ohu25hh7rfuh3i1rscmap4thf48tgr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "998211722827-79r0hh6itcs6rmgdjitsers8kb9ce6is.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.smartAlarmSystem"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
