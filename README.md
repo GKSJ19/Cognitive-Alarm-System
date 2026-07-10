@@ -1,10 +1,10 @@
 # Intelligent Cognitive Alarm Platform
 
 ## Team Member
-**Mariya Mallick**
+**Kanishka**
 
 ## Branch
-MariyaMallick
+Kanishka
 
 ## Project Overview
 
