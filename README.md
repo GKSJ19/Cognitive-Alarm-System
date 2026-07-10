@@ -1,47 +1,57 @@
-# Intelligent Cognitive Alarm Platform - Backend Service
+# Intelligent Cognitive Alarm Platform
 
-This repository contains the backend code for the **Intelligent Cognitive Alarm Platform** developed for the `ratnesh` branch. It contains the **Authentication & Authorization Module** and the **Alarm Scheduling Module**.
+## Team Member
+**Mariya Mallick**
+
+## Branch
+MariyaMallick
+
+## Project Overview
+
+The Intelligent Cognitive Alarm Platform is an AI-powered mobile application that helps users build healthy wake-up habits. Instead of simply dismissing an alarm, users must complete cognitive challenges such as math problems, logic puzzles, memory games, riddles, or pattern recognition tasks.
+
+The system analyzes user performance and behavior to adapt challenge difficulty, reduce snooze habits, and provide personalized recommendations for improving sleep and productivity.
 
 ---
 
-## 📂 Project Structure
+## My Responsibility
 
-```text
-Cognitive-Alarm-System/
-├── backend/
-│   ├── .env                    # Local environment settings (ignored by Git)
-│   ├── .env.example            # Environment settings template
-│   ├── .gitignore              # Git ignore rules for virtualenv, databases, and caches
-│   ├── requirements.txt        # Backend dependencies
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── config.py           # Configuration loader (Pydantic Settings)
-│   │   ├── database.py         # SQLAlchemy engine and session setup
-│   │   ├── dependencies.py     # Injectable DB and current user dependencies
-│   │   ├── main.py             # FastAPI application entrypoint
-│   │   ├── models.py           # SQLAlchemy database models
-│   │   ├── schemas.py          # Pydantic validation schemas
-│   │   ├── security.py         # Bcrypt hashing and JWT utility functions
-│   │   └── routes/
-│   │       ├── __init__.py
-│   │       ├── alarms.py       # Alarm CRUD endpoints
-│   │       ├── auth.py         # Registration & login endpoints
-│   │       └── protected.py    # Demonstration routes for role checks
-│   └── tests/
-│       ├── __init__.py
-│       ├── conftest.py         # Pytest fixtures and database overrides
-│       ├── test_alarms.py      # Integration tests for Alarm scheduling
-│       ├── test_auth.py        # Integration tests for Registration & Login
-│       └── test_protected.py   # Integration tests for Token and RBAC checks
-├── LICENSE
-└── README.md                   # This file
+As the AI/ML developer, my responsibilities include:
+
+- AI Challenge Engine
+- Adaptive Difficulty Engine
+- Behavior Analysis
+- Recommendation Engine
+- AI Workflow Design
+- System Architecture Design
+- Database Schema Design
+
+---
+
+## Week 1 Progress
+
+- Completed System Architecture
+- Completed Database Schema
+- Added AI module structure
+- Planned AI workflow
+- Initialized AI project structure
+
+---
+
+## Folder Structure
+
+```
+ai/
+docs/
+README.md
+PROJECT_PROGRESS.md
 ```
 
 ---
 
 ## 🗄️ Database Schema & Relationships
 
-The database layer is mapped using SQLAlchemy models and is fully compatible with the PostgreSQL database design. For local testing, it uses an automatic fallback to a local SQLite file database.
+The database layer is mapped using SQLAlchemy models and automatically initializes on application startup.
 
 ### 1. `users` Table
 Stores user profile information, authentication hashes, and system permissions.
@@ -53,11 +63,26 @@ Stores user profile information, authentication hashes, and system permissions.
 - `is_active` (Boolean, default `True`): Flag to toggle user account access.
 - `created_at` / `updated_at` (Timestamp): Timestamps.
 
-### 2. `alarms` Table
+### 2. `user_profiles` Table
+Stores granular sleep routine settings and demographic details for each user.
+- `id` (UUID, Primary Key): Unique identifier of the user profile.
+- `user_id` (UUID, Foreign Key referencing `users.id` with `ON DELETE CASCADE`, Unique): Links profile to the owner.
+- `profile_photo` (String, Nullable): Relative path to user avatar.
+- `phone_number` (String, Nullable): Contact phone number.
+- `gender` (String, Nullable): Self-identified gender.
+- `date_of_birth` (String, Nullable): Birthdate.
+- `occupation` (String, Nullable): Profession/Occupation.
+- `timezone` (String, default `'UTC'`): User preferred timezone.
+- `preferred_wakeup_time` (String, Nullable): Expected wake-up target.
+- `preferred_sleep_time` (String, Nullable): Target bed time.
+- `bio` (String, Nullable): Personal bio description.
+- `created_at` / `updated_at` (Timestamp): Timestamps.
+
+### 3. `alarms` Table
 Stores schedule configurations for alarm triggers.
 - `id` (UUID, Primary Key): Unique identifier of the alarm.
-- `user_id` (UUID, Foreign Key referencing `users.id`): Owner of the alarm.
-- `title` (String): Name/Title of the alarm schedule.
+- `user_id` (UUID, Foreign Key referencing `users.id` with `ON DELETE CASCADE`): Owner of the alarm.
+- `title` (String): Custom name/Title of the alarm schedule.
 - `alarm_time` (Time): Time of day when the alarm should trigger (e.g. `07:30:00`).
 - `repeat_type` (String, default `'daily'`): Recurrence schedule. Valid values: `'once'`, `'daily'`, `'weekdays'`, `'weekends'`, `'custom'`.
 - `custom_days` (String, Nullable): Comma-separated list of active days (e.g. `MON,WED,FRI`) when `repeat_type` is `'custom'`.
@@ -72,79 +97,47 @@ Stores schedule configurations for alarm triggers.
 
 ### Entity Relationship Mapping
 ```text
-┌──────────────┐             ┌──────────────┐
-│    users     │             │    alarms    │
-├──────────────┤             ├──────────────┤
-│ id   (PK)    │ 1         * │ id   (PK)    │
-│ email (UQ)   ├────────────o│ user_id (FK) │
-│ password_hash│             │ alarm_time   │
-│ role         │             │ repeat_type  │
-│ ...          │             │ ...          │
-└──────────────┘             └──────────────┘
+┌──────────────┐ 1          1 ┌──────────────┐
+│    users     ├──────────────┤user_profiles │
+├──────────────┤              ├──────────────┤
+│ id   (PK)    │              │ id   (PK)    │
+│ email (UQ)   │              │ user_id (FK) │
+│ password_hash│              │ timezone     │
+│ role         │              │ ...          │
+│ ...          │              └──────────────┘
+└──────┬───────┘
+       │ 1
+       │
+       │ *
+┌──────▼───────┐
+│    alarms    │
+├──────────────┤
+│ id   (PK)    │
+│ user_id (FK) │
+│ alarm_time   │
+│ repeat_type  │
+│ ...          │
+└──────────────┘
 ```
-- **Relationship:** One user can own multiple alarm schedules (`1` to `*` relationship). Deleting a user cascadingly purges all of their associated alarms.
+- **Relationships:**
+  - One user has exactly one profile (`1` to `1` relationship). Deleting a user cascade-purges their profile.
+  - One user can own multiple alarm schedules (`1` to `*` relationship). Deleting a user cascade-purges all of their associated alarms.
 
 ---
 
-## 📡 API Documentation
+## Technologies
 
-FastAPI automatically provides interactive Swagger API documentation when the server runs.
-
-### 1. Authentication Endpoints (`/auth`)
-* `POST /auth/register`: Create a new user account.
-  - **Payload:** `{ "email": "user@example.com", "password": "secure_password", "full_name": "John Doe", "role": "user" }`
-  - **Response:** `201 Created` returning user detail payload (excluding sensitive password hashes).
-* `POST /auth/login`: Authenticate credentials (accepts standard `OAuth2PasswordRequestForm` containing `username` and `password`).
-  - **Response:** Returns a bearer JWT access token: `{"access_token": "...", "token_type": "bearer"}`.
-* `GET /auth/me`: Retrieve current logged-in user profile (requires valid Bearer token).
-* `POST /auth/logout`: Signal logout (client discards access token).
-
-### 2. Alarm Scheduling Endpoints (`/alarms`)
-All alarm endpoints require a valid JWT bearer token. Users can only view or manage alarms that belong to them.
-* `POST /alarms`: Create a new alarm.
-  - **Payload:** `{ "title": "Gym Alarm", "alarm_time": "06:30:00", "repeat_type": "weekdays", "volume": 90 }`
-  - **Validation:** Volume must be in `0-100`, snooze duration in `1-30`. If `repeat_type` is `'custom'`, `custom_days` is required.
-* `GET /alarms`: Fetch all alarms belonging to the logged-in user.
-* `GET /alarms/{alarm_id}`: Fetch details of a single alarm. Returns `403 Forbidden` if the alarm belongs to another user.
-* `PUT /alarms/{alarm_id}`: Update alarm configuration. Enforces ownership check.
-* `DELETE /alarms/{alarm_id}`: Delete an alarm. Enforces ownership check.
-* `PATCH /alarms/{alarm_id}/toggle`: Toggle active state (`is_active`). Enforces ownership check.
-
-### 3. Role Restriction Demo Endpoints (`/protected`)
-Used to verify and demonstrate role-based access control (RBAC):
-* `GET /protected/any-auth`: Open to any logged-in user.
-* `GET /protected/coach-only`: Open to `'wellness_coach'` or `'admin'` roles.
-* `GET /protected/admin-only`: Open to `'admin'` role only.
+- Python
+- FastAPI
+- Flutter
+- PostgreSQL
+- MongoDB
+- Scikit-learn
+- XGBoost
+- Firebase
 
 ---
 
-## 🚀 Setup & Execution
+## Status
 
-### 1. Install Dependencies
-Ensure you have Python 3.13+ installed:
-```bash
-cd backend
-python -m venv .venv
-.venv\Scripts\activate      # Windows Powershell
-# source .venv/bin/activate # macOS/Linux
-pip install -r requirements.txt
-```
-
-### 2. Configure Environment Variables
-Copy `.env.example` to `.env` and fill in your secrets/database credentials:
-```bash
-cp .env.example .env
-```
-By default, the backend will auto-create and run against a local SQLite file (`cognitive_alarm.db`). To connect to PostgreSQL, configure the `DATABASE_URL` in `.env`.
-
-### 3. Run Development Server
-```bash
-uvicorn app.main:app --reload
-```
-Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) in your browser to access the Swagger UI documentation.
-
-### 4. Run Automated Test Suite
-Run tests using Pytest to verify security constraints and database operations:
-```bash
-python -m pytest
-```
+✅ Week 1 Completed
