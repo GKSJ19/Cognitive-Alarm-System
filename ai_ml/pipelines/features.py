@@ -76,6 +76,21 @@ def analyze_challenge_completion(challenge_attempts: List[Dict[str, Any]]) -> Di
         "accuracy_rate": round(accuracy_rate, 2),
         "challenge_completion_score": challenge_completion_score,
     }
+    
+def analyze_productivity(scores: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Reads the user's productivity_score directly from PostgreSQL's
+    scores table (already computed upstream, not derived here).
+    Tracked as a read-only analytics input -- does NOT currently
+    factor into the weighted habit_score formula, which per the
+    architecture diagram's "Weighted Scoring Model" box uses only
+    4 components (Wake-Up Consistency 35%, Challenge Completion 25%,
+    Snooze Reduction 20%, Sleep Schedule Adherence 20%).
+    """
+    if not scores or scores.get("productivity_score") is None:
+        return {"productivity_score": None}
+
+    return {"productivity_score": float(scores["productivity_score"])}
 
 
 def analyze_sleep_schedule(profile: Dict[str, Any]) -> Dict[str, Any]:
@@ -104,24 +119,23 @@ def analyze_sleep_schedule(profile: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def compute_habit_score_inputs(user_context: Dict[str, Any]) -> Dict[str, float]:
-    """
-    Full pipeline: takes a user_context dict (from data_ingest.build_user_context)
-    and returns exactly the four inputs habit_scoring.calculate_habit_score() needs.
-    """
     logs = user_context.get("logs", [])
     challenge_attempts = user_context.get("challenge_attempts", [])
     profile = user_context.get("profile", {})
+    scores = user_context.get("scores", {})          # <-- add this line
 
     snooze_result = analyze_snooze_pattern(logs)
     wakeup_result = analyze_wakeup_behavior(logs)
     challenge_result = analyze_challenge_completion(challenge_attempts)
     sleep_result = analyze_sleep_schedule(profile)
+    productivity_result = analyze_productivity(scores)   # <-- add this line
 
     return {
         "wake_up_consistency": wakeup_result["wake_up_consistency_score"],
         "challenge_completion": challenge_result["challenge_completion_score"],
         "snooze_reduction": snooze_result["snooze_reduction_score"],
         "sleep_schedule_adherence": sleep_result["sleep_schedule_adherence_score"],
+        "productivity_score": productivity_result["productivity_score"],   # <-- add this line
     }
 
 
