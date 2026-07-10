@@ -1,6 +1,6 @@
 # Intelligent Cognitive Alarm Platform - Full Stack
 
-## Project Details
+## Developer Details
 - **Team Member:** Ratnesh Kumar
 - **Branch:** ratnesh
 
