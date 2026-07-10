@@ -1,104 +1,169 @@
-# Intelligent Cognitive Alarm Platform
+# Intelligent Cognitive Alarm Platform - Full Stack
 
-## Team Member
-**Kanishka**
+## Project Details
+- **Team Member:** Ratnesh Kumar
+- **Branch:** ratnesh
 
-## Branch
-Kanishka
+---
 
 ## Project Overview
 
-The Intelligent Cognitive Alarm Platform is an AI-powered mobile application that helps users build healthy wake-up habits. Instead of simply dismissing an alarm, users must complete cognitive challenges such as math problems, logic puzzles, memory games, riddles, or pattern recognition tasks.
+The **Intelligent Cognitive Alarm Platform** is a full-stack, AI-powered system designed to help users build healthy wake-up habits. Instead of simply tapping a button to dismiss alarms, users must solve cognitive challenges (such as math equations, logic puzzles, or memory tests).
 
-The system analyzes user performance and behavior to adapt challenge difficulty, reduce snooze habits, and provide personalized recommendations for improving sleep and productivity.
-
----
-
-## My Responsibility
-
-As the AI/ML developer, my responsibilities include:
-
-- AI Challenge Engine
-- Adaptive Difficulty Engine
-- Behavior Analysis
-- Recommendation Engine
-- AI Workflow Design
-- System Architecture Design
-- Database Schema Design
+This repository contains:
+1. **FastAPI Backend Server:** An asynchronous API service handling authentication, role-based authorization, alarm scheduling, user profile routine logs, and avatar storage.
+2. **React Native Expo Frontend Client:** A cross-platform mobile application powered by Redux Toolkit for state management, React Navigation for drawer/tab transitions, and React Native Paper for a premium material UI design.
 
 ---
 
-## Week 1 Progress
+## 🏗️ System Architecture & Folder Layout
 
-- Completed System Architecture
-- Completed Database Schema
-- Added AI module structure
-- Planned AI workflow
-- Initialized AI project structure
-
----
-
-## Folder Structure
-
+```text
+Cognitive-Alarm-System/
+├── backend/                  # FastAPI API Service
+│   ├── app/
+│   │   ├── routes/           # REST Router endpoints (Auth, Profile, Alarms)
+│   │   ├── database.py       # SQLAlchemy engine and SQLite session setup
+│   │   ├── models.py         # SQLAlchemy ORM schemas (Users, Profiles, Alarms)
+│   │   ├── schemas.py        # Pydantic schemas for request/response validation
+│   │   └── main.py           # Application entrypoint & CORS middleware configuration
+│   ├── static/               # Uploaded static media assets (Avatars)
+│   ├── tests/                # Pytest integration test suite (25 test cases)
+│   └── requirements.txt      # Python dependencies manifest
+│
+├── frontend/                 # React Native / Expo Client App
+│   ├── src/
+│   │   ├── components/       # Common reusable UI elements
+│   │   ├── config/           # Base URL and environment variables
+│   │   ├── hooks/            # Custom hooks (useAuth, useAlarms, useProfile)
+│   │   ├── navigation/       # Navigation routes (AppNavigator, AuthNavigator)
+│   │   ├── screens/          # App screens (Login, Register, Dashboard, Alarms, Profile)
+│   │   ├── services/         # Axios API clients for backend integration
+│   │   ├── store/            # Redux Toolkit store configurations
+│   │   ├── theme/            # UI design tokens (color palettes, typography)
+│   │   ├── types/            # TypeScript static type declarations
+│   │   └── utils/            # Validators and local storage helpers
+│   ├── App.tsx               # Client entrypoint
+│   ├── app.json              # Expo application manifest
+│   └── package.json          # Node dependencies manifest
 ```
-ai/
-docs/
-README.md
-PROJECT_PROGRESS.md
+
+---
+
+## 🚀 Local Installation & Running Guide
+
+### 1. Backend Server Setup
+Ensure you have [Python 3.10+](https://www.python.org/) installed.
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a Python virtual environment:
+   ```bash
+   python -m venv .venv
+   # On Windows:
+   .venv\Scripts\activate
+   # On macOS/Linux:
+   source .venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the FastAPI development server:
+   ```bash
+   uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+   ```
+   *The interactive Swagger UI documentation will be available at:* **`http://127.0.0.1:8000/docs`**
+
+---
+
+### 2. Frontend Client Setup
+Ensure you have [Node.js](https://nodejs.org/) installed.
+1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install package dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the Expo development server:
+   ```bash
+   npx expo start
+   ```
+   - Press **`w`** to run in your local web browser.
+   - Scan the **QR Code** using the Expo Go application on your mobile device to test live.
+
+---
+
+## 🗄️ Database Schema & Relationships
+
+The database layer is mapped using SQLAlchemy ORM and automatically initializes tables on startup.
+
+### 1. `users` Table
+Stores authentication logs, passwords, and permissions.
+- `id` (UUID, PK): Unique identifier.
+- `full_name` (String): User's display name.
+- `email` (String, Unique, Indexed): User's login ID.
+- `password_hash` (String): Secure Bcrypt password hash.
+- `role` (String, default `'user'`): Authorization level (`'user' | 'wellness_coach' | 'admin'`).
+- `is_active` (Boolean, default `True`): Flag to toggle account access.
+
+### 2. `user_profiles` Table
+Stores granular demographic routine preferences.
+- `id` (UUID, PK): Profile identifier.
+- `user_id` (UUID, FK referencing `users.id` with `ON DELETE CASCADE`, Unique): Profile owner.
+- `profile_photo` (String, Nullable): Saved path to user avatar.
+- `phone_number` / `gender` / `date_of_birth` / `occupation` (String, Nullable): Personal credentials.
+- `timezone` (String, default `'UTC'`): Target timezone location.
+- `preferred_wakeup_time` / `preferred_sleep_time` (String, Nullable): Routine targets.
+- `bio` (String, Nullable): Short user descriptions.
+
+### 3. `alarms` Table
+Stores schedules for alarm alerts.
+- `id` (UUID, PK): Alarm identifier.
+- `user_id` (UUID, FK referencing `users.id` with `ON DELETE CASCADE`): Alarm owner.
+- `title` (String): Display name of the alarm.
+- `alarm_time` (Time): Time of day (e.g. `07:30:00`).
+- `repeat_type` (String, default `'daily'`): Recurrence rules (`'once' | 'daily' | 'weekdays' | 'weekends' | 'custom'`).
+- `custom_days` (String, Nullable): Comma-separated active days (e.g. `MON,WED,FRI`).
+- `challenge_type` (String, default `'math'`): Cognitive dismissal puzzle type.
+- `volume` (Integer, default `80`): Volume level between `0` and `100`.
+- `vibration` / `snooze_enabled` (Boolean, default `True`): Dismiss options.
+- `snooze_duration` (Integer, default `5`): Snooze length in minutes.
+- `is_active` (Boolean, default `True`): Flag to activate/deactivate.
+- `is_smart_adaptive` (Boolean, default `False`): Enables AI habits adjustments.
+
+```text
+┌──────────────┐ 1          1 ┌──────────────┐
+│    users     ├──────────────┤user_profiles │
+├──────────────┤              ├──────────────┤
+│ id   (PK)    │              │ id   (PK)    │
+│ email (UQ)   │              │ user_id (FK) │
+│ password_hash│              │ timezone     │
+│ role         │              │ ...          │
+│ ...          │              └──────────────┘
+└──────┬───────┘
+       │ 1
+       │
+       │ *
+┌──────▼───────┐
+│    alarms    │
+├──────────────┤
+│ id   (PK)    │
+│ user_id (FK) │
+│ alarm_time   │
+│ repeat_type  │
+│ ...          │
+└──────────────┘
 ```
 
 ---
 
-## 💻 Frontend Data Models & Redux Store Schema
+## 💻 Frontend Client State & Flow Schema
 
-This branch contains the frontend client application. The client application manages state using Redux Toolkit and interacts with the backend using Axios. Below are the key frontend data schemas and state structures.
-
-### 1. TypeScript Interface Models
-
-#### `User` (Authentication User Object)
-Tracks session owner profiles and roles:
-- `id` (string): Unique identifier of the user.
-- `full_name` (string): The user's full name.
-- `email` (string): User's registered email address.
-- `role` (string): User authorization role (`'user' | 'coach' | 'admin'`).
-- `is_active` (boolean): Flag to toggle account status.
-- `is_verified` (boolean): Email verification status.
-
-#### `Profile` (Detailed User Routine Preferences)
-Stores demographic details and sleep schedule configurations:
-- `profile_id` (string): Unique profile identifier.
-- `user_id` (string): Reference linking to the owner user.
-- `profile_photo` (string | null): Relative path/URI to user avatar.
-- `phone_number` (string | null): Contact phone.
-- `gender` (string | null): Self-identified gender.
-- `date_of_birth` (string | null): Birth date.
-- `occupation` (string | null): User profession.
-- `timezone` (string): Preferred timezone.
-- `preferred_wakeup_time` (string | null): Target wake-up time (e.g. `06:30`).
-- `preferred_sleep_time` (string | null): Target bed time (e.g. `22:30`).
-- `bio` (string | null): Personal bio.
-
-#### `Alarm` (Alarm Schedule Config Scheme)
-Controls alarm triggers and dismiss conditions:
-- `alarm_id` (string): Unique identifier of the alarm.
-- `user_id` (string): Reference to the creator user.
-- `title` (string): Name/Title of the alarm.
-- `alarm_time` (string): Trigger time (e.g. `07:30`).
-- `repeat_days` (string | null): Comma-separated active days (e.g. `1,2,3,4,5` for weekdays).
-- `challenge_required` (boolean): Flag to force cognitive puzzle completion.
-- `challenge_type` (string): Type of cognitive puzzle to solve (e.g. `'math'`).
-- `difficulty` (string): Puzzle difficulty level (`'easy' | 'hard'`).
-- `vibrate` (boolean): Toggle device vibration.
-- `snooze_enabled` (boolean): Toggle snooze button.
-- `snooze_duration` (number): Snooze length in minutes.
-- `is_active` (boolean): Toggle alarm on or off.
-
----
-
-### 2. Redux Store State Schema
-
-The Redux root state maps the application state as follows:
-
+### Redux RootState Schema
 ```typescript
 export interface RootState {
   auth: {
@@ -123,12 +188,7 @@ export interface RootState {
 }
 ```
 
----
-
-### 3. Frontend Architecture & Flow Schema
-
-Below is the architectural schema representing the React Native frontend application navigation hierarchy, state propagation, and API synchronization flow:
-
+### Component Flow Layout
 ```text
        ┌────────────────────────────────────────────────────────┐
        │               AppNavigator (Navigation Routing)         │
@@ -163,22 +223,3 @@ Below is the architectural schema representing the React Native frontend applica
        │                          │   └── Alarm Requests        │
        └──────────────────────────┴─────────────────────────────┘
 ```
-
----
-
-## Technologies
-
-- Python
-- FastAPI
-- Flutter
-- PostgreSQL
-- MongoDB
-- Scikit-learn
-- XGBoost
-- Firebase
-
----
-
-## Status
-
-✅ Week 1 Completed
