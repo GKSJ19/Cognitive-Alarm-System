@@ -125,6 +125,47 @@ export interface RootState {
 
 ---
 
+### 3. Frontend Architecture & Flow Schema
+
+Below is the architectural schema representing the React Native frontend application navigation hierarchy, state propagation, and API synchronization flow:
+
+```text
+       ┌────────────────────────────────────────────────────────┐
+       │               AppNavigator (Navigation Routing)         │
+       ├────────────────────────────────────────────────────────┤
+       │  AuthNavigator                                         │
+       │   ├── SplashScreen                                     │
+       │   ├── LoginScreen                                      │
+       │   └── RegisterScreen                                   │
+       │                                                        │
+       │  Drawer/TabNavigator (Authenticated Routes)            │
+       │   ├── UserDashboardScreen                              │
+       │   ├── AlarmListScreen                                  │
+       │   │    ├── AddAlarmScreen                              │
+       │   │    └── EditAlarmScreen                             │
+       │   ├── ProfileScreen                                    │
+       │   │    └── EditProfileScreen                           │
+       │   └── SettingsScreen                                   │
+       └──────────────────────────┬─────────────────────────────┘
+                                  │
+                                  ▼
+       ┌────────────────────────────────────────────────────────┐
+       │             Redux Store (State Management)              │
+       ├──────────────────────────┬─────────────────────────────┤
+       │  authSlice               │  profileSlice               │
+       │   ├── user               │   ├── profile               │
+       │   ├── token              │   └── isLoading             │
+       │   └── isAuthenticated    │                             │
+       ├──────────────────────────┼─────────────────────────────┤
+       │  alarmSlice              │  Axios Client (API Sync)    │
+       │   ├── alarms             │   ├── Auth Requests         │
+       │   └── history            │   ├── Profile Requests      │
+       │                          │   └── Alarm Requests        │
+       └──────────────────────────┴─────────────────────────────┘
+```
+
+---
+
 ## Technologies
 
 - Python
