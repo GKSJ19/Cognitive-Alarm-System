@@ -1,10 +1,10 @@
 # Intelligent Cognitive Alarm Platform
 
 ## Team Member
-**Mariya Mallick**
+**Kanishka**
 
 ## Branch
-MariyaMallick
+Kanishka
 
 ## Project Overview
 
@@ -49,79 +49,120 @@ PROJECT_PROGRESS.md
 
 ---
 
-## 🗄️ Database Schema & Relationships
+## 💻 Frontend Data Models & Redux Store Schema
 
-The database layer is mapped using SQLAlchemy models and automatically initializes on application startup.
+This branch contains the frontend client application. The client application manages state using Redux Toolkit and interacts with the backend using Axios. Below are the key frontend data schemas and state structures.
 
-### 1. `users` Table
-Stores user profile information, authentication hashes, and system permissions.
-- `id` (UUID, Primary Key): Unique identifier of the user.
-- `full_name` (String): The user's full name.
-- `email` (String, Unique, Indexed): User's email address (used as login username).
-- `password_hash` (String): Secure Bcrypt password hash.
-- `role` (String, default `'user'`): User authorization role. Valid values: `'user'`, `'wellness_coach'`, `'admin'`.
-- `is_active` (Boolean, default `True`): Flag to toggle user account access.
-- `created_at` / `updated_at` (Timestamp): Timestamps.
+### 1. TypeScript Interface Models
 
-### 2. `user_profiles` Table
-Stores granular sleep routine settings and demographic details for each user.
-- `id` (UUID, Primary Key): Unique identifier of the user profile.
-- `user_id` (UUID, Foreign Key referencing `users.id` with `ON DELETE CASCADE`, Unique): Links profile to the owner.
-- `profile_photo` (String, Nullable): Relative path to user avatar.
-- `phone_number` (String, Nullable): Contact phone number.
-- `gender` (String, Nullable): Self-identified gender.
-- `date_of_birth` (String, Nullable): Birthdate.
-- `occupation` (String, Nullable): Profession/Occupation.
-- `timezone` (String, default `'UTC'`): User preferred timezone.
-- `preferred_wakeup_time` (String, Nullable): Expected wake-up target.
-- `preferred_sleep_time` (String, Nullable): Target bed time.
-- `bio` (String, Nullable): Personal bio description.
-- `created_at` / `updated_at` (Timestamp): Timestamps.
+#### `User` (Authentication User Object)
+Tracks session owner profiles and roles:
+- `id` (string): Unique identifier of the user.
+- `full_name` (string): The user's full name.
+- `email` (string): User's registered email address.
+- `role` (string): User authorization role (`'user' | 'coach' | 'admin'`).
+- `is_active` (boolean): Flag to toggle account status.
+- `is_verified` (boolean): Email verification status.
 
-### 3. `alarms` Table
-Stores schedule configurations for alarm triggers.
-- `id` (UUID, Primary Key): Unique identifier of the alarm.
-- `user_id` (UUID, Foreign Key referencing `users.id` with `ON DELETE CASCADE`): Owner of the alarm.
-- `title` (String): Custom name/Title of the alarm schedule.
-- `alarm_time` (Time): Time of day when the alarm should trigger (e.g. `07:30:00`).
-- `repeat_type` (String, default `'daily'`): Recurrence schedule. Valid values: `'once'`, `'daily'`, `'weekdays'`, `'weekends'`, `'custom'`.
-- `custom_days` (String, Nullable): Comma-separated list of active days (e.g. `MON,WED,FRI`) when `repeat_type` is `'custom'`.
-- `challenge_type` (String, default `'math'`): Type of cognitive puzzle to dismiss the alarm (e.g. `'math'`, `'memory'`, `'logic'`).
-- `volume` (Integer, default `80`): Volume level between `0` and `100`.
-- `vibration` (Boolean, default `True`): Flag to toggle device vibration.
-- `snooze_enabled` (Boolean, default `True`): Flag to toggle snooze functionality.
-- `snooze_duration` (Integer, default `5`): Snooze duration in minutes (between `1` and `30`).
-- `is_active` (Boolean, default `True`): Flag to toggle alarm schedule on or off.
-- `is_smart_adaptive` (Boolean, default `False`): Flag to activate dynamic scheduling based on habit scores.
-- `created_at` / `updated_at` (Timestamp): Timestamps.
+#### `Profile` (Detailed User Routine Preferences)
+Stores demographic details and sleep schedule configurations:
+- `profile_id` (string): Unique profile identifier.
+- `user_id` (string): Reference linking to the owner user.
+- `profile_photo` (string | null): Relative path/URI to user avatar.
+- `phone_number` (string | null): Contact phone.
+- `gender` (string | null): Self-identified gender.
+- `date_of_birth` (string | null): Birth date.
+- `occupation` (string | null): User profession.
+- `timezone` (string): Preferred timezone.
+- `preferred_wakeup_time` (string | null): Target wake-up time (e.g. `06:30`).
+- `preferred_sleep_time` (string | null): Target bed time (e.g. `22:30`).
+- `bio` (string | null): Personal bio.
 
-### Entity Relationship Mapping
-```text
-┌──────────────┐ 1          1 ┌──────────────┐
-│    users     ├──────────────┤user_profiles │
-├──────────────┤              ├──────────────┤
-│ id   (PK)    │              │ id   (PK)    │
-│ email (UQ)   │              │ user_id (FK) │
-│ password_hash│              │ timezone     │
-│ role         │              │ ...          │
-│ ...          │              └──────────────┘
-└──────┬───────┘
-       │ 1
-       │
-       │ *
-┌──────▼───────┐
-│    alarms    │
-├──────────────┤
-│ id   (PK)    │
-│ user_id (FK) │
-│ alarm_time   │
-│ repeat_type  │
-│ ...          │
-└──────────────┘
+#### `Alarm` (Alarm Schedule Config Scheme)
+Controls alarm triggers and dismiss conditions:
+- `alarm_id` (string): Unique identifier of the alarm.
+- `user_id` (string): Reference to the creator user.
+- `title` (string): Name/Title of the alarm.
+- `alarm_time` (string): Trigger time (e.g. `07:30`).
+- `repeat_days` (string | null): Comma-separated active days (e.g. `1,2,3,4,5` for weekdays).
+- `challenge_required` (boolean): Flag to force cognitive puzzle completion.
+- `challenge_type` (string): Type of cognitive puzzle to solve (e.g. `'math'`).
+- `difficulty` (string): Puzzle difficulty level (`'easy' | 'hard'`).
+- `vibrate` (boolean): Toggle device vibration.
+- `snooze_enabled` (boolean): Toggle snooze button.
+- `snooze_duration` (number): Snooze length in minutes.
+- `is_active` (boolean): Toggle alarm on or off.
+
+---
+
+### 2. Redux Store State Schema
+
+The Redux root state maps the application state as follows:
+
+```typescript
+export interface RootState {
+  auth: {
+    user: User | null;
+    token: string | null;
+    refreshToken: string | null;
+    isLoading: boolean;
+    error: string | null;
+    isAuthenticated: boolean;
+  };
+  profile: {
+    profile: Profile | null;
+    isLoading: boolean;
+    error: string | null;
+  };
+  alarms: {
+    alarms: Alarm[];
+    history: AlarmHistory[];
+    isLoading: boolean;
+    error: string | null;
+  };
+}
 ```
-- **Relationships:**
-  - One user has exactly one profile (`1` to `1` relationship). Deleting a user cascade-purges their profile.
-  - One user can own multiple alarm schedules (`1` to `*` relationship). Deleting a user cascade-purges all of their associated alarms.
+
+---
+
+### 3. Frontend Architecture & Flow Schema
+
+Below is the architectural schema representing the React Native frontend application navigation hierarchy, state propagation, and API synchronization flow:
+
+```text
+       ┌────────────────────────────────────────────────────────┐
+       │               AppNavigator (Navigation Routing)         │
+       ├────────────────────────────────────────────────────────┤
+       │  AuthNavigator                                         │
+       │   ├── SplashScreen                                     │
+       │   ├── LoginScreen                                      │
+       │   └── RegisterScreen                                   │
+       │                                                        │
+       │  Drawer/TabNavigator (Authenticated Routes)            │
+       │   ├── UserDashboardScreen                              │
+       │   ├── AlarmListScreen                                  │
+       │   │    ├── AddAlarmScreen                              │
+       │   │    └── EditAlarmScreen                             │
+       │   ├── ProfileScreen                                    │
+       │   │    └── EditProfileScreen                           │
+       │   └── SettingsScreen                                   │
+       └──────────────────────────┬─────────────────────────────┘
+                                  │
+                                  ▼
+       ┌────────────────────────────────────────────────────────┐
+       │             Redux Store (State Management)              │
+       ├──────────────────────────┬─────────────────────────────┤
+       │  authSlice               │  profileSlice               │
+       │   ├── user               │   ├── profile               │
+       │   ├── token              │   └── isLoading             │
+       │   └── isAuthenticated    │                             │
+       ├──────────────────────────┼─────────────────────────────┤
+       │  alarmSlice              │  Axios Client (API Sync)    │
+       │   ├── alarms             │   ├── Auth Requests         │
+       │   └── history            │   ├── Profile Requests      │
+       │                          │   └── Alarm Requests        │
+       └──────────────────────────┴─────────────────────────────┘
+```
 
 ---
 
