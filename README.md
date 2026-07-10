@@ -1,8 +1,11 @@
 # Cognitive Alarm System - Frontend Client
 
-## Developer Details
-- **Team Member:** Kanishka
-- **Branch:** Kanishka
+## Team Members
+- **Jothiesh N** (Frontend Mobile Developer)
+- **Kanishka** (Frontend Mobile Developer)
+
+## Branch
+Kanishka
 
 ---
 
