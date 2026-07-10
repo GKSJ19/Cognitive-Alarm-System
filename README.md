@@ -1,7 +1,9 @@
 # Intelligent Cognitive Alarm Platform - Full Stack
 
 ## Project Details
-- **Team Member:** Ratnesh Kumar
+- **Team Members:**
+  - **Mariya Mallick** (AI/ML & Backend Developer)
+  - **Ratnesh Kumar** (Full-Stack & Mobile Developer)
 - **Branch:** ratnesh
 
 ---
