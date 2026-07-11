@@ -1,0 +1,16 @@
+CREATE TABLE users (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password_hash VARCHAR(255),
+  auth_provider VARCHAR(20) DEFAULT 'email',
+  google_id VARCHAR(255) UNIQUE,
+  role VARCHAR(20) DEFAULT 'user',
+  goal_type VARCHAR(20),
+  preferred_wake_time TIME,
+  sleep_duration FLOAT,
+  timezone VARCHAR(50) DEFAULT 'Asia/Kolkata',
+  difficulty_preference VARCHAR(20) DEFAULT 'beginner',
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW());
