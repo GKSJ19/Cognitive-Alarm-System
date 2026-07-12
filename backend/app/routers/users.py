@@ -92,7 +92,7 @@ async def update_user(
     await session.refresh(user)
     return user
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def delete_user(
     user_id: uuid.UUID,
     session: AsyncSession = Depends(get_db_session),
@@ -104,8 +104,7 @@ async def delete_user(
         raise HTTPException(status_code=404, detail="User not found")
     await session.delete(user)
     await session.commit()
-    return None
-
+    return {"message": "User deleted successfully"}
 # Profile sub-endpoints
 @router.get("/{user_id}/profile", response_model=UserProfileResponse)
 async def get_user_profile(
