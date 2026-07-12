@@ -1,5 +1,0 @@
-.venv/
-**/[Bb]ackend/.venv/
-**/.venv/
-**/__pycache__/
-*.pyc
