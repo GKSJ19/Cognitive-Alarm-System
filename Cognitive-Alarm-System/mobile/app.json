@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Intelligent Cognitive Alarm Platform",
+    "slug": "intelligent-cognitive-alarm-platform",
+    "scheme": "icap",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      }
+    }
+  }
+}
