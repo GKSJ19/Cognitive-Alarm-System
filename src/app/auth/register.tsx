@@ -12,12 +12,19 @@ import PasswordInput from "@/components/forms/PasswordInput";
 import { useAuthStore } from "@/store/authStore";
 import { AuthError } from "@/services/authService";
 
-interface LoginFormValues {
+interface RegisterFormValues {
+  fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 const schema = yup.object({
+  fullName: yup
+    .string()
+    .trim()
+    .min(2, "Enter your full name")
+    .required("Full name is required"),
   email: yup
     .string()
     .trim()
@@ -27,25 +34,34 @@ const schema = yup.object({
     .string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
 });
 
-export default function LoginScreen() {
-  const login = useAuthStore((state) => state.login);
+export default function RegisterScreen() {
+  const register = useAuthStore((state) => state.register);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
+  } = useForm<RegisterFormValues>({
     resolver: yupResolver(schema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  const onSubmit = async (values: LoginFormValues) => {
+  const onSubmit = async (values: RegisterFormValues) => {
     setSubmitError(null);
     try {
-      await login(values.email, values.password);
+      await register(values.fullName, values.email, values.password);
       router.replace("/(app)/home");
     } catch (error) {
       setSubmitError(
@@ -66,14 +82,36 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View>
-          <AppText variant="title">Welcome Back 👋</AppText>
+          <AppText variant="title">Create Account ✨</AppText>
 
           <AppText variant="body" style={styles.subtitle}>
-            Login to continue using WakeWise
+            Start your journey with WakeWise
           </AppText>
         </View>
 
         <View style={styles.form}>
+          <View>
+            <Controller
+              control={control}
+              name="fullName"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppInput
+                  placeholder="Full Name"
+                  autoCapitalize="words"
+                  autoComplete="name"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+            {errors.fullName && (
+              <AppText style={styles.fieldError}>
+                {errors.fullName.message}
+              </AppText>
+            )}
+          </View>
+
           <View>
             <Controller
               control={control}
@@ -107,7 +145,7 @@ export default function LoginScreen() {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  autoComplete="password"
+                  autoComplete="password-new"
                 />
               )}
             />
@@ -118,29 +156,44 @@ export default function LoginScreen() {
             )}
           </View>
 
-          <Link href="/auth/forgot-password" asChild>
-            <TouchableOpacity>
-              <AppText style={styles.forgot}>Forgot Password?</AppText>
-            </TouchableOpacity>
-          </Link>
+          <View>
+            <Controller
+              control={control}
+              name="confirmPassword"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <PasswordInput
+                  placeholder="Confirm Password"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  autoComplete="password-new"
+                />
+              )}
+            />
+            {errors.confirmPassword && (
+              <AppText style={styles.fieldError}>
+                {errors.confirmPassword.message}
+              </AppText>
+            )}
+          </View>
 
           {submitError && (
             <AppText style={styles.formError}>{submitError}</AppText>
           )}
 
           <AppButton
-            title="Login"
+            title="Create Account"
             onPress={handleSubmit(onSubmit)}
             loading={isSubmitting}
           />
         </View>
 
         <View style={styles.footer}>
-          <AppText>Don't have an account? </AppText>
+          <AppText>Already have an account? </AppText>
 
-          <Link href="/auth/register" asChild>
+          <Link href="/auth/login" asChild>
             <TouchableOpacity>
-              <AppText style={styles.link}>Register</AppText>
+              <AppText style={styles.link}>Login</AppText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -165,11 +218,6 @@ const styles = StyleSheet.create({
 
   form: {
     gap: 18,
-  },
-
-  forgot: {
-    textAlign: "right",
-    color: "#2563EB",
   },
 
   fieldError: {

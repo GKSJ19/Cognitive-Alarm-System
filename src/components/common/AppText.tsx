@@ -1,27 +1,34 @@
-import React from "react";
-import {
-  Text,
-  TextProps,
-  StyleSheet,
-} from "react-native";
+import { Text, TextProps, TextStyle } from "react-native";
 
-type Variant = "title" | "heading" | "body" | "caption";
+import { Typography, Colors } from "@/theme";
 
-interface AppTextProps extends TextProps {
+type Variant = "title" | "subtitle" | "body" | "caption";
+
+interface Props extends TextProps {
   variant?: Variant;
 }
+
+const typography: Record<Variant, TextStyle | number> = {
+  title: Typography.h1,
+  subtitle: Typography.h3,
+  body: Typography.body,
+  caption: Typography.caption,
+};
 
 export default function AppText({
   variant = "body",
   style,
   children,
   ...props
-}: AppTextProps) {
+}: Props) {
   return (
     <Text
       {...props}
       style={[
-        styles[variant],
+        typography[variant] as TextStyle,
+        {
+          color: Colors.light.text,
+        },
         style,
       ]}
     >
@@ -29,29 +36,3 @@ export default function AppText({
     </Text>
   );
 }
-
-const styles = StyleSheet.create({
-
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-    color: "#111827",
-  },
-
-  heading: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#111827",
-  },
-
-  body: {
-    fontSize: 16,
-    color: "#374151",
-  },
-
-  caption: {
-    fontSize: 13,
-    color: "#6B7280",
-  },
-
-});

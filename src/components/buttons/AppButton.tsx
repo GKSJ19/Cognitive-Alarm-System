@@ -1,57 +1,74 @@
-import React from "react";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  GestureResponderEvent,
-} from "react-native";
+import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import AppText from "../common/AppText";
 
-interface AppButtonProps {
+interface Props {
   title: string;
-  onPress: (event: GestureResponderEvent) => void;
+  onPress: () => void;
+  loading?: boolean;
   disabled?: boolean;
+  variant?: "primary" | "outline";
 }
 
 export default function AppButton({
   title,
   onPress,
+  loading = false,
   disabled = false,
-}: AppButtonProps) {
+  variant = "primary",
+}: Props) {
+  const isDisabled = disabled || loading;
+
   return (
-    <Pressable
-      style={({ pressed }) => [
+    <TouchableOpacity
+      style={[
         styles.button,
-        pressed && styles.pressed,
-        disabled && styles.disabled,
+        variant === "outline" && styles.outlineButton,
+        isDisabled && styles.disabledButton,
       ]}
       onPress={onPress}
-      disabled={disabled}
+      disabled={isDisabled}
+      activeOpacity={0.8}
     >
-      <Text style={styles.text}>{title}</Text>
-    </Pressable>
+      {loading ? (
+        <ActivityIndicator
+          color={variant === "outline" ? "#2563EB" : "#FFFFFF"}
+        />
+      ) : (
+        <AppText
+          style={[styles.text, variant === "outline" && styles.outlineText]}
+        >
+          {title}
+        </AppText>
+      )}
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    height: 56,
     backgroundColor: "#2563EB",
+    height: 56,
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
   },
 
-  pressed: {
-    opacity: 0.8,
+  outlineButton: {
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
+    borderColor: "#2563EB",
   },
 
-  disabled: {
-    backgroundColor: "#93C5FD",
+  disabledButton: {
+    opacity: 0.6,
   },
 
   text: {
     color: "#FFFFFF",
-    fontSize: 18,
     fontWeight: "700",
+  },
+
+  outlineText: {
+    color: "#2563EB",
   },
 });
