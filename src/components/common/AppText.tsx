@@ -1,6 +1,7 @@
 import { Text, TextProps, TextStyle } from "react-native";
 
-import { Typography, Colors } from "@/theme";
+import { Typography } from "@/theme";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 type Variant = "title" | "subtitle" | "body" | "caption";
 
@@ -21,13 +22,15 @@ export default function AppText({
   children,
   ...props
 }: Props) {
+  const { colors } = useAppTheme();
+
   return (
     <Text
       {...props}
       style={[
         typography[variant] as TextStyle,
         {
-          color: Colors.light.text,
+          color: colors.text,
         },
         style,
       ]}

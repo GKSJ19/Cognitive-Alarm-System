@@ -1001,3 +1001,9 @@
 {"_e":"metro:bundling:done","_t":1783956102932,"id":"4","total":902,"ms":2963.4814}
 {"_e":"metro:client_log","_t":1783956103442,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
 {"_e":"metro:client_log","_t":1783956146730,"level":"warn","data":["props.pointerEvents is deprecated. Use style.pointerEvents"]}
+{"_e":"root:init","_t":1784032848396,"format":"v0-jsonl","version":"57.0.6"}
+{"_e":"env:mode","_t":1784032848398,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1784032848402,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1784032857258,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\src\\app","serverComponents":false,"serverActions":false,"serverRendering":true,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1784032867247,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":true,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1784032874278,"plugins":[]}

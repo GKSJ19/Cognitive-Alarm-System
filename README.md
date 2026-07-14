@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Intelligent Cognitive Alarm Platform (ICAP) - Milestone 1
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
@@ -30,7 +29,7 @@ Explore the complete documentation suite for Milestone 1:
 7. [Dependencies](DEPENDENCIES.md)
 8. [Database Documentation](DATABASE_DOCUMENTATION.md)
 9. [API Documentation](API_DOCUMENTATION.md)
-10. [Testing Guide](TESTING_GUIDE.md)
+10. [Testing Guide](TESTING_GUIDATION.md)
 11. [Changelog](CHANGELOG.md)
 12. [License](LICENSE.md)
 
@@ -40,7 +39,9 @@ To quickly get the project running locally, refer to the [Installation Guide](IN
 
 ---
 *Note: Advanced AI puzzle generation and external integrations belong to future milestones and are excluded from this release.*
-=======
+
+---
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
@@ -88,7 +89,7 @@ This command will move the starter code to the **app-example** directory and cre
 
 To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Expo documentation](https://expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
 - [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
 ## Join the community
@@ -97,4 +98,3 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
->>>>>>> a5a7c9a (fix(auth): implement login and registration pages)
