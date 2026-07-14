@@ -1,16 +1,12 @@
-from challenge_engine import ChallengeEngine
+from alarm_logic import AlarmLogic
 
-engine = ChallengeEngine()
+alarm = AlarmLogic()
 
-print("Math Challenge")
-print(engine.generate_math_problem())
+challenge = alarm.trigger_alarm()
 
-print()
+user_answer = input("Enter your answer: ")
 
-print("Memory Challenge")
-print(engine.generate_memory_challenge())
-
-print()
-
-print("Logic Challenge")
-print(engine.generate_logic_question())
+alarm.validate_answer(
+    user_answer,
+    challenge["answer"]
+)
