@@ -51,7 +51,40 @@ As the AI/ML developer, my responsibilities include:
 - Added Challenge Model
 - Added Sample Dataset
 - Created AI Testing Module
+- Developed Main AI Workflow
 - Updated AI Documentation
+
+---
+
+## ✅ Week 3
+
+### AI Challenge Engine Enhancement
+
+Implemented support for:
+
+#### Challenge Types
+
+- Math Challenges
+- Memory Challenges
+- Logic Challenges
+
+#### Difficulty Levels
+
+- Easy
+- Medium
+- Hard
+
+#### Features
+
+- Dynamic Challenge Generation
+- Challenge Type Selection
+- Difficulty Selection
+- Random Challenge Generation
+- User Input Validation
+- Answer Validation
+- Interactive Console Testing
+
+Successfully tested all challenge types across Easy, Medium, and Hard difficulty levels.
 
 ---
 
@@ -110,33 +143,27 @@ Cognitive-Alarm-System/
 
 ---
 
-# Current Status
-
-| Week | Status |
-|------|--------|
-| Week 1 | ✅ Completed |
-| Week 2 | ✅ Completed |
-| Week 3 | ⏳ In Progress |
-| Week 4 | ⏳ Pending |
-| Week 5 | ⏳ Pending |
-| Week 6 | ⏳ Pending |
-| Week 7 | ⏳ Pending |
-| Week 8 | ⏳ Pending |
-
----
 
 # Upcoming Work
 
-- Multiple Cognitive Challenge Types
-- Difficulty Levels
-- Adaptive AI Engine
-- User Behavior Analysis
-- Recommendation System
-- Backend Integration
+- Adaptive Difficulty Engine
+- User Performance Tracking
+- Behavior Analysis
+- Recommendation Engine
+- Backend API Integration (FastAPI)
 - Flutter Integration
-- AI Testing & Optimization
+- AI Performance Optimization
+- End-to-End Testing
 
 ---
+
+# Current Progress
+
+**Weeks Completed:** **3 / 8**
+
+**Overall Progress:** **Approximately 40%**
+
+The AI module now includes a working Challenge Engine with multiple challenge types, three difficulty levels, alarm workflow, documentation, architecture, testing, and project setup. The upcoming phase focuses on adaptive AI behavior, performance tracking, backend integration, and connecting the AI module with the Flutter application.
 
 ## Team
 

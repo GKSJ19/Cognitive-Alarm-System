@@ -1,103 +1,85 @@
 from challenge_engine import ChallengeEngine
 
-engine = ChallengeEngine()
 
-print("=" * 50)
-print("🧠 Intelligent Cognitive Alarm Platform")
-print("=" * 50)
+def get_challenge_type():
+    """Get a valid challenge type from the user."""
 
-# -------------------------
-# Challenge Type
-# -------------------------
+    while True:
+        print("\nChoose Challenge Type")
+        print("1. Math")
+        print("2. Memory")
+        print("3. Logic")
 
-while True:
+        choice = input("\nEnter choice (1-3): ").strip()
 
-    print("\nChoose Challenge Type")
-    print("1. Math")
-    print("2. Memory")
-    print("3. Logic")
+        if choice == "1":
+            return "math"
 
-    choice = input("\nEnter choice (1-3): ")
+        elif choice == "2":
+            return "memory"
 
-    if choice == "1":
-        challenge_type = "math"
-        break
+        elif choice == "3":
+            return "logic"
 
-    elif choice == "2":
-        challenge_type = "memory"
-        break
+        else:
+            print("❌ Invalid choice! Please enter 1, 2, or 3.")
 
-    elif choice == "3":
-        challenge_type = "logic"
-        break
+
+def get_difficulty():
+    """Get a valid difficulty level from the user."""
+
+    while True:
+        difficulty = input(
+            "\nChoose Difficulty (Easy / Medium / Hard): "
+        ).strip().lower()
+
+        if difficulty in ["easy", "medium", "hard"]:
+            return difficulty
+
+        print("❌ Invalid difficulty! Please enter Easy, Medium, or Hard.")
+
+
+def check_answer(user_answer, correct_answer):
+    """Compare the user's answer with the correct answer."""
+
+    return str(user_answer).strip().lower() == str(correct_answer).strip().lower()
+
+
+def main():
+
+    engine = ChallengeEngine()
+
+    print("=" * 50)
+    print("🧠 Intelligent Cognitive Alarm Platform")
+    print("=" * 50)
+
+    challenge_type = get_challenge_type()
+    difficulty = get_difficulty()
+
+    challenge = engine.generate_challenge(
+        challenge_type,
+        difficulty
+    )
+
+    print("\nChallenge")
+    print("-" * 30)
+    print("Type:", challenge["type"])
+    print("Difficulty:", challenge["difficulty"])
+    print("Question:", challenge["question"])
+
+    answer = input("\nYour Answer: ")
+
+    if check_answer(answer, challenge["answer"]):
+
+        print("\n✅ Correct!")
+        print("Alarm Stopped.")
 
     else:
-        print("❌ Invalid choice!")
 
-# -------------------------
-# Difficulty
-# -------------------------
-while True:
+        print("\n❌ Wrong Answer!")
+        print("Alarm Continues.")
+        print("Correct Answer:", challenge["answer"])
 
-    print("\nChoose Challenge Type")
-    print("1. Math")
-    print("2. Memory")
-    print("3. Logic")
 
-    choice = input("Enter choice (1-3): ")
-
-    if choice == "1":
-        challenge_type = "math"
-        break
-
-    elif choice == "2":
-        challenge_type = "memory"
-        break
-
-    elif choice == "3":
-        challenge_type = "logic"
-        break
-
-    else:
-        print("Invalid choice!")
-
-# -------------------------
-# Difficulty
-# -------------------------
-while True:
-
-    print("\nChoose Difficulty (Easy / Medium / Hard): ")
-    difficulty = input("Enter difficulty: ")
-
-    if difficulty.lower() in ["easy", "medium", "hard"]:
-        break
-
-    print("❌ Invalid difficulty!")
-
-# -------------------------
-# Generate Challenge
-# -------------------------
-
-challenge = engine.generate_challenge(
-    challenge_type,
-    difficulty
-)
-
-print("\nChallenge")
-print("----------------------")
-print("Type:", challenge["type"])
-print("Difficulty:", challenge["difficulty"])
-print("Question:", challenge["question"])
-
-answer = input("\nYour Answer: ")
-
-if str(answer).strip().lower() == str(challenge["answer"]).strip().lower():
-
-    print("\n✅ Correct!")
-    print("Alarm Stopped.")
-
-else:
-
-    print("\n❌ Wrong Answer!")
-    print("Alarm Continues.")
-    print("Correct Answer:", challenge["answer"])
+if __name__ == "__main__":
+    main()
