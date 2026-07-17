@@ -51,6 +51,21 @@ memory_challenges = [
     }
 ]
 
+attention_challenges = [
+    {
+        "category": "Attention",
+        "question": "Find the odd one out: Apple, Mango, Banana, Car",
+        "options": ["Apple", "Mango", "Banana", "Car"],
+        "answer": "Car"
+    },
+    {
+        "category": "Attention",
+        "question": "Which letter appears twice? A B C D A",
+        "options": ["A", "B", "C", "D"],
+        "answer": "A"
+    }
+]
+
 def get_math_challenge():
     return random.choice(math_challenges)
 
@@ -59,3 +74,6 @@ def get_logic_challenge():
 
 def get_memory_challenge():
     return random.choice(memory_challenges)
+
+def get_attention_challenge():
+    return random.choice(attention_challenges)

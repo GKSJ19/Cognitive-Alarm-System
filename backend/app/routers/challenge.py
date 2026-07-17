@@ -4,6 +4,7 @@ from app.services.challenge_service import (
     get_math_challenge,
     get_logic_challenge,
     get_memory_challenge,
+    get_attention_challenge,
 )
 
 router = APIRouter(
@@ -21,3 +22,7 @@ def logic_challenge():
 @router.get("/memory")
 def memory_challenge():
     return get_memory_challenge()
+
+@router.get("/attention")
+def attention_challenge():
+    return get_attention_challenge()
