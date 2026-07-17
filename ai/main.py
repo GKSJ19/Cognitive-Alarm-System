@@ -1,85 +1,149 @@
-from challenge_engine import ChallengeEngine
+from challenge_engine import (
+    CognitiveChallengeEngine,
+    Category,
+    Difficulty
+)
 
+from wake_up_verification import WakeUpVerification
 
-def get_challenge_type():
-    """Get a valid challenge type from the user."""
+# --------------------------------------------------
+# Initialize
+# --------------------------------------------------
 
-    while True:
-        print("\nChoose Challenge Type")
-        print("1. Math")
-        print("2. Memory")
-        print("3. Logic")
+engine = CognitiveChallengeEngine()
+verification = WakeUpVerification(required_correct=2)
 
-        choice = input("\nEnter choice (1-3): ").strip()
+print("=" * 60)
+print("🧠 Intelligent Cognitive Alarm Platform")
+print("=" * 60)
 
-        if choice == "1":
-            return "math"
+# --------------------------------------------------
+# Select Challenge Category
+# --------------------------------------------------
 
-        elif choice == "2":
-            return "memory"
+while True:
 
-        elif choice == "3":
-            return "logic"
+    print("\nChoose Challenge Category")
+    print("1. Math")
+    print("2. Logic")
+    print("3. Memory")
+    print("4. Word Games")
+    print("5. Pattern Recognition")
+    print("6. Riddles")
+    print("7. Quick Quiz")
 
-        else:
-            print("❌ Invalid choice! Please enter 1, 2, or 3.")
+    choice = input("\nEnter choice (1-7): ")
 
+    category_map = {
+        "1": Category.MATH,
+        "2": Category.LOGIC,
+        "3": Category.MEMORY,
+        "4": Category.WORD_GAMES,
+        "5": Category.PATTERN_RECOGNITION,
+        "6": Category.RIDDLES,
+        "7": Category.QUICK_QUIZ
+    }
 
-def get_difficulty():
-    """Get a valid difficulty level from the user."""
+    if choice in category_map:
+        category = category_map[choice]
+        break
 
-    while True:
-        difficulty = input(
-            "\nChoose Difficulty (Easy / Medium / Hard): "
-        ).strip().lower()
+    print("❌ Invalid choice!")
 
-        if difficulty in ["easy", "medium", "hard"]:
-            return difficulty
+# --------------------------------------------------
+# Select Difficulty
+# --------------------------------------------------
 
-        print("❌ Invalid difficulty! Please enter Easy, Medium, or Hard.")
+while True:
 
+    difficulty_input = input(
+        "\nChoose Difficulty (easy / medium / hard): "
+    ).lower()
 
-def check_answer(user_answer, correct_answer):
-    """Compare the user's answer with the correct answer."""
+    difficulty_map = {
+        "easy": Difficulty.EASY,
+        "medium": Difficulty.MEDIUM,
+        "hard": Difficulty.HARD
+    }
 
-    return str(user_answer).strip().lower() == str(correct_answer).strip().lower()
+    if difficulty_input in difficulty_map:
+        difficulty = difficulty_map[difficulty_input]
+        break
 
+    print("❌ Invalid difficulty!")
 
-def main():
+# --------------------------------------------------
+# Wake-up Verification Loop
+# --------------------------------------------------
 
-    engine = ChallengeEngine()
+while True:
 
-    print("=" * 50)
-    print("🧠 Intelligent Cognitive Alarm Platform")
-    print("=" * 50)
-
-    challenge_type = get_challenge_type()
-    difficulty = get_difficulty()
-
-    challenge = engine.generate_challenge(
-        challenge_type,
-        difficulty
+    challenge = engine.generate(
+        category=category,
+        difficulty=difficulty
     )
 
-    print("\nChallenge")
-    print("-" * 30)
-    print("Type:", challenge["type"])
-    print("Difficulty:", challenge["difficulty"])
-    print("Question:", challenge["question"])
+    print("\n" + "=" * 50)
+    print("Challenge")
+    print("=" * 50)
+
+    print("Category   :", challenge.category)
+    print("Difficulty :", challenge.difficulty)
+    print("Question   :", challenge.question)
+
+    if challenge.options:
+        print("\nOptions:")
+        for i, option in enumerate(challenge.options, start=1):
+            print(f"{i}. {option}")
 
     answer = input("\nYour Answer: ")
 
-    if check_answer(answer, challenge["answer"]):
+    result = engine.validate(
+        challenge,
+        answer
+    )
 
-        print("\n✅ Correct!")
-        print("Alarm Stopped.")
+    engine.difficulty_manager.record(result)
+
+    verification.update(result.is_correct)
+
+    print("\n" + "-" * 50)
+
+    if result.is_correct:
+
+        print("✅ Correct Answer!")
+        print(f"Score : {result.score}")
+        print(f"XP Earned : {result.xp_earned}")
 
     else:
 
-        print("\n❌ Wrong Answer!")
-        print("Alarm Continues.")
-        print("Correct Answer:", challenge["answer"])
+        print("❌ Wrong Answer!")
+        print("Correct Answer :", challenge.correct_answer)
 
+    print(
+        f"\nWake-up Progress : "
+        f"{verification.correct_streak}/{verification.required_correct}"
+    )
 
-if __name__ == "__main__":
-    main()
+    if verification.is_verified():
+
+        print("\n🎉 Wake-up Verification Successful!")
+        print("🔕 Alarm Stopped!")
+
+        recommended = engine.difficulty_manager.recommend(
+            category=challenge.category
+        )
+
+        print("\nRecommended Next Difficulty :", recommended.value)
+
+        print("\nTotal XP :", engine.difficulty_manager.total_xp)
+        print(
+            "Success Rate :",
+            f"{engine.difficulty_manager.success_rate:.1f}%"
+        )
+
+        break
+
+    else:
+
+        print("\n➡ Solve one more challenge to stop the alarm.")
