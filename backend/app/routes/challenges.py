@@ -19,78 +19,194 @@ router = APIRouter(prefix="/challenges", tags=["Challenges"])
 
 # Procedural Generator Helpers
 def generate_math_problem(difficulty: str):
-    if difficulty == "easy":
-        op = random.choice(["+", "-"])
-        a = random.randint(1, 20)
-        b = random.randint(1, 20)
-        if op == "-":
-            a, b = max(a, b), min(a, b)
-        expr = f"{a} {op} {b}"
-        ans = a + b if op == "+" else a - b
-    elif difficulty == "medium":
-        op = random.choice(["+", "-", "*"])
-        if op == "*":
+    subtype = random.choice(["addition", "subtraction", "multiplication", "division", "random"])
+    if subtype == "addition":
+        if difficulty == "easy":
+            a = random.randint(1, 20)
+            b = random.randint(1, 20)
+        elif difficulty == "medium":
+            a = random.randint(10, 100)
+            b = random.randint(10, 100)
+        else:
+            a = random.randint(100, 999)
+            b = random.randint(100, 999)
+        expr = f"{a} + {b}"
+        ans = a + b
+    elif subtype == "subtraction":
+        if difficulty == "easy":
+            a = random.randint(10, 30)
+            b = random.randint(1, 10)
+        elif difficulty == "medium":
+            a = random.randint(50, 150)
+            b = random.randint(10, 50)
+        else:
+            a = random.randint(100, 999)
+            b = random.randint(50, 500)
+        a, b = max(a, b), min(a, b)
+        expr = f"{a} - {b}"
+        ans = a - b
+    elif subtype == "multiplication":
+        if difficulty == "easy":
+            a = random.randint(2, 10)
+            b = random.randint(2, 10)
+        elif difficulty == "medium":
+            a = random.randint(2, 12)
+            b = random.randint(11, 30)
+        else:
+            a = random.randint(12, 30)
+            b = random.randint(12, 50)
+        expr = f"{a} * {b}"
+        ans = a * b
+    elif subtype == "division":
+        if difficulty == "easy":
+            b = random.randint(2, 10)
+            ans = random.randint(2, 10)
+        elif difficulty == "medium":
+            b = random.randint(5, 20)
+            ans = random.randint(5, 30)
+        else:
+            b = random.randint(12, 50)
+            ans = random.randint(12, 50)
+        a = b * ans
+        expr = f"{a} / {b}"
+    else: # random equations
+        if difficulty == "easy":
+            a = random.randint(5, 20)
+            b = random.randint(5, 20)
+            c = random.randint(1, 10)
+            op = random.choice(["+", "-"])
+            if op == "+":
+                expr = f"{a} + {b} - {c}"
+                ans = a + b - c
+            else:
+                a, b = max(a, b), min(a, b)
+                expr = f"{a} - {b} + {c}"
+                ans = a - b + c
+        elif difficulty == "medium":
             a = random.randint(2, 10)
             b = random.randint(2, 12)
-            expr = f"{a} * {b}"
-            ans = a * b
+            c = random.randint(5, 30)
+            op = random.choice(["+", "-"])
+            expr = f"({a} * {b}) {op} {c}"
+            ans = a * b + c if op == "+" else a * b - c
         else:
-            a = random.randint(10, 99)
-            b = random.randint(10, 99)
-            if op == "-":
-                a, b = max(a, b), min(a, b)
-            expr = f"{a} {op} {b}"
-            ans = a + b if op == "+" else a - b
-    else: # hard
-        a = random.randint(3, 12)
-        b = random.randint(3, 15)
-        c = random.randint(5, 30)
-        op = random.choice(["+", "-"])
-        expr = f"({a} * {b}) {op} {c}"
-        ans = a * b + c if op == "+" else a * b - c
+            a = random.randint(3, 12)
+            b = random.randint(3, 15)
+            d = random.randint(2, 10)
+            c_ans = random.randint(2, 10)
+            c = d * c_ans
+            op = random.choice(["+", "-"])
+            expr = f"({a} * {b}) {op} ({c} / {d})"
+            ans = a * b + c_ans if op == "+" else a * b - c_ans
     return expr, str(ans)
 
 def generate_memory_challenge(difficulty: str):
+    subtype = random.choice(["numbers", "colors", "patterns", "sequence"])
     if difficulty == "easy":
         length = 4
+        c_len = 3
     elif difficulty == "medium":
         length = 6
+        c_len = 4
     else:
         length = 8
-    digits = "".join([str(random.randint(0, 9)) for _ in range(length)])
-    seq_str = " ".join(digits)
-    return seq_str, digits
+        c_len = 5
+
+    if subtype == "numbers":
+        digits = [str(random.randint(0, 9)) for _ in range(length)]
+        seq_str = " ".join(digits)
+        correct_answer = "".join(digits)
+    elif subtype == "colors":
+        colors_pool = ["Red", "Blue", "Green", "Yellow", "Orange", "Purple", "White", "Black"]
+        selected = [random.choice(colors_pool) for _ in range(c_len)]
+        seq_str = ", ".join(selected)
+        correct_answer = " ".join(selected)
+    elif subtype == "patterns":
+        patterns_pool = ["Up", "Down", "Left", "Right"]
+        selected = [random.choice(patterns_pool) for _ in range(c_len)]
+        seq_str = " -> ".join(selected)
+        correct_answer = " ".join(selected)
+    else: # sequence recall (letters)
+        letters = [random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ") for _ in range(length)]
+        seq_str = " ".join(letters)
+        correct_answer = "".join(letters)
+    return seq_str, correct_answer
 
 def generate_pattern_challenge(difficulty: str):
-    p_type = random.choice(["arithmetic", "geometric", "fibonacci", "squares", "primes"])
-    if p_type == "arithmetic":
-        start = random.randint(1, 20)
-        step = random.randint(2, 10)
-        seq = [start + i * step for i in range(5)]
-        expr = ", ".join(map(str, seq[:4])) + ", ?"
+    subtype = random.choice(["next_pattern", "shape_sequence", "number_pattern", "color_pattern"])
+    
+    if subtype == "next_pattern":
+        if difficulty == "easy":
+            start = random.choice(["A", "B", "C", "D"])
+            step = 1
+        elif difficulty == "medium":
+            start = random.choice(["A", "B", "C", "D"])
+            step = 2
+        else:
+            start = random.choice(["A", "B", "C", "D"])
+            step = 3
+        seq = [chr(ord(start) + i * step) for i in range(5)]
+        expr = ", ".join(seq[:4]) + ", ?"
         ans = seq[4]
-    elif p_type == "geometric":
-        start = random.choice([2, 3, 5])
-        ratio = random.choice([2, 3])
-        seq = [start * (ratio ** i) for i in range(5)]
-        expr = ", ".join(map(str, seq[:4])) + ", ?"
+        return f"Find the next pattern: {expr}", ans.upper()
+
+    elif subtype == "shape_sequence":
+        if random.choice([True, False]):
+            seq_pool = ["Circle", "Square", "Triangle"]
+            seq = [seq_pool[i % 3] for i in range(5)]
+            expr = ", ".join(seq[:4]) + ", ?"
+            ans = seq[4]
+        else:
+            shapes = ["Triangle", "Square", "Pentagon", "Hexagon", "Heptagon", "Octagon"]
+            start_idx = 0 if difficulty == "easy" else (1 if difficulty == "medium" else 2)
+            seq = shapes[start_idx:start_idx+5]
+            expr = ", ".join(seq[:4]) + ", ?"
+            ans = seq[4]
+        return f"Complete the shape sequence: {expr}", ans
+
+    elif subtype == "color_pattern":
+        color_pools = [
+            ["Red", "Blue"],
+            ["Green", "Yellow"],
+            ["Black", "White"],
+            ["Red", "Blue", "Green"]
+        ]
+        pool = random.choice(color_pools)
+        seq = [pool[i % len(pool)] for i in range(5)]
+        expr = ", ".join(seq[:4]) + ", ?"
         ans = seq[4]
-    elif p_type == "fibonacci":
-        seq = [1, 1, 2, 3, 5, 8, 13, 21, 34]
-        start_idx = random.randint(0, 3)
-        expr = ", ".join(map(str, seq[start_idx:start_idx+4])) + ", ?"
-        ans = seq[start_idx+4]
-    elif p_type == "squares":
-        start = random.randint(1, 5)
-        seq = [(start + i) ** 2 for i in range(5)]
-        expr = ", ".join(map(str, seq[:4])) + ", ?"
-        ans = seq[4]
-    else: # primes
-        seq = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
-        start_idx = random.randint(0, len(seq)-5)
-        expr = ", ".join(map(str, seq[start_idx:start_idx+4])) + ", ?"
-        ans = seq[start_idx+4]
-    return f"Complete the sequence: {expr}", str(ans)
+        return f"Complete the color pattern: {expr}", ans
+
+    else: # number_pattern (arithmetic, geometric, fibonacci, squares, primes)
+        p_type = random.choice(["arithmetic", "geometric", "fibonacci", "squares", "primes"])
+        if p_type == "arithmetic":
+            start = random.randint(1, 20)
+            step = random.randint(2, 10)
+            seq = [start + i * step for i in range(5)]
+            expr = ", ".join(map(str, seq[:4])) + ", ?"
+            ans = seq[4]
+        elif p_type == "geometric":
+            start = random.choice([2, 3, 5])
+            ratio = random.choice([2, 3])
+            seq = [start * (ratio ** i) for i in range(5)]
+            expr = ", ".join(map(str, seq[:4])) + ", ?"
+            ans = seq[4]
+        elif p_type == "fibonacci":
+            seq = [1, 1, 2, 3, 5, 8, 13, 21, 34]
+            start_idx = random.randint(0, 3)
+            expr = ", ".join(map(str, seq[start_idx:start_idx+4])) + ", ?"
+            ans = seq[start_idx+4]
+        elif p_type == "squares":
+            start = random.randint(1, 5)
+            seq = [(start + i) ** 2 for i in range(5)]
+            expr = ", ".join(map(str, seq[:4])) + ", ?"
+            ans = seq[4]
+        else: # primes
+            seq = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+            start_idx = random.randint(0, len(seq)-5)
+            expr = ", ".join(map(str, seq[start_idx:start_idx+4])) + ", ?"
+            ans = seq[start_idx+4]
+        return f"Complete the number sequence: {expr}", str(ans)
 
 @router.get("/categories", response_model=List[ChallengeCategoryResponse])
 def get_categories(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
@@ -219,6 +335,12 @@ def submit_challenge(
     is_correct = False
     cleaned_submitted = req.answer.strip().lower()
     cleaned_correct = challenge.correct_answer.strip().lower()
+
+    if challenge.category.name == "Memory Challenges":
+        def clean_mem(val: str) -> str:
+            return val.replace(",", "").replace("->", "").replace(" ", "").strip().lower()
+        cleaned_submitted = clean_mem(req.answer)
+        cleaned_correct = clean_mem(challenge.correct_answer)
 
     # For Quick Quiz and similar multiple choice, exact match is expected
     if cleaned_submitted == cleaned_correct:
