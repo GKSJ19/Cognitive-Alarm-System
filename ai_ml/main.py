@@ -30,6 +30,12 @@ from habit_scoring import calculate_habit_score_for_user          # ai_ml/
 from recommendation_engine import get_recommendation_for_user      # ai_ml/pipelines/
 from classifier import predict_risk_for_user                       # ai_ml/src/
 from reinforcement import get_difficulty_for_user                  # ai_ml/src/
+from challenge_generator import (                                  # ai_ml/src/
+    get_challenge_for_user,
+    generate_challenge,
+    validate_answer,
+    CHALLENGE_TYPES,
+)
 
 app = FastAPI(
     title="Intelligent Cognitive Alarm Platform - AI/ML Service",
@@ -70,6 +76,29 @@ class DifficultyResponse(BaseModel):
     current_rating: float
     next_difficulty: str
     attempts_processed: int
+
+
+class ChallengeResponse(BaseModel):
+    challenge_id: str
+    challenge_type: str
+    subtype: str
+    difficulty_level: str
+    question: str
+    user_id: int | None = None
+    source_rating: float | None = None
+
+
+class ValidateAnswerRequest(BaseModel):
+    challenge_id: str
+    user_answer: str
+
+
+class ValidateAnswerResponse(BaseModel):
+    found: bool
+    is_correct: bool
+    correct_answer: str | None = None
+    challenge_type: str | None = None
+    difficulty_level: str | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -134,3 +163,60 @@ def get_difficulty(user_id: int):
         return result
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Could not compute difficulty: {e}")
+
+
+@app.get("/users/{user_id}/challenge", response_model=ChallengeResponse)
+def get_challenge(user_id: int):
+    """
+    Cognitive Challenge Engine: generates a real challenge for this user,
+    driven by their actual Adaptive Difficulty Model rating and their
+    stated challenge_type_preference (from user_preferences). The
+    correct answer is NOT included in this response -- call
+    /users/{user_id}/challenge/validate to check an answer.
+    """
+    try:
+        result = get_challenge_for_user(user_id)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Could not generate challenge: {e}")
+
+
+@app.get("/challenge", response_model=ChallengeResponse)
+def get_generic_challenge(
+    challenge_type: str | None = None,
+    difficulty: str = "Easy",
+):
+    """
+    Cognitive Challenge Engine (generic, no user context): generates a
+    challenge of a specific type/difficulty directly -- useful for
+    frontend testing without needing a real user_id, or for a practice
+    mode that isn't tied to the adaptive difficulty pipeline.
+    """
+    if challenge_type and challenge_type not in CHALLENGE_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid challenge_type. Must be one of: {CHALLENGE_TYPES}",
+        )
+    try:
+        result = generate_challenge(challenge_type=challenge_type, difficulty=difficulty)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Could not generate challenge: {e}")
+
+
+@app.post("/challenge/validate", response_model=ValidateAnswerResponse)
+def post_validate_answer(payload: ValidateAnswerRequest):
+    """
+    Cognitive Challenge Engine: checks a submitted answer against the
+    stored challenge (looked up by challenge_id) and reveals the
+    correct answer only after checking. Each challenge_id can only be
+    validated once (one attempt per generated challenge).
+    """
+    result = validate_answer(payload.challenge_id, payload.user_answer)
+    if not result["found"]:
+        raise HTTPException(
+            status_code=404,
+            detail="Challenge not found -- it may have already been answered, "
+                   "expired, or the challenge_id is invalid.",
+        )
+    return result
