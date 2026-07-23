@@ -1,34 +1,36 @@
-# Intelligent Cognitive Alarm Platform
+# 🧠 Intelligent Cognitive Alarm Platform
 
 ## Team Member
+
 **Mariya Mallick**
 
 ## Branch
+
 **MariyaMallick**
 
 ---
 
 # Project Overview
 
-The Intelligent Cognitive Alarm Platform is an AI-powered mobile application that helps users build healthy wake-up habits. Instead of simply dismissing an alarm, users must complete cognitive challenges such as math problems, logic puzzles, memory games, riddles, or pattern recognition tasks.
+The Intelligent Cognitive Alarm Platform is an AI-powered mobile application designed to improve users' wake-up habits. Instead of dismissing an alarm with a single tap, users must complete AI-generated cognitive challenges such as mathematical problems, memory tests, logic puzzles, word games, riddles, pattern recognition tasks, and quick quizzes.
 
-The system analyzes user performance and behavior to adapt challenge difficulty, reduce snooze habits, and provide personalized recommendations for improving sleep quality and productivity.
+The AI evaluates user performance, adapts challenge difficulty, verifies wakefulness, and provides personalized recommendations to encourage healthy sleep and productivity habits.
 
 ---
 
-# My Responsibility (AI/ML)
-
-As the AI/ML developer, my responsibilities include:
+# My Responsibilities (AI/ML)
 
 - AI Challenge Engine
-- Adaptive Difficulty Engine
+- Wake-up Verification
+- Difficulty Algorithm
+- Adaptive Difficulty Management
 - Behavior Analysis
 - Recommendation Engine
-- AI Workflow Design
 - Alarm Logic Design
 - Alarm Scheduling Design
-- System Architecture Design
-- Database Schema Design
+- AI Workflow Design
+- System Architecture
+- Database Schema
 
 ---
 
@@ -38,35 +40,36 @@ As the AI/ML developer, my responsibilities include:
 
 - Designed System Architecture
 - Designed Database Schema
-- Added HTML Database Schema
-- Created AI Module Structure
+- Created HTML Database Schema
 - Planned AI Workflow
 - Initialized AI Project Structure
+
+---
 
 ## ✅ Week 2
 
 - Designed Alarm Logic
 - Designed Alarm Scheduling Workflow
-- Implemented AI Challenge Engine
-- Added Challenge Model
-- Added Sample Dataset
-- Created AI Testing Module
-- Developed Main AI Workflow
-- Updated AI Documentation
+- Created AI Documentation
+- Organized AI Module Structure
 
 ---
 
 ## ✅ Week 3
 
-### AI Challenge Engine Enhancement
+### Cognitive Challenge Engine
 
-Implemented support for:
+Implemented a modular AI engine capable of generating multiple cognitive challenges.
 
-#### Challenge Types
+#### Challenge Categories
 
-- Math Challenges
+- Mathematical Problems
+- Logic Puzzles
 - Memory Challenges
-- Logic Challenges
+- Word Games
+- Pattern Recognition
+- Riddles
+- Quick Quiz
 
 #### Difficulty Levels
 
@@ -77,24 +80,41 @@ Implemented support for:
 #### Features
 
 - Dynamic Challenge Generation
-- Challenge Type Selection
-- Difficulty Selection
-- Random Challenge Generation
-- User Input Validation
-- Answer Validation
-- Interactive Console Testing
-
-Successfully tested all challenge types across Easy, Medium, and Hard difficulty levels.
+- Challenge Validation
+- Score Calculation
+- XP Reward System
+- Time Bonus Support
+- Category Management
+- AI Testing Module
 
 ---
 
-# Folder Structure
+## ✅ Week 4
+
+### AI Integration
+
+- Integrated Cognitive Challenge Engine with the application
+- Implemented Wake-up Verification
+- Added Consecutive Correct Answer Verification
+- Connected Difficulty Manager
+- Implemented Adaptive Difficulty Recommendation
+- Added XP Tracking
+- Added Performance Tracking
+- Updated Alarm Logic
+- Updated Testing Module
+
+---
+
+# Project Structure
 
 ```text
 Cognitive-Alarm-System/
 │
 ├── ai/
 │   ├── challenge_engine.py
+│   ├── main.py
+│   ├── alarm_logic.py
+│   ├── wake_up_verification.py
 │   ├── adaptive_engine.py
 │   ├── behavior_analysis.py
 │   ├── recommendation_engine.py
@@ -117,63 +137,110 @@ Cognitive-Alarm-System/
 
 ---
 
-# System Architecture
+# AI Features
 
-![System Architecture](docs/architecture.png)
+- AI-based Cognitive Challenge Engine
+- Seven Challenge Categories
+- Three Difficulty Levels
+- Wake-up Verification System
+- Challenge Validation
+- Adaptive Difficulty Algorithm
+- XP Reward System
+- Score Calculation
+- Performance Tracking
+- Difficulty Recommendation
+- Alarm Logic Integration
 
 ---
 
-# Database Schema
+# Technologies Used
 
-![Database Schema](docs/database_schema.png)
-
----
-
-# Technologies
+### Programming Languages
 
 - Python
+
+### AI & Machine Learning
+
+- Scikit-learn
+- XGBoost
+
+### Backend
+
+- FastAPI (Integration Phase)
+
+### Frontend
+
 - Flutter
-- FastAPI
+
+### Database
+
 - PostgreSQL
 - MongoDB
 - Firebase
-- Scikit-learn
-- XGBoost
-- Git & GitHub
+
+### Tools
+
+- Git
+- GitHub
+- VS Code
 
 ---
 
+# Current Status
+
+| Week | Status |
+|------|--------|
+| Week 1 | ✅ Completed |
+| Week 2 | ✅ Completed |
+| Week 3 | ✅ Completed |
+| Week 4 | ✅ Completed |
+| Week 5 | ⏳ In Progress |
+| Week 6 | ⏳ Pending |
+| Week 7 | ⏳ Pending |
+| Week 8 | ⏳ Pending |
+
+---
 
 # Upcoming Work
 
-- Adaptive Difficulty Engine
-- User Performance Tracking
-- Behavior Analysis
+## Week 5
+
+- Habit Score Algorithm
 - Recommendation Engine
-- Backend API Integration (FastAPI)
+- User Behavior Analysis
+- Backend Integration
+
+## Week 6
+
+- API Development
+- Backend Testing
+- Database Integration
+
+## Week 7
+
 - Flutter Integration
-- AI Performance Optimization
 - End-to-End Testing
+- Bug Fixes
+
+## Week 8
+
+- AI Optimization
+- Documentation
+- Final Deployment
 
 ---
 
-# Current Progress
+# Team Members
 
-**Weeks Completed:** **3 / 8**
-
-**Overall Progress:** **Approximately 40%**
-
-The AI module now includes a working Challenge Engine with multiple challenge types, three difficulty levels, alarm workflow, documentation, architecture, testing, and project setup. The upcoming phase focuses on adaptive AI behavior, performance tracking, backend integration, and connecting the AI module with the Flutter application.
-
-## Team
-
-- **Mariya Mallick** — AI/ML
-- **Vigneshwari** — Backend
-- **Nasritha** — Flutter Frontend
-- **Swathi** — Testing & Integration
+| Member | Responsibility |
+|---------|----------------|
+| **Mariya Mallick** | AI/ML Development |
+| **Vigneshwari** | Backend Development |
+| **Nasritha** | Flutter Frontend |
+| **Swathi** | Testing & Integration |
 
 ---
 
-## Internship Project
+# Internship Project
 
-This branch contains the AI/ML contribution for the Intelligent Cognitive Alarm Platform internship project.
+This branch contains my AI/ML contribution to the **Intelligent Cognitive Alarm Platform** internship project. The work completed includes designing the AI architecture, implementing the cognitive challenge engine, integrating wake-up verification, developing the adaptive difficulty algorithm, and preparing the AI module for backend integration.
