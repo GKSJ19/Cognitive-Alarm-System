@@ -1,12 +1,10 @@
-from alarm_logic import AlarmLogic
+from challenge_engine import CognitiveChallengeEngine
 
-alarm = AlarmLogic()
+engine = CognitiveChallengeEngine()
 
-challenge = alarm.trigger_alarm()
+challenge = engine.generate()
 
-user_answer = input("Enter your answer: ")
-
-alarm.validate_answer(
-    user_answer,
-    challenge["answer"]
-)
+print("Category :", challenge.category)
+print("Difficulty :", challenge.difficulty)
+print("Question :", challenge.question)
+print("Correct Answer :", challenge.correct_answer)

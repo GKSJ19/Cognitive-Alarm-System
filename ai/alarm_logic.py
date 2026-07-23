@@ -1,28 +1,38 @@
-from challenge_engine import ChallengeEngine
+from challenge_engine import (
+    CognitiveChallengeEngine,
+    Category,
+    Difficulty
+)
 
 
 class AlarmLogic:
     """
-    Controls the AI workflow after an alarm is triggered.
+    Handles the AI workflow when an alarm is triggered.
     """
 
     def __init__(self):
-        self.challenge_engine = ChallengeEngine()
+        self.engine = CognitiveChallengeEngine()
 
-    def trigger_alarm(self):
-        print("🔔 Alarm Triggered!")
+    def trigger_alarm(
+        self,
+        category=Category.MATH,
+        difficulty=Difficulty.EASY
+    ):
 
-        challenge = self.challenge_engine.generate_math_problem()
+        print("\n🔔 Alarm Triggered!")
 
-        print("Challenge:")
-        print(challenge)
+        challenge = self.engine.generate(
+            category=category,
+            difficulty=difficulty
+        )
 
         return challenge
 
-    def validate_answer(self, user_answer, correct_answer):
-        if str(user_answer) == str(correct_answer):
-            print("✅ Correct Answer")
-            return True
+    def validate_answer(self, challenge, user_answer):
 
-        print("❌ Wrong Answer")
-        return False
+        result = self.engine.validate(
+            challenge,
+            user_answer
+        )
+
+        return result
