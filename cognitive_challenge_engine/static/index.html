@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cognitive Challenge Engine</title>
+<style>
+  :root{
+    --ink:#12132b;
+    --panel:#191b3d;
+    --panel-2:#20234d;
+    --line:#33366b;
+    --text:#eef0ff;
+    --muted:#9297c4;
+    --amber:#f2b705;
+    --teal:#3aafa9;
+    --wrong:#e8555f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(circle at 50% 0%, #23265a 0%, var(--ink) 55%);
+    color:var(--text);
+    font-family:'IBM Plex Mono', ui-monospace, Consolas, monospace;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:48px 20px 80px;
+  }
+  h1{
+    font-family:'Space Grotesk', 'Segoe UI', sans-serif;
+    font-weight:600;
+    font-size:clamp(1.6rem,4vw,2.4rem);
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+    text-align:center;
+  }
+  .tagline{
+    color:var(--muted);
+    font-size:0.85rem;
+    margin:0 0 40px;
+    text-align:center;
+  }
+
+  /* --- engine node graph --- */
+  .engine{
+    position:relative;
+    width:min(680px,92vw);
+    aspect-ratio:1/0.72;
+    margin-bottom:36px;
+  }
+  .core{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:132px;height:132px;
+    border-radius:50%;
+    background:var(--amber);
+    color:#1b1300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:0.82rem;
+    line-height:1.15;
+    padding:8px;
+    cursor:pointer;
+    border:none;
+    box-shadow:0 0 0 6px rgba(242,183,5,0.12), 0 0 40px rgba(242,183,5,0.25);
+    transition:transform .15s ease, box-shadow .15s ease;
+    z-index:3;
+  }
+  .core:hover{transform:translate(-50%,-50%) scale(1.05);}
+  .core:active{transform:translate(-50%,-50%) scale(0.97);}
+
+  .node{
+    position:absolute;
+    width:118px;
+    padding:10px 8px;
+    border-radius:10px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--text);
+    cursor:pointer;
+    transition:border-color .15s ease, transform .15s ease, background .15s ease;
+    z-index:2;
+  }
+  .node:hover{border-color:var(--amber); transform:translateY(-2px);}
+  .node.active{background:var(--teal); border-color:var(--teal); color:#08221f;}
+  .node span.dot{
+    display:block;
+    font-size:0.6rem;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  .node.active span.dot{color:#08221f;opacity:0.7;}
+
+  svg.links{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+  svg.links line{stroke:var(--line); stroke-width:1;}
+
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .controls label{color:var(--muted); font-size:0.75rem;}
+  select{
+    background:var(--panel);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 10px;
+    font-family:inherit;
+    font-size:0.8rem;
+  }
+  .random-btn{
+    background:transparent;
+    border:1px solid var(--teal);
+    color:var(--teal);
+    padding:7px 14px;
+    border-radius:6px;
+    font-family:inherit;
+    font-size:0.78rem;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .random-btn:hover{background:rgba(58,175,169,0.12);}
+
+  /* --- challenge card --- */
+  .card{
+    width:min(560px,92vw);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:28px;
+    min-height:120px;
+  }
+  .card .eyebrow{
+    color:var(--amber);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .card .question{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.05rem;
+    line-height:1.5;
+    white-space:pre-line;
+    margin-bottom:20px;
+  }
+  .choices{display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
+  .choice-btn{
+    text-align:left;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:10px 12px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .choice-btn:hover{border-color:var(--amber);}
+  .choice-btn.picked{border-color:var(--teal); background:rgba(58,175,169,0.12);}
+
+  .answer-row{display:flex; gap:8px; margin-bottom:16px;}
+  input[type=text]{
+    flex:1;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:10px 12px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:0.9rem;
+  }
+  input[type=text]:focus{outline:2px solid var(--amber); border-color:transparent;}
+  button.submit{
+    background:var(--amber);
+    color:#1b1300;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  button.submit:disabled{opacity:0.4; cursor:default;}
+
+  .result{
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:0.85rem;
+    line-height:1.5;
+    margin-top:4px;
+  }
+  .result.correct{background:rgba(58,175,169,0.14); border:1px solid var(--teal); color:#d7fff9;}
+  .result.wrong{background:rgba(232,85,95,0.14); border:1px solid var(--wrong); color:#ffdfe1;}
+
+  .placeholder{color:var(--muted); font-size:0.85rem;}
+  .loading{color:var(--muted); font-size:0.85rem;}
+  a.gh{color:var(--muted); font-size:0.7rem; margin-top:30px;}
+</style>
+</head>
+<body>
+
+  <h1>Cognitive Challenge Engine</h1>
+  <p class="tagline">Pick a node. Solve the challenge. Powered by Gemini.</p>
+
+  <div class="engine" id="engine">
+    <svg class="links" id="links"></svg>
+    <button class="core" id="coreBtn">COGNITIVE<br>CHALLENGE<br>ENGINE</button>
+  </div>
+
+  <div class="controls">
+    <label for="difficulty">Difficulty</label>
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+    <button class="random-btn" id="randomBtn">Surprise me</button>
+  </div>
+
+  <div class="card" id="card">
+    <p class="placeholder">Click a node above (or "Surprise me") to generate your first challenge.</p>
+  </div>
+
+  <a class="gh" href="#">Cognitive Challenge Engine · demo UI</a>
+
+<script>
+const CATEGORY_POSITIONS = {
+  math_problems:       {top:'2%',  left:'6%'},
+  logic_puzzles:       {top:'2%',  left:'32%'},
+  memory_challenges:   {top:'2%',  left:'58%'},
+  word_games:          {top:'2%',  left:'84%'},
+  pattern_recognition: {top:'78%', left:'6%'},
+  riddles:             {top:'78%', left:'36%'},
+  quick_quizzes:       {top:'78%', left:'70%'},
+};
+
+const state = { challengeId: null, currentCategory: null };
+
+async function loadCategories(){
+  const res = await fetch('/api/categories');
+  const categories = await res.json();
+  const engine = document.getElementById('engine');
+  const linksSvg = document.getElementById('links');
+
+  categories.forEach(cat => {
+    const pos = CATEGORY_POSITIONS[cat.id] || {top:'40%', left:'40%'};
+    const node = document.createElement('button');
+    node.className = 'node';
+    node.style.top = pos.top;
+    node.style.left = pos.left;
+    node.dataset.id = cat.id;
+    node.innerHTML = `${cat.label}<span class="dot">generate ▸</span>`;
+    node.addEventListener('click', () => requestChallenge(cat.id, node));
+    engine.appendChild(node);
+  });
+
+  // draw connector lines once nodes are laid out
+  requestAnimationFrame(() => drawLinks(engine, linksSvg));
+  window.addEventListener('resize', () => drawLinks(engine, linksSvg));
+}
+
+function drawLinks(engine, svg){
+  const core = document.getElementById('coreBtn');
+  const engineRect = engine.getBoundingClientRect();
+  const coreRect = core.getBoundingClientRect();
+  const cx = coreRect.left + coreRect.width/2 - engineRect.left;
+  const cy = coreRect.top + coreRect.height/2 - engineRect.top;
+  svg.innerHTML = '';
+  document.querySelectorAll('.node').forEach(node => {
+    const r = node.getBoundingClientRect();
+    const nx = r.left + r.width/2 - engineRect.left;
+    const ny = r.top + r.height/2 - engineRect.top;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+    svg.appendChild(line);
+  });
+}
+
+function setActiveNode(id){
+  document.querySelectorAll('.node').forEach(n => n.classList.toggle('active', n.dataset.id === id));
+}
+
+async function requestChallenge(category, nodeEl){
+  const difficulty = document.getElementById('difficulty').value;
+  setActiveNode(category);
+  state.currentCategory = category;
+  renderLoading();
+  try {
+    const res = await fetch(`/api/challenge/${category}?difficulty=${difficulty}`);
+    if(!res.ok) throw new Error((await res.json()).detail || 'Request failed');
+    const challenge = await res.json();
+    state.challengeId = challenge.id;
+    renderChallenge(challenge);
+  } catch(err){
+    renderError(err.message);
+  }
+}
+
+async function requestRandom(){
+  const difficulty = document.getElementById('difficulty').value;
+  setActiveNode(null);
+  renderLoading();
+  try {
+    const res = await fetch(`/api/challenge/random?difficulty=${difficulty}`);
+    if(!res.ok) throw new Error((await res.json()).detail || 'Request failed');
+    const challenge = await res.json();
+    state.challengeId = challenge.id;
+    setActiveNode(challenge.category);
+    renderChallenge(challenge);
+  } catch(err){
+    renderError(err.message);
+  }
+}
+
+function renderLoading(){
+  document.getElementById('card').innerHTML =
+    '<p class="loading">Generating challenge…</p>';
+}
+
+function renderError(msg){
+  document.getElementById('card').innerHTML =
+    `<p class="loading">Couldn't generate a challenge: ${escapeHtml(msg)}</p>`;
+}
+
+function renderChallenge(challenge){
+  const card = document.getElementById('card');
+  let choicesHtml = '';
+  if (challenge.choices && challenge.choices.length){
+    choicesHtml = '<div class="choices">' + challenge.choices.map(c =>
+      `<button class="choice-btn" data-value="${escapeAttr(c)}">${escapeHtml(c)}</button>`
+    ).join('') + '</div>';
+  }
+
+  card.innerHTML = `
+    <div class="eyebrow">${escapeHtml(challenge.label)} · ${escapeHtml(challenge.difficulty)}</div>
+    <div class="question">${escapeHtml(challenge.question)}</div>
+    ${choicesHtml}
+    ${challenge.choices ? '' : `
+      <div class="answer-row">
+        <input type="text" id="answerInput" placeholder="Your answer">
+        <button class="submit" id="submitBtn">Submit</button>
+      </div>`}
+    <div id="resultBox"></div>
+  `;
+
+  if (challenge.choices && challenge.choices.length){
+    card.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        card.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('picked'));
+        btn.classList.add('picked');
+        submitAnswer(btn.dataset.value);
+      });
+    });
+  } else {
+    const submitBtn = card.querySelector('#submitBtn');
+    const input = card.querySelector('#answerInput');
+    submitBtn.addEventListener('click', () => submitAnswer(input.value));
+    input.addEventListener('keydown', e => { if(e.key === 'Enter') submitAnswer(input.value); });
+  }
+}
+
+async function submitAnswer(value){
+  if(!state.challengeId) return;
+  const res = await fetch(`/api/challenge/${state.challengeId}/answer`, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({answer: value})
+  });
+  const result = await res.json();
+  const box = document.getElementById('resultBox');
+  box.innerHTML = `<div class="result ${result.correct ? 'correct' : 'wrong'}">
+    ${result.correct ? '✓ Correct.' : `✕ Not quite. Correct answer: ${escapeHtml(String(result.correct_answer))}.`}
+    ${result.explanation ? '<br>' + escapeHtml(result.explanation) : ''}
+  </div>`;
+  state.challengeId = null;
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function escapeAttr(str){ return escapeHtml(str); }
+
+document.getElementById('coreBtn').addEventListener('click', requestRandom);
+document.getElementById('randomBtn').addEventListener('click', requestRandom);
+
+loadCategories();
+</script>
+</body>
+</html>
