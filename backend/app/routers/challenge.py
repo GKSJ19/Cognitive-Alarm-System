@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Query
 
 from app.schemas.challenge import ChallengeAnswer
+from app.schemas.response import UserResponse
 from app.services.challenge_service import (
     get_math_challenge,
     get_logic_challenge,
     get_memory_challenge,
     get_attention_challenge,
     check_answer,
+    store_response,
 )
 
 router = APIRouter(
@@ -43,3 +45,7 @@ def check_challenge_answer(answer: ChallengeAnswer):
         answer.correct_answer,
         answer.user_answer
     )
+
+@router.post("/response")
+def save_response(response: UserResponse):
+    return store_response(response)

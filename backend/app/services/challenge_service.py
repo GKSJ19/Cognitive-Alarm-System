@@ -228,3 +228,12 @@ def check_answer(correct_answer, user_answer):
     return {
         "correct": correct_answer.lower() == user_answer.lower()
     }
+
+responses = []
+
+def store_response(response):
+    responses.append(response.dict())
+    return {
+        "message": "Response stored successfully",
+        "data": response
+    }

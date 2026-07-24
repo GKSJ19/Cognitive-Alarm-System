@@ -91,8 +91,7 @@ def create_app() -> FastAPI:
     app.include_router(
     challenge_router,
     prefix=f"{settings.api_v1_prefix}/challenge",
-    tags=["challenge"],
-    )
+)
 
     return app
 
