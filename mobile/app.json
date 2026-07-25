@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "a4ab23bf-105c-41dd-b675-4e340f5118b3"
+      }
+    },
+    "owner": "kowzis-team",
+    "slug": "cognitive-alaram",
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
