@@ -9,8 +9,10 @@ import AppText from "@/components/common/AppText";
 import AppButton from "@/components/buttons/AppButton";
 import AppInput from "@/components/forms/AppInput";
 import PasswordInput from "@/components/forms/PasswordInput";
+import ThemeToggleButton from "@/components/common/ThemeToggleButton";
 import * as authService from "@/services/authService";
 import { AuthError } from "@/services/authService";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 type Step = "request" | "reset";
 
@@ -52,6 +54,7 @@ export default function ForgotPasswordScreen() {
   const [step, setStep] = useState<Step>("request");
   const [email, setEmail] = useState("");
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { colors } = useAppTheme();
 
   const requestForm = useForm<RequestFormValues>({
     resolver: yupResolver(requestSchema),
@@ -108,9 +111,11 @@ export default function ForgotPasswordScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={[styles.flex, { backgroundColor: colors.background }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
+      <ThemeToggleButton style={styles.themeToggle} />
+
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
@@ -118,7 +123,7 @@ export default function ForgotPasswordScreen() {
         <View>
           <AppText variant="title">Forgot Password 🔒</AppText>
 
-          <AppText variant="body" style={styles.subtitle}>
+          <AppText variant="body" style={[styles.subtitle, { color: colors.textSecondary }]}>
             {step === "request"
               ? "Enter your email and we'll send you a reset code."
               : `Enter the code we sent for ${email} and choose a new password.`}
@@ -144,14 +149,16 @@ export default function ForgotPasswordScreen() {
                 )}
               />
               {requestForm.formState.errors.email && (
-                <AppText style={styles.fieldError}>
+                <AppText style={[styles.fieldError, { color: colors.error }]}>
                   {requestForm.formState.errors.email.message}
                 </AppText>
               )}
             </View>
 
             {submitError && (
-              <AppText style={styles.formError}>{submitError}</AppText>
+              <AppText style={[styles.formError, { color: colors.error }]}>
+                {submitError}
+              </AppText>
             )}
 
             <AppButton
@@ -178,7 +185,7 @@ export default function ForgotPasswordScreen() {
                 )}
               />
               {resetForm.formState.errors.code && (
-                <AppText style={styles.fieldError}>
+                <AppText style={[styles.fieldError, { color: colors.error }]}>
                   {resetForm.formState.errors.code.message}
                 </AppText>
               )}
@@ -198,7 +205,7 @@ export default function ForgotPasswordScreen() {
                 )}
               />
               {resetForm.formState.errors.newPassword && (
-                <AppText style={styles.fieldError}>
+                <AppText style={[styles.fieldError, { color: colors.error }]}>
                   {resetForm.formState.errors.newPassword.message}
                 </AppText>
               )}
@@ -218,14 +225,16 @@ export default function ForgotPasswordScreen() {
                 )}
               />
               {resetForm.formState.errors.confirmPassword && (
-                <AppText style={styles.fieldError}>
+                <AppText style={[styles.fieldError, { color: colors.error }]}>
                   {resetForm.formState.errors.confirmPassword.message}
                 </AppText>
               )}
             </View>
 
             {submitError && (
-              <AppText style={styles.formError}>{submitError}</AppText>
+              <AppText style={[styles.formError, { color: colors.error }]}>
+                {submitError}
+              </AppText>
             )}
 
             <AppButton
@@ -250,7 +259,9 @@ export default function ForgotPasswordScreen() {
 
           <Link href="/auth/login" asChild>
             <TouchableOpacity>
-              <AppText style={styles.link}>Login</AppText>
+              <AppText style={[styles.link, { color: colors.primary }]}>
+                Login
+              </AppText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -260,9 +271,19 @@ export default function ForgotPasswordScreen() {
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+
+  themeToggle: {
+    position: "absolute",
+    top: 56,
+    right: 24,
+    zIndex: 10,
+  },
+
   container: {
     flexGrow: 1,
-    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
   },
@@ -270,7 +291,6 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 10,
     marginBottom: 40,
-    color: "#666",
   },
 
   form: {
@@ -278,14 +298,12 @@ const styles = StyleSheet.create({
   },
 
   fieldError: {
-    color: "#EF4444",
     fontSize: 13,
     marginTop: 4,
     marginLeft: 4,
   },
 
   formError: {
-    color: "#EF4444",
     fontSize: 14,
     textAlign: "center",
   },
@@ -297,7 +315,6 @@ const styles = StyleSheet.create({
   },
 
   link: {
-    color: "#2563EB",
     fontWeight: "700",
   },
 });

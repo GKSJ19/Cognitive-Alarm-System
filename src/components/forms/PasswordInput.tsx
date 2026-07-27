@@ -3,9 +3,11 @@ import { View, StyleSheet, TouchableOpacity, TextInputProps } from "react-native
 
 import AppInput from "./AppInput";
 import AppText from "../common/AppText";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export default function PasswordInput(props: TextInputProps) {
   const [visible, setVisible] = useState(false);
+  const { colors } = useAppTheme();
 
   return (
     <View style={styles.container}>
@@ -21,7 +23,7 @@ export default function PasswordInput(props: TextInputProps) {
         onPress={() => setVisible((prev) => !prev)}
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       >
-        <AppText style={styles.toggleText}>
+        <AppText style={[styles.toggleText, { color: colors.primary }]}>
           {visible ? "Hide" : "Show"}
         </AppText>
       </TouchableOpacity>

@@ -79,6 +79,10 @@ export default function AlarmDetailsScreen() {
 
         <View style={{ gap: spacing.md }}>
           <AppButton
+            title="Test Ring"
+            onPress={() => router.push(`/alarm-ringing/${alarm.id}`)}
+          />
+          <AppButton
             title={alarm.enabled ? "Disable Alarm" : "Enable Alarm"}
             variant="outline"
             onPress={() => toggleAlarm(alarm.id)}

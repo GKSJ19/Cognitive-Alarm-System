@@ -1,4 +1,4 @@
-import { View, ScrollView, Switch, StyleSheet, Alert } from "react-native";
+import { View, ScrollView, Switch, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -66,11 +66,7 @@ export default function ProfileScreen() {
             <AppButton
               title="Edit Profile"
               variant="outline"
-              onPress={() =>
-                // No edit-profile screen was in scope for this pass — wire
-                // this up to a real screen/endpoint when that flow lands.
-                Alert.alert("Coming soon", "Profile editing isn't available yet.")
-              }
+              onPress={() => router.push("/onboarding/profile-setup")}
             />
           </View>
         </Card>
@@ -101,6 +97,58 @@ export default function ProfileScreen() {
                 thumbColor="#FFFFFF"
               />
             }
+          />
+        </Card>
+
+        <Card style={{ marginBottom: spacing.lg }}>
+          <ListRow
+            icon="chart-donut"
+            title="Habit Score"
+            subtitle="Streaks, breakdown & calendar history"
+            onPress={() => router.push("/habits")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="moon-waning-crescent"
+            title="Sleep Log"
+            onPress={() => router.push("/sleep/log")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="target"
+            title="Productivity Goals"
+            onPress={() => router.push("/goals/productivity")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="lightbulb-on-outline"
+            title="Recommendations"
+            onPress={() => router.push("/recommendations")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="bell-outline"
+            title="Notifications"
+            onPress={() => router.push("/notifications")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="view-dashboard-outline"
+            title="Dashboards"
+            onPress={() => router.push("/dashboard")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="file-chart-outline"
+            title="Reports"
+            onPress={() => router.push("/reports")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
+          />
+          <ListRow
+            icon="cog-outline"
+            title="Settings"
+            onPress={() => router.push("/settings")}
+            right={<MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSecondary} />}
           />
         </Card>
 

@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from "react-native";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "@/components/common/AppText";
 import AppButton from "@/components/buttons/AppButton";
 import AppInput from "@/components/forms/AppInput";
 import PasswordInput from "@/components/forms/PasswordInput";
+import ThemeToggleButton from "@/components/common/ThemeToggleButton";
 import { useAuthStore } from "@/store/authStore";
 import { AuthError } from "@/services/authService";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface LoginFormValues {
   email: string;
@@ -32,6 +35,7 @@ const schema = yup.object({
 export default function LoginScreen() {
   const login = useAuthStore((state) => state.login);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { colors } = useAppTheme();
 
   const {
     control,
@@ -58,17 +62,23 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={[styles.flex, { backgroundColor: colors.background }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
+      <ThemeToggleButton style={styles.themeToggle} />
+
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
         <View>
+          <View style={[styles.logoBadge, { backgroundColor: colors.primary }]}>
+            <MaterialCommunityIcons name="weather-sunset-up" size={28} color="#FFFFFF" />
+          </View>
+
           <AppText variant="title">Welcome Back 👋</AppText>
 
-          <AppText variant="body" style={styles.subtitle}>
+          <AppText variant="body" style={[styles.subtitle, { color: colors.textSecondary }]}>
             Login to continue using WakeWise
           </AppText>
         </View>
@@ -91,7 +101,7 @@ export default function LoginScreen() {
               )}
             />
             {errors.email && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.email.message}
               </AppText>
             )}
@@ -112,7 +122,7 @@ export default function LoginScreen() {
               )}
             />
             {errors.password && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.password.message}
               </AppText>
             )}
@@ -120,12 +130,16 @@ export default function LoginScreen() {
 
           <Link href="/auth/forgot-password" asChild>
             <TouchableOpacity>
-              <AppText style={styles.forgot}>Forgot Password?</AppText>
+              <AppText style={[styles.forgot, { color: colors.primary }]}>
+                Forgot Password?
+              </AppText>
             </TouchableOpacity>
           </Link>
 
           {submitError && (
-            <AppText style={styles.formError}>{submitError}</AppText>
+            <AppText style={[styles.formError, { color: colors.error }]}>
+              {submitError}
+            </AppText>
           )}
 
           <AppButton
@@ -133,6 +147,29 @@ export default function LoginScreen() {
             onPress={handleSubmit(onSubmit)}
             loading={isSubmitting}
           />
+
+          <View style={styles.dividerRow}>
+            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+            <AppText style={[styles.dividerText, { color: colors.textSecondary }]}>
+              OR
+            </AppText>
+            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+          </View>
+
+          <TouchableOpacity
+            style={[
+              styles.googleButton,
+              { borderColor: colors.border, backgroundColor: colors.surface },
+            ]}
+            activeOpacity={0.8}
+            onPress={() =>
+              // No Google OAuth backend is wired up yet — UI only.
+              Alert.alert("Google Sign-In", "Google Sign-In isn't connected yet.")
+            }
+          >
+            <MaterialCommunityIcons name="google" size={20} color="#DB4437" />
+            <AppText style={styles.googleButtonText}>Continue with Google</AppText>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.footer}>
@@ -140,7 +177,9 @@ export default function LoginScreen() {
 
           <Link href="/auth/register" asChild>
             <TouchableOpacity>
-              <AppText style={styles.link}>Register</AppText>
+              <AppText style={[styles.link, { color: colors.primary }]}>
+                Register
+              </AppText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -150,17 +189,35 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+
+  themeToggle: {
+    position: "absolute",
+    top: 56,
+    right: 24,
+    zIndex: 10,
+  },
+
   container: {
     flexGrow: 1,
-    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
+  },
+
+  logoBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
   },
 
   subtitle: {
     marginTop: 10,
     marginBottom: 40,
-    color: "#666",
   },
 
   form: {
@@ -169,18 +226,15 @@ const styles = StyleSheet.create({
 
   forgot: {
     textAlign: "right",
-    color: "#2563EB",
   },
 
   fieldError: {
-    color: "#EF4444",
     fontSize: 13,
     marginTop: 4,
     marginLeft: 4,
   },
 
   formError: {
-    color: "#EF4444",
     fontSize: 14,
     textAlign: "center",
   },
@@ -192,7 +246,38 @@ const styles = StyleSheet.create({
   },
 
   link: {
-    color: "#2563EB",
     fontWeight: "700",
+  },
+
+  dividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+
+  dividerLine: {
+    flex: 1,
+    height: 1,
+  },
+
+  dividerText: {
+    marginHorizontal: 12,
+    fontWeight: "600",
+    fontSize: 12,
+  },
+
+  googleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 56,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    gap: 10,
+  },
+
+  googleButtonText: {
+    fontWeight: "700",
+    fontSize: 15,
   },
 });

@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from "react-native";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "@/components/common/AppText";
 import AppButton from "@/components/buttons/AppButton";
 import AppInput from "@/components/forms/AppInput";
 import PasswordInput from "@/components/forms/PasswordInput";
+import ThemeToggleButton from "@/components/common/ThemeToggleButton";
 import { useAuthStore } from "@/store/authStore";
 import { AuthError } from "@/services/authService";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface RegisterFormValues {
   fullName: string;
@@ -43,6 +46,7 @@ const schema = yup.object({
 export default function RegisterScreen() {
   const register = useAuthStore((state) => state.register);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { colors } = useAppTheme();
 
   const {
     control,
@@ -62,7 +66,7 @@ export default function RegisterScreen() {
     setSubmitError(null);
     try {
       await register(values.fullName, values.email, values.password);
-      router.replace("/(app)/home");
+      router.replace("/onboarding/profile-setup");
     } catch (error) {
       setSubmitError(
         error instanceof AuthError
@@ -74,17 +78,23 @@ export default function RegisterScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={[styles.flex, { backgroundColor: colors.background }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
+      <ThemeToggleButton style={styles.themeToggle} />
+
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
         <View>
+          <View style={[styles.logoBadge, { backgroundColor: colors.primary }]}>
+            <MaterialCommunityIcons name="weather-sunset-up" size={28} color="#FFFFFF" />
+          </View>
+
           <AppText variant="title">Create Account ✨</AppText>
 
-          <AppText variant="body" style={styles.subtitle}>
+          <AppText variant="body" style={[styles.subtitle, { color: colors.textSecondary }]}>
             Start your journey with WakeWise
           </AppText>
         </View>
@@ -106,7 +116,7 @@ export default function RegisterScreen() {
               )}
             />
             {errors.fullName && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.fullName.message}
               </AppText>
             )}
@@ -129,7 +139,7 @@ export default function RegisterScreen() {
               )}
             />
             {errors.email && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.email.message}
               </AppText>
             )}
@@ -150,7 +160,7 @@ export default function RegisterScreen() {
               )}
             />
             {errors.password && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.password.message}
               </AppText>
             )}
@@ -171,14 +181,16 @@ export default function RegisterScreen() {
               )}
             />
             {errors.confirmPassword && (
-              <AppText style={styles.fieldError}>
+              <AppText style={[styles.fieldError, { color: colors.error }]}>
                 {errors.confirmPassword.message}
               </AppText>
             )}
           </View>
 
           {submitError && (
-            <AppText style={styles.formError}>{submitError}</AppText>
+            <AppText style={[styles.formError, { color: colors.error }]}>
+              {submitError}
+            </AppText>
           )}
 
           <AppButton
@@ -186,6 +198,29 @@ export default function RegisterScreen() {
             onPress={handleSubmit(onSubmit)}
             loading={isSubmitting}
           />
+
+          <View style={styles.dividerRow}>
+            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+            <AppText style={[styles.dividerText, { color: colors.textSecondary }]}>
+              OR
+            </AppText>
+            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+          </View>
+
+          <TouchableOpacity
+            style={[
+              styles.googleButton,
+              { borderColor: colors.border, backgroundColor: colors.surface },
+            ]}
+            activeOpacity={0.8}
+            onPress={() =>
+              // No Google OAuth backend is wired up yet — UI only.
+              Alert.alert("Google Sign-In", "Google Sign-In isn't connected yet.")
+            }
+          >
+            <MaterialCommunityIcons name="google" size={20} color="#DB4437" />
+            <AppText style={styles.googleButtonText}>Continue with Google</AppText>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.footer}>
@@ -193,7 +228,9 @@ export default function RegisterScreen() {
 
           <Link href="/auth/login" asChild>
             <TouchableOpacity>
-              <AppText style={styles.link}>Login</AppText>
+              <AppText style={[styles.link, { color: colors.primary }]}>
+                Login
+              </AppText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -203,17 +240,35 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+
+  themeToggle: {
+    position: "absolute",
+    top: 56,
+    right: 24,
+    zIndex: 10,
+  },
+
   container: {
     flexGrow: 1,
-    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
+  },
+
+  logoBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
   },
 
   subtitle: {
     marginTop: 10,
     marginBottom: 40,
-    color: "#666",
   },
 
   form: {
@@ -221,14 +276,12 @@ const styles = StyleSheet.create({
   },
 
   fieldError: {
-    color: "#EF4444",
     fontSize: 13,
     marginTop: 4,
     marginLeft: 4,
   },
 
   formError: {
-    color: "#EF4444",
     fontSize: 14,
     textAlign: "center",
   },
@@ -240,7 +293,38 @@ const styles = StyleSheet.create({
   },
 
   link: {
-    color: "#2563EB",
     fontWeight: "700",
+  },
+
+  dividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+
+  dividerLine: {
+    flex: 1,
+    height: 1,
+  },
+
+  dividerText: {
+    marginHorizontal: 12,
+    fontWeight: "600",
+    fontSize: 12,
+  },
+
+  googleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 56,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    gap: 10,
+  },
+
+  googleButtonText: {
+    fontWeight: "700",
+    fontSize: 15,
   },
 });
