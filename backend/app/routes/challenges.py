@@ -402,9 +402,23 @@ def submit_challenge(
                 user_id=current_user.id,
                 wake_time=wake_time_str,
                 solved=True,
-                solve_time=req.solve_time
+                solve_time=req.solve_time,
+                snooze_count=req.snooze_count or 0
             )
             db.add(history_entry)
+
+            # Log behavioral metrics
+            from app.behavioral_analytics.service import track_behavior
+            track_behavior(
+                user_id=current_user.id,
+                alarm_id=req.alarm_id,
+                wake_time=wake_time_str,
+                solved=True,
+                solve_time=req.solve_time,
+                attempt_count=req.attempt_count,
+                snooze_count=req.snooze_count or 0,
+                db=db
+            )
 
     db.commit()
 
@@ -414,6 +428,7 @@ def submit_challenge(
         score=score,
         accuracy=accuracy
     )
+
 
 
 @router.get("/history")

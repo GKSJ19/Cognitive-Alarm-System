@@ -9,24 +9,42 @@ from app.routes.alarms import router as alarms_router
 from app.routes.profile import router as profile_router
 from app.routes.challenges import router as challenges_router
 
+# New engine routers
+from app.adaptive_engine import router as adaptive_router
+from app.behavioral_analytics import router as analytics_router
+from app.habit_scoring import router as scoring_router
+from app.recommendation_engine import router as recommendation_router
+from app.dashboard import router as dashboard_router
 
 from sqlalchemy import inspect
 from app.database import engine, Base, SessionLocal
 from app.seed import seed_database
+# Import models to register SQLAlchemy models on Base.metadata
+import app.models
 
 # Initialize database schemas (auto-creates tables for SQLite/PostgreSQL if they don't exist)
 inspector = inspect(engine)
 schema_outdated = False
+table_names = inspector.get_table_names()
 
-if "alarms" in inspector.get_table_names():
+if "alarms" in table_names:
     columns = [c["name"] for c in inspector.get_columns("alarms")]
     if "repeat_days" not in columns:
         schema_outdated = True
 
-if "users" in inspector.get_table_names():
+if "users" in table_names:
     columns = [c["name"] for c in inspector.get_columns("users")]
     if "google_id" not in columns:
         schema_outdated = True
+
+# Outdated check for new tables and fields
+if "alarm_histories" in table_names:
+    columns = [c["name"] for c in inspector.get_columns("alarm_histories")]
+    if "snooze_count" not in columns:
+        schema_outdated = True
+
+if "difficulty_histories" not in table_names or "habit_scores" not in table_names:
+    schema_outdated = True
 
 if schema_outdated:
     print("Schema out of date. Recreating tables...")
@@ -68,6 +86,14 @@ app.include_router(protected_router)
 app.include_router(alarms_router)
 app.include_router(profile_router)
 app.include_router(challenges_router)
+
+# Include new engine routers
+app.include_router(adaptive_router)
+app.include_router(analytics_router)
+app.include_router(scoring_router)
+app.include_router(recommendation_router)
+app.include_router(dashboard_router)
+
 
 
 @app.get("/")

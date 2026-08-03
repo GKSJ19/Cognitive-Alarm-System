@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Boolean, DateTime, Time, Integer, ForeignKey, func, Uuid
+from sqlalchemy import Column, String, Boolean, DateTime, Time, Integer, Float, ForeignKey, func, Uuid
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -16,7 +16,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
-
 
     # Relationship to Alarms (cascade delete ensures orphans are cleaned up)
     alarms = relationship("Alarm", back_populates="owner", cascade="all, delete-orphan")
@@ -40,8 +39,6 @@ class UserProfile(Base):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
     user = relationship("User", back_populates="profile")
-
-from sqlalchemy import Column, String, Boolean, DateTime, Time, Integer, Float, ForeignKey, func, Uuid
 
 class Alarm(Base):
     __tablename__ = "alarms"
@@ -74,8 +71,6 @@ class Alarm(Base):
     def alarm_id(self):
         return self.id
 
-
-
 class ChallengeCategory(Base):
     __tablename__ = "challenge_categories"
 
@@ -84,7 +79,6 @@ class ChallengeCategory(Base):
     description = Column(String(255), nullable=True)
 
     challenges = relationship("Challenge", back_populates="category", cascade="all, delete-orphan")
-
 
 class Challenge(Base):
     __tablename__ = "challenges"
@@ -100,7 +94,6 @@ class Challenge(Base):
     category = relationship("ChallengeCategory", back_populates="challenges")
     attempts = relationship("ChallengeAttempt", back_populates="challenge", cascade="all, delete-orphan")
 
-
 class ChallengeAttempt(Base):
     __tablename__ = "challenge_attempts"
 
@@ -113,7 +106,6 @@ class ChallengeAttempt(Base):
 
     challenge = relationship("Challenge", back_populates="attempts")
     user = relationship("User")
-
 
 class ChallengeResult(Base):
     __tablename__ = "challenge_results"
@@ -132,7 +124,6 @@ class ChallengeResult(Base):
     user = relationship("User")
     challenge = relationship("Challenge")
 
-
 class AlarmHistory(Base):
     __tablename__ = "alarm_histories"
 
@@ -142,6 +133,7 @@ class AlarmHistory(Base):
     wake_time = Column(String(20), nullable=False)
     solved = Column(Boolean, default=True)
     solve_time = Column(Integer, default=0)
+    snooze_count = Column(Integer, default=0)  # Added snooze count tracking field
     dismissed_at = Column(DateTime, server_default=func.now())
 
     alarm = relationship("Alarm")
@@ -150,6 +142,3 @@ class AlarmHistory(Base):
     @property
     def history_id(self):
         return self.id
-
-
-

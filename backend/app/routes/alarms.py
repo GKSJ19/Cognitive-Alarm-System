@@ -6,6 +6,7 @@ from typing import List
 from app.dependencies import get_db, get_current_user
 from app.models import User, Alarm, AlarmHistory
 from app.schemas import AlarmCreate, AlarmUpdate, AlarmResponse, AlarmDismissRequest, AlarmHistoryResponse
+from app.behavioral_analytics.service import track_behavior
 
 router = APIRouter(prefix="/alarms", tags=["Alarms"])
 
@@ -70,12 +71,27 @@ def dismiss_alarm(dismiss_in: AlarmDismissRequest, db: Session = Depends(get_db)
         user_id=current_user.id,
         wake_time=dismiss_in.wake_time,
         solved=dismiss_in.solved,
-        solve_time=dismiss_in.solve_time
+        solve_time=dismiss_in.solve_time,
+        snooze_count=dismiss_in.snooze_count or 0
     )
     db.add(db_history)
     db.commit()
     db.refresh(db_history)
+
+    # Log behavior metrics
+    track_behavior(
+        user_id=current_user.id,
+        alarm_id=dismiss_in.alarm_id,
+        wake_time=dismiss_in.wake_time,
+        solved=dismiss_in.solved,
+        solve_time=dismiss_in.solve_time,
+        attempt_count=1 if dismiss_in.solved else 0,
+        snooze_count=dismiss_in.snooze_count or 0,
+        db=db
+    )
+
     return db_history
+
 
 
 @router.get("/{alarm_id}", response_model=AlarmResponse)

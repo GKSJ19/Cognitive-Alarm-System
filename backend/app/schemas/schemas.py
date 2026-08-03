@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict, model_validator
 from uuid import UUID
 from datetime import datetime, time
-from typing import Optional
+from typing import Optional, List
 from enum import Enum
 
 # --- User Roles ---
@@ -150,7 +150,6 @@ class AlarmResponse(AlarmBase):
 
     model_config = ConfigDict(from_attributes=True)
 
-
 # --- Challenge Schemas ---
 
 class ChallengeCategoryResponse(BaseModel):
@@ -159,7 +158,6 @@ class ChallengeCategoryResponse(BaseModel):
     description: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
-
 
 class ChallengeResponse(BaseModel):
     id: UUID
@@ -171,14 +169,13 @@ class ChallengeResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-
 class ChallengeSubmitRequest(BaseModel):
     challenge_id: UUID
     answer: str
     alarm_id: Optional[UUID] = None
     solve_time: int
     attempt_count: int
-
+    snooze_count: Optional[int] = 0  # Added snooze count inside challenge submit
 
 class ChallengeSubmitResponse(BaseModel):
     is_correct: bool
@@ -186,13 +183,12 @@ class ChallengeSubmitResponse(BaseModel):
     score: Optional[int] = None
     accuracy: Optional[float] = None
 
-
 class AlarmDismissRequest(BaseModel):
     alarm_id: UUID
     wake_time: str
     solved: bool
     solve_time: int
-
+    snooze_count: Optional[int] = 0  # Added snooze count tracking support
 
 class AlarmHistoryResponse(BaseModel):
     history_id: UUID
@@ -200,24 +196,19 @@ class AlarmHistoryResponse(BaseModel):
     wake_time: str
     solved: bool
     solve_time: int
+    snooze_count: int = 0  # Exposed snooze count in response
     dismissed_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
-
 
 class OAuthLoginRequest(BaseModel):
     id_token: str
     email: Optional[str] = None
     full_name: Optional[str] = None
 
-
 class ForgotPasswordRequest(BaseModel):
     email: str
-
 
 class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str = Field(..., min_length=6, description="New password must be at least 6 characters long")
-
-
-
