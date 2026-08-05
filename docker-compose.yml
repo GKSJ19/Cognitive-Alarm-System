@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: localdockerpassword
+      POSTGRES_DB: alarm_app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:localdockerpassword@db:5432/alarm_app_db
+      SECRET_KEY: change_this_to_a_long_random_string
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      REFRESH_TOKEN_EXPIRE_DAYS: "7"
+      MAX_FAILED_LOGIN_ATTEMPTS: "5"
+      LOCKOUT_DURATION_MINUTES: "15"
+      PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: "30"
+      # FIREBASE_CREDENTIALS_PATH left unset -- mount the key file below and
+      # uncomment if you want Google Sign-In active inside Docker too.
+      # FIREBASE_CREDENTIALS_PATH: /run/secrets/firebase-key.json
+    ports:
+      - "8000:8000"
+    # volumes:
+    #   - ./firebase-key.json:/run/secrets/firebase-key.json:ro
+
+volumes:
+  pgdata:

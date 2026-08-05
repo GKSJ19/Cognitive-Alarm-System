@@ -2,11 +2,12 @@ venv/
 __pycache__/
 *.pyc
 .env
-.vscode/
-.idea/
-*.db
+.git/
+.gitignore
 .pytest_cache/
-
-# Firebase service account key -- NEVER commit this
+*.db
+tests/
+*.md
+*.postman_collection.json
 firebase-*.json
 serviceAccountKey.json
