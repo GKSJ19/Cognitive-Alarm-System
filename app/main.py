@@ -6,16 +6,20 @@ from slowapi.middleware import SlowAPIMiddleware
 from app.database import Base, engine
 from app.routes import auth_routes, user_routes, admin_routes
 from app.limiter import limiter
+from app.firebase import init_firebase
 
 # Creates all tables defined in models.py if they don't already exist.
 # NOTE: this does NOT alter existing tables -- if you already have a
 # `users` table from Milestone 1, see the migration SQL in README.md.
 Base.metadata.create_all(bind=engine)
 
+# No-ops automatically if FIREBASE_CREDENTIALS_PATH isn't set in .env
+init_firebase()
+
 app = FastAPI(
     title="Cognitive Alarm System - Auth Service",
-    description="Milestone 2: profile expansion, access hardening, and admin APIs.",
-    version="0.3.0",
+    description="Milestones 1-4: authentication, profile management, security hardening, and deployment.",
+    version="1.0.0",
 )
 
 app.state.limiter = limiter
@@ -28,5 +32,11 @@ app.include_router(admin_routes.router)
 
 
 @app.get("/")
+def root():
+    return {"status": "ok", "service": "cognitive-alarm-auth"}
+
+
+@app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "auth", "milestone": 2}
+    """Used by deployment platforms (Railway, Docker, etc.) for uptime checks."""
+    return {"status": "healthy"}

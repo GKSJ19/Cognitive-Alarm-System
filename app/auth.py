@@ -68,6 +68,57 @@ def generate_refresh_token() -> Tuple[str, datetime]:
     return token, expires_at
 
 
+# ---------- Password reset token helpers ----------
+
+def generate_password_reset_token() -> Tuple[str, datetime]:
+    """
+    Single-use, short-lived token for the password reset flow. Same pattern
+    as refresh tokens -- opaque random string, stored server-side, so it
+    can be checked for single-use and expiry.
+    """
+    token = secrets.token_urlsafe(32)
+    expires_at = datetime.now(timezone.utc) + timedelta(
+        minutes=settings.PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
+    )
+    return token, expires_at
+
+
+# ---------- Account lockout helpers ----------
+
+def is_locked_out(user) -> bool:
+    """True if this user is currently locked out from logging in."""
+    if user.locked_until is None:
+        return False
+    locked_until = user.locked_until
+    if locked_until.tzinfo is None:  # SQLite doesn't preserve tzinfo -- normalize
+        locked_until = locked_until.replace(tzinfo=timezone.utc)
+    return locked_until > datetime.now(timezone.utc)
+
+
+def register_failed_login(db, user) -> None:
+    """
+    Increments the failed-attempt counter. Once it hits the configured
+    threshold, locks the account for LOCKOUT_DURATION_MINUTES and resets
+    the counter, so the lock only re-triggers after another full set of
+    failed attempts.
+    """
+    user.failed_login_attempts += 1
+    if user.failed_login_attempts >= settings.MAX_FAILED_LOGIN_ATTEMPTS:
+        user.locked_until = datetime.now(timezone.utc) + timedelta(
+            minutes=settings.LOCKOUT_DURATION_MINUTES
+        )
+        user.failed_login_attempts = 0
+    db.commit()
+
+
+def clear_failed_logins(db, user) -> None:
+    """Called on a successful login -- resets the failure counter."""
+    if user.failed_login_attempts != 0 or user.locked_until is not None:
+        user.failed_login_attempts = 0
+        user.locked_until = None
+        db.commit()
+
+
 # Imported here (not at the top) to avoid a circular import between
 # auth.py and models.py.
 from app.models import User, UserRole  # noqa: E402

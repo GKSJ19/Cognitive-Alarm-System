@@ -21,6 +21,19 @@ class RefreshRequest(BaseModel):
     refresh_token: str
 
 
+class GoogleSignInRequest(BaseModel):
+    firebase_id_token: str
+
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+
+class PasswordResetConfirm(BaseModel):
+    reset_token: str
+    new_password: str
+
+
 # ---------- Profile request schemas ----------
 
 class UserUpdate(BaseModel):
@@ -71,3 +84,14 @@ class TokenPair(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+
+
+class AuditLogResponse(BaseModel):
+    id: int
+    user_id: Optional[int] = None
+    action: str
+    detail: Optional[str] = None
+    ip_address: Optional[str] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
