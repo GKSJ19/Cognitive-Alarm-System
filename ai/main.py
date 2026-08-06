@@ -6,6 +6,11 @@ from challenge_engine import (
 
 from wake_up_verification import WakeUpVerification
 
+from habit_score import HabitScore
+from behavior_analysis import BehaviorAnalysis
+from recommendation_engine import RecommendationEngine
+import time
+
 # --------------------------------------------------
 # Initialize
 # --------------------------------------------------
@@ -17,9 +22,14 @@ print("=" * 60)
 print("🧠 Intelligent Cognitive Alarm Platform")
 print("=" * 60)
 
+habit = HabitScore()
+analysis = BehaviorAnalysis()
+recommendation = RecommendationEngine()
+
 # --------------------------------------------------
 # Select Challenge Category
 # --------------------------------------------------
+
 
 while True:
 
@@ -87,6 +97,8 @@ while True:
     print("Challenge")
     print("=" * 50)
 
+    start_time = time.time()
+
     print("Category   :", challenge.category)
     print("Difficulty :", challenge.difficulty)
     print("Question   :", challenge.question)
@@ -98,6 +110,13 @@ while True:
 
     answer = input("\nYour Answer: ")
 
+    end_time = time.time()
+
+    response_time = round(
+        end_time - start_time,
+        2
+    )
+
     result = engine.validate(
         challenge,
         answer
@@ -105,7 +124,20 @@ while True:
 
     engine.difficulty_manager.record(result)
 
+    analysis.record_attempt(
+        is_correct=result.is_correct,
+        response_time=response_time,
+        xp=result.xp_earned
+    )
+
     verification.update(result.is_correct)
+
+    habit_score = habit.calculate_score(
+        is_correct=result.is_correct,
+        wakeup_verified=verification.is_verified(),
+        response_time=response_time,
+        streak=verification.correct_streak
+    )
 
     print("\n" + "-" * 50)
 
@@ -114,6 +146,9 @@ while True:
         print("✅ Correct Answer!")
         print(f"Score : {result.score}")
         print(f"XP Earned : {result.xp_earned}")
+
+        print(f"Habit Score : {habit_score}")
+        print(f"Habit Level : {habit.get_level()}")
 
     else:
 
@@ -130,6 +165,9 @@ while True:
         print("\n🎉 Wake-up Verification Successful!")
         print("🔕 Alarm Stopped!")
 
+        print("\nHabit Score :", habit_score)
+        print("Habit Level :", habit.get_level())
+
         recommended = engine.difficulty_manager.recommend(
             category=challenge.category
         )
@@ -141,6 +179,26 @@ while True:
             "Success Rate :",
             f"{engine.difficulty_manager.success_rate:.1f}%"
         )
+
+        report = analysis.analyze_user()
+
+        print("\nBehavior Analysis")
+        print("-" * 40)
+
+        for key, value in report.items():
+            print(f"{key}: {value}")
+
+        recommendations = recommendation.generate_recommendation(
+            habit_score,
+            report["Success Rate (%)"],
+            report["Average Response Time (sec)"]
+        )
+
+        print("\nRecommendations")
+        print("-" * 40)
+
+        for item in recommendations:
+            print("•", item)    
 
         break
 
