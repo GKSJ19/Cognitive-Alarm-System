@@ -1,36 +1,52 @@
-from app.models.base import Base
-from app.models.user import User
-from app.models.alarm import Alarm, AlarmTrigger
-from app.models.challenge import Challenge, ChallengeAttempt
-from app.models.analytics import (
-    SleepLog,
-    HabitScore,
-    GoalMetric,
-    Recommendation,
-    Notification,
-    Report,
-)
 from app.models.admin import (
-    PasswordResetToken,
-    CoachAssignment,
     AuditLog,
+    CoachAssignment,
+    PasswordResetToken,
     PlatformSetting,
 )
-from app.models.enums import (
-    AuthProvider,
-    UserRole,
-    GoalType,
-    DifficultyLevel,
-    AlarmType,
-    ChallengeType,
-    VerificationStatus,
-    NotificationType,
-    ReportType,
-    ReportFormat,
-    SleepSource,
-    ChallengeSource,
-    SettingValueType,
+from app.models.alarm import Alarm, AlarmTrigger
+from app.models.analytics import (
+    GoalMetric,
+    HabitScore,
+    Recommendation,
+    Report,
+    SleepLog,
 )
+from app.models.analytics_bi import (
+    AnalyticsEvent,
+    BiReport,
+    DailyUserStat,
+    PlatformStat,
+)
+from app.models.base import Base
+from app.models.challenge import Challenge, ChallengeAttempt
+from app.models.enums import (
+    AlarmType,
+    AnalyticsEventType,
+    AuthProvider,
+    BiReportType,
+    ChallengeSource,
+    ChallengeType,
+    DifficultyLevel,
+    GoalType,
+    NotificationChannel,
+    NotificationPriority,
+    NotificationStatus,
+    NotificationType,
+    ReportFormat,
+    ReportType,
+    SettingValueType,
+    SleepSource,
+    UserRole,
+    VerificationStatus,
+)
+from app.models.notification import (
+    Notification,
+    NotificationPreference,
+    NotificationTemplate,
+    ReminderSchedule,
+)
+from app.models.user import User
 
 __all__ = [
     "Base",
@@ -45,6 +61,13 @@ __all__ = [
     "Recommendation",
     "Notification",
     "Report",
+    "NotificationTemplate",
+    "ReminderSchedule",
+    "NotificationPreference",
+    "AnalyticsEvent",
+    "DailyUserStat",
+    "PlatformStat",
+    "BiReport",
     "PasswordResetToken",
     "CoachAssignment",
     "AuditLog",

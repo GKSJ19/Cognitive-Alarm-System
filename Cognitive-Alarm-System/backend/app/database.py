@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from app.core.settings import settings
 
-
 engine: AsyncEngine = create_async_engine(
     settings.DATABASE_URL,
     echo=False,

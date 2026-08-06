@@ -1,16 +1,19 @@
-from datetime import datetime
+from __future__ import annotations
 
-from pydantic import BaseModel, EmailStr, Field
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class UserBase(BaseModel):
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr
-    goal_type: str | None = None
-    preferred_wake_time: str | None = None
-    sleep_duration_mins: int | None = None
-    timezone: str | None = None
-    difficulty_pref: str | None = None
+    goal_type: Optional[str] = None
+    preferred_wake_time: Optional[str] = None
+    sleep_duration_mins: Optional[int] = None
+    timezone: Optional[str] = None
+    difficulty_pref: Optional[str] = None
 
 
 class UserCreate(UserBase):
@@ -18,21 +21,20 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    name: str | None = None
-    goal_type: str | None = None
-    preferred_wake_time: str | None = None
-    sleep_duration_mins: int | None = None
-    timezone: str | None = None
-    difficulty_pref: str | None = None
+    name: Optional[str] = None
+    goal_type: Optional[str] = None
+    preferred_wake_time: Optional[str] = None
+    sleep_duration_mins: Optional[int] = None
+    timezone: Optional[str] = None
+    difficulty_pref: Optional[str] = None
 
 
 class UserOut(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     role: str
     auth_provider: str
     is_active: bool
     created_at: datetime
     updated_at: datetime
-
-    class Config:
-        orm_mode = True

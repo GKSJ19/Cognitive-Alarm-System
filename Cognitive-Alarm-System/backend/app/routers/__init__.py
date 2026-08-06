@@ -1,12 +1,31 @@
-from app.routers import admin, alarms, auth, challenges, coaches, habits, health, users
+from app.routers import (
+    adaptive_difficulty,
+    admin,
+    alarms,
+    analytics,
+    auth,
+    behavioral_analytics,
+    challenges,
+    coaches,
+    habits,
+    health,
+    notifications,
+    recommendations,
+    users,
+)
 
 __all__ = [
+    "adaptive_difficulty",
     "admin",
     "alarms",
+    "analytics",
     "auth",
+    "behavioral_analytics",
     "challenges",
     "coaches",
     "habits",
     "health",
+    "notifications",
+    "recommendations",
     "users",
 ]

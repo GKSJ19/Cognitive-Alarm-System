@@ -1,25 +1,27 @@
-from datetime import datetime
+from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ChallengeOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     type: str
-    goal_type: str | None
-    difficulty: str | None
+    goal_type: Optional[str]
+    difficulty: Optional[str]
     question: str
     source: str
-    embedding_ref: str | None
+    embedding_ref: Optional[str]
     created_at: datetime
-
-    class Config:
-        orm_mode = True
 
 
 class ChallengeFilter(BaseModel):
-    challenge_type: str | None = None
-    difficulty: str | None = None
+    challenge_type: Optional[str] = None
+    difficulty: Optional[str] = None
 
 
 class ChallengeSubmission(BaseModel):

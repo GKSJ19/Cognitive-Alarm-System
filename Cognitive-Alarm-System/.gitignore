@@ -1,4 +1,41 @@
-.venv/
-**/__pycache__/
+# Python
+__pycache__/
 *.pyc
-backend/.venv/
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+*.db
+
+# Node
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Archives
+*.zip
+
+# Claude / AI
+.claude/

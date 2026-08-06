@@ -1,6 +1,9 @@
-from datetime import date, datetime
+from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from datetime import date, datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SleepLogCreate(BaseModel):
@@ -8,37 +11,35 @@ class SleepLogCreate(BaseModel):
     sleep_start: datetime
     sleep_end: datetime
     duration_mins: int
-    source: str | None = None
+    source: Optional[str] = None
 
 
 class HabitScoreOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     user_id: str
     date: date
-    wake_consistency_score: int | None
-    challenge_success_score: int | None
-    snooze_reduction_score: int | None
-    sleep_adherence_score: int | None
-    total_score: int | None
+    wake_consistency_score: Optional[int]
+    challenge_success_score: Optional[int]
+    snooze_reduction_score: Optional[int]
+    sleep_adherence_score: Optional[int]
+    total_score: Optional[int]
     created_at: datetime
-
-    class Config:
-        orm_mode = True
 
 
 class GoalMetricCreate(BaseModel):
-    date: date | None = None
-    goal_type: str | None = None
-    metric_label: str | None = None
-    metric_value: int | None = None
+    date: Optional[date] = None
+    goal_type: Optional[str] = None
+    metric_label: Optional[str] = None
+    metric_value: Optional[int] = None
 
 
 class RecommendationOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     message: str
-    category: str | None
+    category: Optional[str]
     is_read: bool
     created_at: datetime
-
-    class Config:
-        orm_mode = True

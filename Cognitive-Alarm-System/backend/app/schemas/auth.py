@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -28,8 +31,8 @@ class RegisterRequest(BaseModel):
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr
     password: str = Field(min_length=8)
-    goal_type: str | None = None
-    preferred_wake_time: str | None = None
-    sleep_duration_mins: int | None = None
-    timezone: str | None = None
-    difficulty_pref: str | None = None
+    goal_type: Optional[str] = None
+    preferred_wake_time: Optional[str] = None
+    sleep_duration_mins: Optional[int] = None
+    timezone: Optional[str] = None
+    difficulty_pref: Optional[str] = None
