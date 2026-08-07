@@ -59,6 +59,29 @@ class AIService:
             difficulty=difficulty_map[difficulty]
         )
 
+    def generate_challenge_json(
+        self,
+        category,
+        difficulty
+    ):
+        """
+        Generates a challenge and returns
+        a JSON-ready dictionary.
+        """
+
+        challenge = self.generate_challenge(
+            category,
+            difficulty
+        )
+
+        return {
+            "id": challenge.id,
+            "category": challenge.category,
+            "difficulty": challenge.difficulty,
+            "question": challenge.question,
+            "options": challenge.options,
+            "time_limit": challenge.time_limit_seconds
+        }
     # ----------------------------------------
     # Validate Answer
     # ----------------------------------------
@@ -73,6 +96,29 @@ class AIService:
             challenge,
             answer
         )
+
+    def validate_answer_json(
+        self,
+        challenge,
+        answer
+    ):
+        """
+        Validates an answer and returns
+        a JSON-ready response.
+        """
+
+        result = self.validate_answer(
+            challenge,
+            answer
+        )
+
+        return {
+            "correct": result.is_correct,
+            "score": result.score,
+            "xp": result.xp_earned,
+            "correct_answer": result.correct_answer
+        }
+
 
     # ----------------------------------------
     # Wake-up Verification
@@ -126,19 +172,32 @@ class AIService:
         self,
         habit_score
     ):
+        """
+        Returns recommendations in JSON format.
+        """
 
         report = self.analysis.analyze_user()
 
-        return self.recommendation.generate_recommendation(
+        recommendations = self.recommendation.generate_recommendation(
             habit_score,
             report["Success Rate (%)"],
             report["Average Response Time (sec)"]
         )
+
+        return {
+            "habit_score": habit_score,
+            "recommendations": recommendations
+        }
 
     # ----------------------------------------
     # Behavior Report
     # ----------------------------------------
 
     def behavior_report(self):
+        """
+        Returns behavior analysis in JSON format.
+        """
 
-        return self.analysis.analyze_user()
+        return dict(
+            self.analysis.analyze_user()
+        )
