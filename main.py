@@ -1,36 +1,83 @@
-from fastapi import Depends, FastAPI
+import os
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+import time, logging
 
-from .database import Base, engine
-from .dependencies import require_api_key
-from .routers import api_keys
+app = FastAPI(title="ICAP Backend")
 
-# Creates api_keys.db + the api_keys table on first run (dev-friendly).
-# In production, use Alembic migrations instead of this — see README.
+_allowed_origins = [
+    o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",") if o.strip()
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+
+def _rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(status_code=429, content={"error": "Too many requests"})
+
+app.add_exception_handler(RateLimitExceeded, _rate_limit_handler)
+app.add_middleware(SlowAPIMiddleware)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("icap")
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start = time.time()
+    response = await call_next(request)
+    duration = round((time.time() - start) * 1000, 2)
+    logger.info(f"{request.method} {request.url.path} -> {response.status_code} ({duration}ms)")
+    return response
+
+# --- Import routers (needed for include_router calls below) ---
+from app.routers import (
+    users, alarms, challenges, difficulty, verification,
+    behavior, habit, recommendation, notification, analytics, report, admin
+)
+
+# --- Import models and create tables that don't exist yet ---
+from app.core.database import Base, engine
+from app.models import (
+    user, password_reset_token, alarm, alarm_trigger, challenge,
+    challenge_attempt, notification as notification_model, sleep_log, habit_score,
+    recommendation as recommendation_model, goal_metric, report as report_model,
+    audit_log, coach_assignment, platform_setting,
+)
+from app.routers import (
+    users, alarms, challenges, difficulty, verification,
+    behavior, habit, recommendation, notification, analytics, report, admin, sleep
+)
+
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
-    title="Brain O'Clock — API Key Service",
-    description="Issues and validates API keys for the Cognitive Alarm Platform backend.",
-    version="1.0.0",
-)
+# --- Register routers ---
+app.include_router(users.router, prefix="/users", tags=["User"])
+app.include_router(alarms.router, prefix="/alarms", tags=["Alarm"])
+app.include_router(challenges.router, prefix="/challenges", tags=["Challenge"])
+app.include_router(difficulty.router, prefix="/difficulty", tags=["Adaptive Difficulty"])
+app.include_router(verification.router, prefix="/verify", tags=["Verification"])
+app.include_router(behavior.router, prefix="/behavior", tags=["Behavior Analytics"])
+app.include_router(habit.router, prefix="/habit", tags=["Habit Scoring"])
+app.include_router(recommendation.router, prefix="/recommend", tags=["Recommendation"])
+app.include_router(notification.router, prefix="/notify", tags=["Notification"])
+app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
+app.include_router(report.router, prefix="/reports", tags=["Report"])
+app.include_router(admin.router, prefix="/admin", tags=["Admin"])
+app.include_router(sleep.router, prefix="/sleep", tags=["Sleep"])
 
-app.include_router(api_keys.router)
-
-
-@app.get("/", tags=["Health"])
+@app.get("/")
 def root():
-    return {"status": "ok", "service": "brain-oclock-api-key-service"}
-
-
-@app.get(
-    "/protected-example",
-    tags=["Example"],
-    dependencies=[Depends(require_api_key)],
-)
-def protected_example():
-    """
-    Demo of a protected route. Any real route (alarms, habits, profile...)
-    can be locked down the same way — just add
-    `dependencies=[Depends(require_api_key)]` to its decorator.
-    """
-    return {"message": "You're authenticated! This route required a valid X-API-Key."}
+    return {"message": "ICAP Gateway is running"}
