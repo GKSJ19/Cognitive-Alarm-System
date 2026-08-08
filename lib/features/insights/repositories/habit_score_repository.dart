@@ -1,21 +1,9 @@
 import 'dart:math';
 import '../models/habit_score_model.dart';
 
-/// STATUS: mock-only. The live /habit-score endpoint (EnvConfig.aiHost)
-/// does not yet return components or a trend series — Section 6.2 of the
-/// Master Team Plan documents this as Member 3's Week 5-6 deliverable,
-/// frozen once the dashboard sprint begins. Swap fetchHabitScore's body
-/// for a real call once that lands; the return shape (HabitScoreModel)
-/// already matches the documented contract, so the screen shouldn't need
-/// changes — just this repository.
-///
-/// To go live: replace the mock body with something like
-///   final json = await apiClient.get('${EnvConfig.aiHost}/habit-score');
-///   return HabitScoreModel.fromJson(json as Map<String, dynamic>);
-/// following the same absolute-URL-bypass pattern as RecommendationRepository.
+
 class HabitScoreRepository {
-  /// Set this false to preview the empty state new users will see before
-  /// they have any habit-score history.
+ .
   final bool userHasHistory;
 
   HabitScoreRepository({this.userHasHistory = true});
