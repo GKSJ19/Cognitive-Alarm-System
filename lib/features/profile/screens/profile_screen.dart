@@ -3,12 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cognitive_alarm_platform/core/providers/auth_provider.dart';
 import 'package:cognitive_alarm_platform/core/themes/app_theme.dart';
 
-/// Minimal profile screen. Only uses fields already confirmed elsewhere
-/// in the app — home_screen.dart reads user.displayName and user.email
-/// off authStateProvider, so those are safe. If your BackendUser model
-/// has more fields you want shown here (avatar, streak, join date,
-/// goal, etc.), add them — I deliberately didn't invent fields I
-/// couldn't confirm exist.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
