@@ -7,8 +7,7 @@ import '../models/habit_score_model.dart';
 import '../repositories/habit_score_repository.dart';
 import '../widgets/habit_score_rings.dart';
 
-/// Plain-language framing per component — the doc's design note wants
-/// "a plain-language breakdown of each component," not just raw numbers.
+
 const _componentCopy = {
   'Wake-Up Consistency': 'How close your actual wake-ups land to your set alarm time.',
   'Challenge Completion': 'How often you finish the wake-up challenge instead of dismissing it.',
