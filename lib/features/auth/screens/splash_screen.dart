@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 
 import '../../../core/themes/app_theme.dart';
-import 'login_screen.dart';
+import '../../../core/providers/auth_provider.dart';
+import '../../../core/routes/app.routes.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _entranceController;
@@ -30,9 +33,8 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2200),
-    )..repeat(reverse: true, period: const Duration(seconds: 2));
+    )..repeat(reverse: true, period: const Duration(seconds: 6));
 
-    // One-shot entrance controller (separate from the looping glow pulse).
     _entranceController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1100),
@@ -69,19 +71,19 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 500),
-          pageBuilder: (_, animation, __) => FadeTransition(
-            opacity: animation,
-            child: const LoginScreen(),
-          ),
-        ),
-      );
-    });
+    _checkSessionAndNavigate();
+  }
+
+
+  Future<void> _checkSessionAndNavigate() async {
+    final minimumDisplay = Future.delayed(const Duration(seconds: 5));
+    final loggedInFuture = ref.read(isLoggedInProvider.future);
+
+    final results = await Future.wait([minimumDisplay, loggedInFuture]);
+    final loggedIn = results[1] as bool;
+
+    if (!mounted) return;
+    context.go(loggedIn ? AppRoutes.home : AppRoutes.login);
   }
 
   @override
@@ -99,7 +101,6 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Base gradient — deep navy to slate for a calm, corporate feel.
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -114,9 +115,6 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
           ),
-
-          // Decorative soft blobs — subtle, low-saturation depth rather
-          // than bright accent color washes.
           Positioned(
             top: -size.width * 0.25,
             right: -size.width * 0.2,
@@ -133,18 +131,12 @@ class _SplashScreenState extends State<SplashScreen>
               color: const Color(0xFF1F3A52).withValues(alpha: 0.28),
             ),
           ),
-
-          // Faint scattered "spark" dots for texture.
           const Positioned.fill(child: _SparkField()),
-
-          // Foreground content.
           SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(flex: 3),
-
-                // Logo with pulsing glow + glass ring.
                 AnimatedBuilder(
                   animation: Listenable.merge([_controller, _logoScale]),
                   builder: (context, child) {
@@ -200,10 +192,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 28),
-
-                // Title with a slow shimmer sweep and lifted shadow.
                 SlideTransition(
                   position: _titleSlide,
                   child: FadeTransition(
@@ -211,7 +200,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        final t = _controller.value; // 0 -> 1 -> 0 (looping)
+                        final t = _controller.value;
                         return ShaderMask(
                           blendMode: BlendMode.srcIn,
                           shaderCallback: (bounds) => LinearGradient(
@@ -247,9 +236,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 14),
-
                 FadeTransition(
                   opacity: _taglineFade,
                   child: Container(
@@ -290,15 +277,11 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
                 ),
-
                 const Spacer(flex: 3),
-
-                // Refined loading indicator: three softly pulsing dots.
                 FadeTransition(
                   opacity: _taglineFade,
                   child: const _PulsingDots(),
                 ),
-
                 const SizedBox(height: 40),
               ],
             ),
@@ -309,7 +292,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-/// A soft, blurred circular glow used as a decorative background accent.
 class _SoftGlow extends StatelessWidget {
   final double diameter;
   final Color color;
@@ -331,7 +313,6 @@ class _SoftGlow extends StatelessWidget {
   }
 }
 
-/// Scattered faint dots painted once for subtle texture across the screen.
 class _SparkField extends StatelessWidget {
   const _SparkField();
 
@@ -344,7 +325,7 @@ class _SparkField extends StatelessWidget {
 class _SparkPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final rand = math.Random(7); // fixed seed => stable layout
+    final rand = math.Random(7);
     final paint = Paint()..color = Colors.white.withValues(alpha: 0.22);
 
     for (int i = 0; i < 24; i++) {
@@ -360,8 +341,6 @@ class _SparkPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-/// Three dots that gently pulse in sequence — a friendlier loading cue
-/// than a bare CircularProgressIndicator.
 class _PulsingDots extends StatefulWidget {
   const _PulsingDots();
 
@@ -419,9 +398,6 @@ class _PulsingDotsState extends State<_PulsingDots>
   }
 }
 
-/// The Nuera logo mark: a calm "mind" figure with a small awakening spark
-/// badge layered on top — reads as an intentional logo rather than a bare
-/// stock icon.
 class _NueraMark extends StatelessWidget {
   const _NueraMark();
 

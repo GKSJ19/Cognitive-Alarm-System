@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'register_screen.dart';
-import '../../home/screens/home_screen.dart';
 import 'package:cognitive_alarm_platform/core/providers/auth_provider.dart';
+import 'package:cognitive_alarm_platform/core/routes/app.routes.dart';
+import 'package:cognitive_alarm_platform/core/themes/app_theme.dart';
+import 'package:cognitive_alarm_platform/core/widgets/auth_header.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +20,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool _obscurePassword = true;
   bool _isGoogleSigningIn = false;
 
   @override
@@ -25,7 +30,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  bool _isLoggingIn = false;
+
+  Future<void> _handleLogin() async {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
@@ -36,33 +43,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    // TODO: replace with real auth once the backend/API contract lands.
-    debugPrint("Login attempted: $email");
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
-    );
+    setState(() => _isLoggingIn = true);
+    try {
+      await ref.read(authRepositoryProvider).loginWithBackend(
+        email: email,
+        password: password,
+      );
+      if (!mounted) return;
+      context.go(AppRoutes.home);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login failed: $e")),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoggingIn = false);
+    }
   }
 
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isGoogleSigningIn = true);
-
     try {
-      final authService = ref.read(authServiceProvider);
-      final userCredential = await authService.signInWithGoogle();
-
+      final loggedIn = await ref.read(authRepositoryProvider).loginWithGoogle();
       if (!mounted) return;
-
-      if (userCredential == null) {
-        // User cancelled the picker — do nothing.
-        return;
-      }
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
+      if (!loggedIn) return; // user cancelled the Google picker
+      context.go(AppRoutes.home);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,121 +82,95 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.alarm,
-                  size: 80,
-                  color: Colors.blue,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Welcome Back!",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Sign in to continue",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 30),
-                TextField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    hintText: "Enter your email",
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    hintText: "Enter your password",
-                    prefixIcon: Icon(Icons.lock),
-                    suffixIcon: Icon(Icons.visibility_off),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _handleLogin,
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: const [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("OR"),
-                    ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: OutlinedButton.icon(
-                    onPressed: _isGoogleSigningIn ? null : _handleGoogleSignIn,
-                    icon: _isGoogleSigningIn
-                        ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                        : const Icon(Icons.g_mobiledata, size: 28),
-                    label: Text(
-                      _isGoogleSigningIn ? "Signing in..." : "Sign in with Google",
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Forgot Password?"),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const AuthHeader(
+                title: 'Welcome back',
+                subtitle: 'Sign in to keep your mornings sharp',
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
+                child: Column(
                   children: [
-                    const Text("Don't have an account? "),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text("Register"),
+                    AuthTextField(
+                      controller: emailController,
+                      label: 'Email',
+                      icon: Icons.mail_outline,
+                      keyboardType: TextInputType.emailAddress,
                     ),
+                    const SizedBox(height: 16),
+                    AuthTextField(
+                      controller: passwordController,
+                      label: 'Password',
+                      icon: Icons.lock_outline,
+                      obscureText: _obscurePassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(foregroundColor: NueraColors.indigo),
+                        child: const Text('Forgot password?'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: _isLoggingIn ? null : _handleLogin,
+                        child: _isLoggingIn
+                            ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        )
+                            : const Text('Sign in', style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const AuthDivider(),
+                    const SizedBox(height: 20),
+                    GoogleSignInButton(
+                      isLoading: _isGoogleSigningIn,
+                      onPressed: _handleGoogleSignIn,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Don't have an account? "),
+                        TextButton(
+                          style: TextButton.styleFrom(foregroundColor: NueraColors.indigo),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                            );
+                          },
+                          child: const Text('Register'),
+                        ),
+                      ],
+                    ),
+                    if (kDebugMode)
+                      TextButton(
+                        onPressed: () async {
+                          await ref.read(authRepositoryProvider).debugForceLogin();
+                          if (context.mounted) context.go(AppRoutes.home);
+                        },
+                        child: const Text('Skip Login (Dev Only)'),
+                      ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

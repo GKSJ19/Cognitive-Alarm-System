@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cognitive_alarm_platform/core/services/notification_service.dart';
 import 'package:cognitive_alarm_platform/features/alarm/models/alarm_model.dart';
 import 'package:cognitive_alarm_platform/features/alarm/providers/alarm_provider.dart';
+import 'package:cognitive_alarm_platform/features/challenges/challenge_category.dart';
 
 class AddAlarmScreen extends ConsumerStatefulWidget {
   const AddAlarmScreen({super.key});
@@ -14,14 +15,69 @@ class AddAlarmScreen extends ConsumerStatefulWidget {
 class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
   TimeOfDay selectedTime = const TimeOfDay(hour: 6, minute: 30);
   final TextEditingController labelController = TextEditingController();
-  String selectedChallenge = "Math";
+  ChallengeCategory selectedChallenge = ChallengeCategory.values.first;
   bool vibration = true;
   bool sound = true;
+  final Set<int> selectedRepeatDays = {};
+
+  static const _dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   @override
   void dispose() {
     labelController.dispose();
     super.dispose();
+  }
+
+  Future<void> _save() async {
+    final id = DateTime.now().microsecondsSinceEpoch.toString();
+    final now = DateTime.now();
+
+    DateTime scheduledTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+
+    if (selectedRepeatDays.isEmpty && scheduledTime.isBefore(now)) {
+      scheduledTime = scheduledTime.add(const Duration(days: 1));
+    }
+
+    final alarm = AlarmModel(
+      id: id,
+      time: scheduledTime,
+      label: labelController.text.isEmpty ? "Alarm" : labelController.text,
+      challengeType: selectedChallenge.storageKey,
+      vibration: vibration,
+      sound: sound,
+      repeatDays: selectedRepeatDays.toList()..sort(),
+    );
+
+    try {
+      await ref.read(alarmListProvider.notifier).addAlarm(alarm);
+
+      await NotificationService.scheduleNotification(
+        id: id.hashCode,
+        title: "Smart Alarm",
+        body: alarm.label,
+        scheduledTime: scheduledTime,
+      );
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Couldn't save alarm: $e")),
+        );
+      }
+      return;
+    }
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Alarm scheduled successfully!")),
+      );
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -61,36 +117,61 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
               ),
               const SizedBox(height: 25),
               const Text("Repeat", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 15),
+              const SizedBox(height: 4),
+              Text(
+                selectedRepeatDays.isEmpty ? "One-time alarm" : "Repeats weekly",
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+              ),
+              const SizedBox(height: 12),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: const [
-                  Chip(label: Text("Mon")),
-                  Chip(label: Text("Tue")),
-                  Chip(label: Text("Wed")),
-                  Chip(label: Text("Thu")),
-                  Chip(label: Text("Fri")),
-                  Chip(label: Text("Sat")),
-                  Chip(label: Text("Sun")),
-                ],
+                children: List.generate(_dayLabels.length, (index) {
+                  final isSelected = selectedRepeatDays.contains(index);
+                  return FilterChip(
+                    label: Text(_dayLabels[index]),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() {
+                        if (selected) {
+                          selectedRepeatDays.add(index);
+                        } else {
+                          selectedRepeatDays.remove(index);
+                        }
+                      });
+                    },
+                  );
+                }),
               ),
               const SizedBox(height: 25),
               const Text("Challenge Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<ChallengeCategory>(
                 decoration: const InputDecoration(border: OutlineInputBorder()),
                 value: selectedChallenge,
-                items: const [
-                  DropdownMenuItem(value: "Math", child: Text("Math")),
-                  DropdownMenuItem(value: "Memory", child: Text("Memory")),
-                  DropdownMenuItem(value: "Riddle", child: Text("Riddle")),
-                ],
+                items: ChallengeCategory.values
+                    .map((category) => DropdownMenuItem(
+                  value: category,
+                  child: Text(category.label),
+                ))
+                    .toList(),
                 onChanged: (value) {
+                  if (value == null) return;
                   setState(() {
-                    selectedChallenge = value!;
+                    selectedChallenge = value;
                   });
                 },
+              ),
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: selectedChallenge.subtypes
+                    .map((s) => Text(
+                  '• $s',
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                ))
+                    .toList(),
               ),
               const SizedBox(height: 25),
               SwitchListTile(
@@ -116,46 +197,7 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    final id = DateTime.now().microsecondsSinceEpoch.toString();
-
-                    final alarm = AlarmModel(
-                      id: id,
-                      time: selectedTime,
-                      label: labelController.text.isEmpty ? "Alarm" : labelController.text,
-                      challengeType: selectedChallenge,
-                      vibration: vibration,
-                      sound: sound,
-                    );
-
-                    ref.read(alarmListProvider.notifier).addAlarm(alarm);
-
-                    final now = DateTime.now();
-                    DateTime scheduledTime = DateTime(
-                      now.year,
-                      now.month,
-                      now.day,
-                      selectedTime.hour,
-                      selectedTime.minute,
-                    );
-                    if (scheduledTime.isBefore(now)) {
-                      scheduledTime = scheduledTime.add(const Duration(days: 1));
-                    }
-
-                    await NotificationService.scheduleNotification(
-                      id: id.hashCode,
-                      title: "Smart Alarm",
-                      body: alarm.label,
-                      scheduledTime: scheduledTime,
-                    );
-
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Alarm scheduled successfully!")),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
+                  onPressed: _save,
                   child: const Text("Save Alarm", style: TextStyle(fontSize: 18)),
                 ),
               ),
