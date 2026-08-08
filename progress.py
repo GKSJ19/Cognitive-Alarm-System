@@ -1,7 +1,8 @@
-def get_progress():
+def get_progress(days_completed, total_days):
+    progress = (days_completed / total_days) * 100 if total_days > 0 else 0
+
     return {
-        "Daily Progress": "80%",
-        "Weekly Progress": "75%",
-        "Habit Score": 83,
-        "Current Difficulty": "Medium"
+        "Days Completed": days_completed,
+        "Total Days": total_days,
+        "Progress": f"{progress:.0f}%"
     }

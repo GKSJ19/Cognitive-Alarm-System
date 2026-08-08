@@ -6,5 +6,4 @@ def calculate_habit_score(on_time_rate,
         (challenge_success) * 0.3 +
         (snooze_rate) * 0.2
     )
-
     return round(score, 2)
