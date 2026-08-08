@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:cognitive_alarm_platform/presentation/providers/coach_dashboard_provider.dart';
 import 'package:cognitive_alarm_platform/presentation/widgets/stat_card.dart';
 import 'package:cognitive_alarm_platform/data/repositories/coach_dashboard_repository.dart';
-import '../../../core/routes/app.routes.dart'; // ⚠️ confirm this relative path matches this file's actual depth
+import '../../../core/routes/app.routes.dart'; 
 
 class CoachDashboardScreen extends ConsumerWidget {
   const CoachDashboardScreen({super.key});
@@ -118,10 +118,7 @@ class CoachDashboardScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              // TODO: link to a Users list screen backed by GET /coach/users,
-              // and per-user analytics via GET /coach/users/{user_id}/analytics
-              // — this is where per-user recommendations now live, since the
-              // dashboard endpoint doesn't return an aggregate list.
+           
             ],
           ),
         ),
