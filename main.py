@@ -9,7 +9,6 @@ from progress import get_progress
 from challenge_score import calculate_challenge_score
 from verification import verify_user
 from challenge_analytics import challenge_report
-from cognitive_challenge import get_cognitive_challenge
 
 from sleep_score import calculate_sleep_score
 from active_users import get_active_users
@@ -28,12 +27,7 @@ def home():
     return {
         "message": "AI & Analytics Service"
     }
-
-# -----------------------------
-# Milestone 1 APIs
-# -----------------------------
-
-# Habit Score API
+    
 @app.get("/habit-score")
 def habit_score():
     profile = get_user_profile()
@@ -57,7 +51,6 @@ def habit_score():
         "snooze_limit": snooze_limit
     }
 
-# Difficulty Prediction API
 @app.get("/difficulty")
 def difficulty():
     profile = get_user_profile()
@@ -69,7 +62,6 @@ def difficulty():
         "difficulty": level
     }
 
-# Recommendation API
 @app.get("/recommendation")
 def recommendation():
     profile = get_user_profile()
@@ -107,11 +99,6 @@ def progress():
         "habit_preferences": profile.get("habit_preferences")
     }
 
-# -----------------------------
-# Milestone 2 APIs
-# -----------------------------
-
-# Challenge Score API
 @app.get("/challenge-score")
 def challenge_score(correct: int, total: int):
 
@@ -121,7 +108,6 @@ def challenge_score(correct: int, total: int):
         "Challenge Score": score
     }
 
-# Wake-up Verification API
 @app.get("/verification")
 def verification(correct: int, total: int):
     score = calculate_challenge_score(correct, total)
@@ -130,7 +116,6 @@ def verification(correct: int, total: int):
         "Verification Status": status
     }
 
-# Challenge Analytics API
 @app.get("/challenge-analytics")
 def challenge_analytics(
     attempted: int,
@@ -143,16 +128,6 @@ def challenge_analytics(
         total_score
     )
 
-# Cognitive Challenge API
-@app.get("/cognitive-challenge")
-def cognitive_challenge():
-    return get_cognitive_challenge()
-
-#------------------------------
-# Milestone 3 APIs
-# -----------------------------
-
-#Sleep Score
 @app.get("/sleep-score")
 def sleep_score():
     profile = get_user_profile()
@@ -174,12 +149,10 @@ def sleep_score():
         "sleep_score": score
     }
 
-#Active Users
 @app.get("/active-users")
 def active_users(active_users: int):
     return get_active_users(active_users)
 
-#Alarm Statistics
 @app.get("/alarm-statistics")
 def alarm_statistics(
     created: int,
@@ -189,7 +162,6 @@ def alarm_statistics(
 ):
     return get_alarm_statistics(created, completed, missed, snoozed)
 
-#daily trends
 @app.get("/daily-trends")
 def daily(
     habit_score: int,
@@ -202,7 +174,6 @@ def daily(
         sleep_score
     )
 
-#Weekly Trends
 @app.get("/weekly-trends")
 def weekly(
     avg_habit: int,
@@ -215,7 +186,6 @@ def weekly(
         avg_sleep
     )
 
-#Monthly Trends
 @app.get("/monthly-trends")
 def monthly(
     habit: int,
