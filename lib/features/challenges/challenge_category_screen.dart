@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../challenges/challenge_category.dart'; // ⚠️ adjust path if this enum lives elsewhere in your project
-import '../challenges/challenge_screen.dart'; // ⚠️ adjust import path to your actual ChallengeScreen location
+import '../challenges/challenge_category.dart';
+import '../challenges/challenge_screen.dart'; 
 
 
 class ChallengeCategoryScreen extends StatelessWidget {
