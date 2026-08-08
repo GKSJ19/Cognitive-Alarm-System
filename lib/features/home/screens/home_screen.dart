@@ -72,15 +72,12 @@ class HomeScreen extends ConsumerWidget {
               ),
               const BatteryOptimizationBanner(),
 
-              // --- DEBUG ONLY: quick role switcher + role-gated route
-              // testers. Remove before release build (Milestone 4).
+
               if (kDebugMode)
                 Builder(
                   builder: (context) {
                     final isDark = Theme.of(context).brightness == Brightness.dark;
-                    // amber.shade300/200 read fine on a dark background but
-                    // become near-invisible on this same tint in light mode
-                    // — use a much darker amber for text there instead.
+                   
                     final labelColor = isDark ? Colors.amber.shade300 : Colors.amber.shade900;
                     return Container(
                       margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -210,10 +207,7 @@ class HomeScreen extends ConsumerWidget {
                             MaterialPageRoute(builder: (_) => const ProfileScreen()),
                           ),
                         ),
-                        // Real (non-debug) entry point for coaches/admins — the
-                        // debug-only "DEV NAV" banner above was the only way to
-                        // reach these screens before, which meant a real coach
-                        // or admin user had no way in outside dev mode.
+                        
                         if (isAdmin)
                           _DashboardTile(
                             icon: Icons.admin_panel_settings_outlined,
@@ -242,7 +236,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
 
-              // --- Recommendations panel (Milestone 3, Priority 1) ---
+              // --- Recommendations panel  ---
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
                 child: const RecommendationsPanel(),
@@ -291,8 +285,7 @@ class _DebugRoleChip extends ConsumerWidget {
   }
 }
 
-/// Combines what used to be a bare AppBar('Nuera') + a separate
-/// "Welcome back" text block into one branded indigo-deep header.
+
 class _HomeHeader extends StatelessWidget {
   final String displayName;
   final int activeCount;
