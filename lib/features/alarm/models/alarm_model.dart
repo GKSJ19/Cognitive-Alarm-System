@@ -23,12 +23,28 @@ class AlarmModel {
   @HiveField(8)
   final String? soundPath;
 
-
   @HiveField(9)
   final String? backendId;
 
   @HiveField(10)
   final String difficulty;
+
+  /// Whether the difficulty of this alarm's challenge is being actively
+  /// tuned by Member 3's Adaptive Difficulty Engine, vs. a static preset.
+  /// Defaults false: until the backend actually sends `is_adaptive` on the
+  /// alarm-list response (Section 5.2), we don't claim an alarm is adaptive
+  /// just to make the tag show up.
+  @HiveField(11)
+  final bool isAdaptive;
+
+  /// 'device' or 'server' — which mechanism actually fires this alarm.
+  /// Unlike isAdaptive, this one Member 4 can set truthfully client-side:
+  /// every alarm in this app is currently scheduled locally via
+  /// android_alarm_manager_plus, so 'device' is the honest default today,
+  /// not a stub. Update this if/when a server-triggered fallback path
+  /// (FCM-based) is added.
+  @HiveField(12)
+  final String scheduledVia;
 
   AlarmModel({
     required this.id,
@@ -42,6 +58,8 @@ class AlarmModel {
     this.soundPath,
     this.backendId,
     this.difficulty = 'Medium',
+    this.isAdaptive = false,
+    this.scheduledVia = 'device',
   });
 
   AlarmModel copyWith({
@@ -55,6 +73,8 @@ class AlarmModel {
     String? soundPath,
     String? backendId,
     String? difficulty,
+    bool? isAdaptive,
+    String? scheduledVia,
   }) {
     return AlarmModel(
       id: id,
@@ -68,6 +88,8 @@ class AlarmModel {
       soundPath: soundPath ?? this.soundPath,
       backendId: backendId ?? this.backendId,
       difficulty: difficulty ?? this.difficulty,
+      isAdaptive: isAdaptive ?? this.isAdaptive,
+      scheduledVia: scheduledVia ?? this.scheduledVia,
     );
   }
 }

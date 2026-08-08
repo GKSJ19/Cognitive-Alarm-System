@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+
 
 part of 'alarm_model.dart';
 
@@ -26,13 +26,17 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
       isEnabled: fields[6] as bool,
       repeatDays: (fields[7] as List).cast<int>(),
       soundPath: fields[8] as String?,
+      backendId: fields[9] as String?,
+      difficulty: fields[10] as String? ?? 'Medium',
+      isAdaptive: fields[11] as bool? ?? false,
+      scheduledVia: fields[12] as String? ?? 'device',
     );
   }
 
   @override
   void write(BinaryWriter writer, AlarmModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +54,15 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
       ..writeByte(7)
       ..write(obj.repeatDays)
       ..writeByte(8)
-      ..write(obj.soundPath);
+      ..write(obj.soundPath)
+      ..writeByte(9)
+      ..write(obj.backendId)
+      ..writeByte(10)
+      ..write(obj.difficulty)
+      ..writeByte(11)
+      ..write(obj.isAdaptive)
+      ..writeByte(12)
+      ..write(obj.scheduledVia);
   }
 
   @override
@@ -59,7 +71,7 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AlarmModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+          other is AlarmModelAdapter &&
+              runtimeType == other.runtimeType &&
+              typeId == other.typeId;
 }

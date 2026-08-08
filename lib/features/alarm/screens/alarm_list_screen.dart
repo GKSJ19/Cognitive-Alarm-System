@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/themes/app_theme.dart';
 import 'package:cognitive_alarm_platform/features/alarm/providers/alarm_provider.dart';
+import '../../../core/widgets/battery_optimization_banner.dart';
+import 'package:cognitive_alarm_platform/features/alarm/widgets/alarm_tag_row.dart';
 import '../models/alarm_model.dart';
 import 'alarm_detail_screen.dart';
 import 'add_alarm_screen.dart';
@@ -28,6 +30,9 @@ class AlarmListScreen extends ConsumerWidget {
           data: (alarms) => CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: _NextAlarmHero(alarms: alarms)),
+              const SliverToBoxAdapter(
+                child: BatteryOptimizationBanner(),
+              ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 20, 16, 100),
                 sliver: alarms.isEmpty
@@ -227,6 +232,8 @@ class _AlarmCard extends StatelessWidget {
                         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                       Text(alarm.label, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                      const SizedBox(height: 4),
+                      AlarmTagRow(alarm: alarm),
                     ],
                   ),
                 ),

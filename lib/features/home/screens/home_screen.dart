@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:cognitive_alarm_platform/core/widgets/battery_optimization_banner.dart';
 import 'package:cognitive_alarm_platform/core/providers/auth_provider.dart';
 import 'package:cognitive_alarm_platform/core/themes/app_theme.dart';
 import 'package:cognitive_alarm_platform/core/widgets/neura_mark.dart';
@@ -17,6 +17,7 @@ import '../../challenges/challenge_category_screen.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../coach/screens/coach_dashboard_screen.dart';
 import '../../admin/screens/admin_dashboard_screen.dart';
+
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -69,6 +70,7 @@ class HomeScreen extends ConsumerWidget {
                 activeCount: activeCount,
                 onSignOut: () => _handleSignOut(context, ref),
               ),
+              const BatteryOptimizationBanner(),
 
               // --- DEBUG ONLY: quick role switcher + role-gated route
               // testers. Remove before release build (Milestone 4).
