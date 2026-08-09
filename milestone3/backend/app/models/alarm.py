@@ -29,6 +29,10 @@ class AlarmCreate(BaseModel):
     vibration: bool = True
     snooze_enabled: bool = True
     difficulty: str = "Medium"
+    # 5.2: challenge_type for per-alarm challenge selection
+    challenge_type: str = "Math"  # Math, Logic, Memory, Pattern, Word, Riddle, Quick Quiz
+    # 5.2: scheduled_via — how this alarm is triggered on device
+    scheduled_via: str = "device"  # "device" (AlarmManager/local) or "server" (push-triggered)
 
 class AlarmUpdate(BaseModel):
     label: Optional[str] = None
@@ -41,6 +45,8 @@ class AlarmUpdate(BaseModel):
     vibration: Optional[bool] = None
     snooze_enabled: Optional[bool] = None
     difficulty: Optional[str] = None
+    challenge_type: Optional[str] = None
+    scheduled_via: Optional[str] = None
 
 class AlarmModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
@@ -55,6 +61,12 @@ class AlarmModel(BaseModel):
     vibration: bool = True
     snooze_enabled: bool = True
     difficulty: str = "Medium"
+    # 5.2: per-alarm challenge type exposed in list response
+    challenge_type: str = "Math"
+    # 5.2: computed flag — True if difficulty was set by Member 3's Adaptive Difficulty Engine
+    is_adaptive: bool = False
+    # 5.2: how the alarm is scheduled on the device
+    scheduled_via: str = "device"  # "device" or "server"
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -72,6 +84,9 @@ class AlarmLogModel(BaseModel):
     snooze_count: int = 0
     verification_passed: bool = False
     challenge_id: Optional[str] = None
+    # 5.2: analytics fields
+    dismissed_on_time: Optional[bool] = None   # True if dismissed within expected window
+    challenge_accuracy: Optional[float] = None  # ratio of correct / total attempts
 
     class Config:
         populate_by_name = True

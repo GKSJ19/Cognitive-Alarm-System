@@ -4,7 +4,7 @@ from datetime import datetime
 from bson import ObjectId
 
 from app.core.database import get_db
-from app.models.alarm import AlarmModel, AlarmCreate, AlarmUpdate
+from app.models.alarm import AlarmModel, AlarmCreate, AlarmUpdate, AlarmLogModel
 from app.models.user import UserModel
 from app.api.deps import get_current_active_user
 
@@ -19,6 +19,7 @@ async def create_alarm(
     """Create a new alarm."""
     alarm_dict = alarm_in.dict()
     alarm_dict["user_id"] = str(current_user.id)
+    alarm_dict["is_adaptive"] = False  # starts as manual; set True by Member 3's engine
     alarm_dict["created_at"] = datetime.utcnow()
     alarm_dict["updated_at"] = datetime.utcnow()
 
@@ -31,7 +32,12 @@ async def get_alarms(
     current_user: UserModel = Depends(get_current_active_user),
     db = Depends(get_db)
 ) -> Any:
-    """Get all alarms for current user."""
+    """
+    Get all alarms for current user.
+    Response includes challenge_type, is_adaptive, and scheduled_via
+    so Member 4 can render per-alarm challenge badge and adaptive tag
+    without a second lookup.
+    """
     alarms_cursor = db["alarms"].find({"user_id": str(current_user.id)})
     alarms = await alarms_cursor.to_list(length=200)
     return [AlarmModel(**alarm) for alarm in alarms]
@@ -96,3 +102,36 @@ async def toggle_alarm(
 
     updated_alarm = await db["alarms"].find_one({"_id": ObjectId(alarm_id)})
     return AlarmModel(**updated_alarm)
+
+@router.post("/fire/{alarm_id}", response_model=AlarmLogModel)
+async def fire_alarm(
+    alarm_id: str,
+    current_user: UserModel = Depends(get_current_active_user),
+    db = Depends(get_db)
+) -> Any:
+    """
+    Called by the Flutter app when an alarm fires on device.
+    Creates an alarm_log entry and returns the alarm_log_id
+    required by POST /verification/start and POST /challenges/submit.
+    """
+    if not ObjectId.is_valid(alarm_id):
+        raise HTTPException(status_code=400, detail="Invalid alarm ID")
+
+    alarm = await db["alarms"].find_one({"_id": ObjectId(alarm_id), "user_id": str(current_user.id)})
+    if not alarm:
+        raise HTTPException(status_code=404, detail="Alarm not found")
+
+    log_dict = {
+        "alarm_id": alarm_id,
+        "user_id": str(current_user.id),
+        "ring_time": datetime.utcnow(),
+        "snooze_count": 0,
+        "verification_passed": False,
+        "challenge_id": None,
+        "dismiss_time": None,
+        "dismissed_on_time": None,
+        "challenge_accuracy": None,
+    }
+    result = await db["alarm_logs"].insert_one(log_dict)
+    log_dict["_id"] = result.inserted_id
+    return AlarmLogModel(**log_dict)
