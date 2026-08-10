@@ -5,6 +5,7 @@ import AppInput from '../../components/common/AppInput';
 import AppButton from '../../components/common/AppButton';
 import LoadingOverlay from '../../components/common/LoadingOverlay';
 import alarmService from '../../services/alarmService';
+import { playAlarmSound, stopAlarmSound } from '../../services/alarmSoundService';
 
 interface AlarmRingingScreenProps {
   route: any;
@@ -50,16 +51,20 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
     return unsubscribe;
   }, [navigation, isSolved, isPreview]);
 
-  // 2. Start continuous hardware vibration and stop it on unmount or when solved
+  // 2. Start continuous hardware vibration + alarm sound, stop on unmount or when solved
   useEffect(() => {
     if (!isSolved && !isPreview) {
       // Vibrate pattern: [wait 1s, vibrate 1s], loop
       Vibration.vibrate([1000, 1000], true);
+      // Play alarm sound (web only – uses Web Audio API)
+      playAlarmSound();
     } else {
       Vibration.cancel();
+      stopAlarmSound();
     }
     return () => {
       Vibration.cancel();
+      stopAlarmSound();
     };
   }, [isSolved]);
 
@@ -145,6 +150,7 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
         setSnackbarMessage(`Alarm Dismissed! Solved in ${solveTimeSec} seconds 🧠`);
         setIsSolved(true);
         Vibration.cancel();
+        stopAlarmSound();
 
         // Navigate back to Home Dashboard/Alarms after showing success details
         setTimeout(() => {
@@ -173,6 +179,7 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
       await alarmService.dismissAlarm(alarm.alarm_id, nowStr, false, 0);
       setIsSolved(true);
       Vibration.cancel();
+      stopAlarmSound();
       setSnackbarMessage("Alarm dismissed.");
       
       navigation.reset({
