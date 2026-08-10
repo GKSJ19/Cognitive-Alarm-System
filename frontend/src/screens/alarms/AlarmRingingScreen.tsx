@@ -14,8 +14,10 @@ interface AlarmRingingScreenProps {
 export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, navigation }) => {
   const theme = useTheme();
   const { alarm } = route.params;
+  const isPreview = route.params?.isPreview || false;
 
   const [isSolved, setIsSolved] = useState(false);
+  const [isChallengeStarted, setIsChallengeStarted] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
 
   // Challenge States
@@ -37,20 +39,20 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
   // 1. Lock navigation back handler
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
-      if (isSolved) {
-        // Allow navigation away if solved
+      if (isSolved || isPreview) {
+        // Allow navigation away if solved or in preview mode
         return;
       }
       // Prevent default behavior of leaving the screen
       e.preventDefault();
-      setSnackbarMessage("You must solve the cognitive challenge to dismiss the alarm!");
+      setSnackbarMessage("You must solve the cognitive challenge to silence the alarm!");
     });
     return unsubscribe;
-  }, [navigation, isSolved]);
+  }, [navigation, isSolved, isPreview]);
 
   // 2. Start continuous hardware vibration and stop it on unmount or when solved
   useEffect(() => {
-    if (!isSolved) {
+    if (!isSolved && !isPreview) {
       // Vibrate pattern: [wait 1s, vibrate 1s], loop
       Vibration.vibrate([1000, 1000], true);
     } else {
@@ -86,26 +88,10 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
           const extra = JSON.parse(chal.additional_data);
           const seq = extra.sequence || chal.question_text;
           setMemorySequence(seq);
-          setShowMemorySequence(true);
-          setSecondsRemaining(3);
-
-          const interval = setInterval(() => {
-            setSecondsRemaining((prev) => {
-              if (prev <= 1) {
-                clearInterval(interval);
-                setShowMemorySequence(false);
-                return 0;
-              }
-              return prev - 1;
-            });
-          }, 1000);
-          setTimerId(interval);
         } else if (chal.category_name === "Quick Quiz" && chal.additional_data) {
           const extra = JSON.parse(chal.additional_data);
           setQuickQuizOptions(extra.options || []);
         }
-
-        setChallengeStartTime(Date.now());
       } catch (err) {
         setSnackbarMessage("Failed to generate cognitive challenge from server. Please retry.");
       } finally {
@@ -115,6 +101,28 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
 
     initChallenge();
   }, [alarm]);
+
+  const handleStartChallenge = () => {
+    setIsChallengeStarted(true);
+    setChallengeStartTime(Date.now());
+
+    if (challenge && challengeCategoryName === "Memory Challenges" && challenge.additional_data) {
+      setShowMemorySequence(true);
+      setSecondsRemaining(3);
+
+      const interval = setInterval(() => {
+        setSecondsRemaining((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setShowMemorySequence(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      setTimerId(interval);
+    }
+  };
 
   // 5. Handle Challenge Submission
   const handleSolveChallenge = async (submittedAnswer: string) => {
@@ -182,6 +190,18 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
     <View style={[styles.container, { backgroundColor: 'rgba(11, 15, 25, 0.98)' }]}>
       <LoadingOverlay visible={challengeLoading} />
       
+      {isPreview && (
+        <Button 
+          mode="text" 
+          textColor={theme.colors.error} 
+          style={styles.exitPreviewBtn}
+          icon="close-circle"
+          onPress={() => navigation.goBack()}
+        >
+          Exit Preview
+        </Button>
+      )}
+
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
         <Card style={[styles.modalCard, { backgroundColor: theme.colors.surface }]}>
           <Card.Content style={styles.modalContent}>
@@ -190,13 +210,25 @@ export const AlarmRingingScreen: React.FC<AlarmRingingScreenProps> = ({ route, n
             <Text style={[styles.alarmLabel, { color: theme.colors.primary }]}>"{alarm.title}"</Text>
             <Text style={[styles.modalSub, { color: theme.colors.onSurfaceVariant }]}>
               {alarm.challenge_required
-                ? `Complete the ${challengeCategoryName || 'Cognitive'} challenge to silence the alarm.`
+                ? isChallengeStarted
+                  ? `Complete the ${challengeCategoryName || 'Cognitive'} challenge to silence the alarm.`
+                  : `This alarm requires a ${challengeCategoryName || 'Cognitive'} challenge to dismiss.`
                 : "Tap below to dismiss the alarm."}
             </Text>
 
             {!alarm.challenge_required ? (
               <AppButton mode="contained" onPress={handleSimpleDismiss} style={styles.solveBtn}>
                 Dismiss Alarm
+              </AppButton>
+            ) : !isChallengeStarted ? (
+              <AppButton 
+                mode="contained" 
+                icon="play-circle" 
+                onPress={handleStartChallenge} 
+                style={styles.solveBtn}
+                buttonColor={theme.colors.primary}
+              >
+                Start Challenge
               </AppButton>
             ) : solvedMessage ? (
               <View style={styles.successBox}>
@@ -377,6 +409,12 @@ const styles = StyleSheet.create({
   successDetails: {
     fontSize: 16,
     textAlign: 'center',
+  },
+  exitPreviewBtn: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 50 : 20,
+    right: 20,
+    zIndex: 10,
   },
 });
 

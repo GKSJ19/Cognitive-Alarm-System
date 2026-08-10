@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Text, useTheme, Card, Button } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
@@ -27,6 +27,43 @@ export const UserDashboardScreen: React.FC<UserDashboardScreenProps> = ({ naviga
   const nextAlarm = activeAlarms.length > 0 
     ? [...activeAlarms].sort((a, b) => a.alarm_time.localeCompare(b.alarm_time))[0]
     : null;
+
+  const [countdownText, setCountdownText] = useState<string>('');
+
+  useEffect(() => {
+    if (!nextAlarm) {
+      setCountdownText('');
+      return;
+    }
+
+    const updateCountdown = () => {
+      const [hoursStr, minutesStr] = nextAlarm.alarm_time.split(':');
+      const hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      const now = new Date();
+      const target = new Date();
+      target.setHours(hours, minutes, 0, 0);
+
+      if (target <= now) {
+        target.setDate(target.getDate() + 1);
+      }
+
+      const diffMs = target.getTime() - now.getTime();
+      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (diffHrs > 0) {
+        setCountdownText(`Rings in ${diffHrs}h ${diffMins}m`);
+      } else {
+        setCountdownText(`Rings in ${diffMins}m`);
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 10000);
+    return () => clearInterval(interval);
+  }, [nextAlarm?.alarm_id, nextAlarm?.alarm_time]);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
@@ -79,6 +116,11 @@ export const UserDashboardScreen: React.FC<UserDashboardScreenProps> = ({ naviga
                     {nextAlarm.alarm_time}
                   </Text>
                   <Text style={{ color: theme.colors.onSurfaceVariant }}>{nextAlarm.title}</Text>
+                  {countdownText ? (
+                    <Text style={{ color: theme.colors.primary, fontWeight: 'bold', fontSize: 12, marginTop: 4 }}>
+                      ⏰ {countdownText}
+                    </Text>
+                  ) : null}
                 </View>
                 {nextAlarm.challenge_type ? (
                   <View style={[styles.badge, { backgroundColor: theme.colors.primaryContainer }]}>

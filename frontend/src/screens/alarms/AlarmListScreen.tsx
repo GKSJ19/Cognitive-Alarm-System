@@ -17,34 +17,13 @@ export const AlarmListScreen: React.FC<AlarmListScreenProps> = ({ navigation }) 
   const { alarms, isLoading, error, getAlarms, updateAlarm, dismissAlarm, clearError } = useAlarms();
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
 
-  // Challenge Simulation States
-  const [simulationModalVisible, setSimulationModalVisible] = useState(false);
-  const [simulatingAlarm, setSimulatingAlarm] = useState<any>(null);
-  const [mathAnswer, setMathAnswer] = useState('');
-  const [challengeStartTime, setChallengeStartTime] = useState(0);
 
-  const [challengeLoading, setChallengeLoading] = useState(false);
-  const [challenge, setChallenge] = useState<any>(null);
-  const [challengeQuestion, setChallengeQuestion] = useState('');
-  const [challengeCategoryName, setChallengeCategoryName] = useState('');
-  const [memorySequence, setMemorySequence] = useState('');
-  const [showMemorySequence, setShowMemorySequence] = useState(false);
-  const [secondsRemaining, setSecondsRemaining] = useState(0);
-  const [quickQuizOptions, setQuickQuizOptions] = useState<string[]>([]);
-  const [solvedMessage, setSolvedMessage] = useState<string | null>(null);
-  const [attemptCount, setAttemptCount] = useState(1);
-  const [timerId, setTimerId] = useState<any>(null);
 
   useEffect(() => {
     getAlarms();
   }, [getAlarms]);
 
-  // Clean up timer on unmount
-  useEffect(() => {
-    return () => {
-      if (timerId) clearInterval(timerId);
-    };
-  }, [timerId]);
+
 
   const handleToggleActive = async (alarmId: string, currentVal: boolean) => {
     try {
@@ -55,111 +34,8 @@ export const AlarmListScreen: React.FC<AlarmListScreenProps> = ({ navigation }) 
     }
   };
 
-  const startSimulation = async (alarm: any) => {
-    setSimulatingAlarm(alarm);
-    setMathAnswer('');
-    setSolvedMessage(null);
-    setAttemptCount(1);
-    
-    // Clear any existing timer
-    if (timerId) {
-      clearInterval(timerId);
-      setTimerId(null);
-    }
-    setShowMemorySequence(false);
-
-    if (!alarm.challenge_required) {
-      setChallengeCategoryName('');
-      setSimulationModalVisible(true);
-      return;
-    }
-
-    setChallengeLoading(true);
-    setSimulationModalVisible(true);
-
-    try {
-      const chal = await alarmService.generateChallenge(alarm.challenge_type || 'math', alarm.difficulty || 'medium');
-      setChallenge(chal);
-      setChallengeQuestion(chal.question_text);
-      setChallengeCategoryName(chal.category_name);
-
-      if (chal.category_name === "Memory Challenges" && chal.additional_data) {
-        const extra = JSON.parse(chal.additional_data);
-        const seq = extra.sequence || chal.question_text;
-        setMemorySequence(seq);
-        setShowMemorySequence(true);
-        setSecondsRemaining(3);
-
-        const interval = setInterval(() => {
-          setSecondsRemaining((prev) => {
-            if (prev <= 1) {
-              clearInterval(interval);
-              setShowMemorySequence(false);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-        setTimerId(interval);
-      } else if (chal.category_name === "Quick Quiz" && chal.additional_data) {
-        const extra = JSON.parse(chal.additional_data);
-        setQuickQuizOptions(extra.options || []);
-      }
-
-      setChallengeStartTime(Date.now());
-    } catch (err) {
-      setSimulationModalVisible(false);
-      setSnackbarMessage("Failed to generate cognitive challenge from server.");
-    } finally {
-      setChallengeLoading(false);
-    }
-  };
-
-  const handleSolveChallenge = async (submittedAnswer: string) => {
-    if (!challenge) return;
-    
-    const solveTimeSec = Math.round((Date.now() - challengeStartTime) / 1000);
-    setChallengeLoading(true);
-
-    try {
-      const res = await alarmService.submitChallenge(
-        challenge.id,
-        submittedAnswer,
-        simulatingAlarm.alarm_id,
-        solveTimeSec,
-        attemptCount
-      );
-
-      if (res.is_correct) {
-        setSolvedMessage(`Accuracy: ${Math.round(res.accuracy * 100)}% | Score: +${res.score} XP`);
-        setSnackbarMessage(`Alarm Dismissed! Solved in ${solveTimeSec} seconds 🧠`);
-        
-        getAlarms();
-        setTimeout(() => {
-          setSimulationModalVisible(false);
-        }, 2000);
-      } else {
-        setAttemptCount(prev => prev + 1);
-        setMathAnswer('');
-        setSnackbarMessage("Incorrect answer! Try again to silence the alarm.");
-      }
-    } catch (err) {
-      setSnackbarMessage("Failed to validate challenge answer.");
-    } finally {
-      setChallengeLoading(false);
-    }
-  };
-
-  const handleSimpleDismiss = async () => {
-    const nowStr = new Date().toTimeString().split(' ')[0].substring(0, 5); // HH:MM
-    try {
-      await dismissAlarm(simulatingAlarm.alarm_id, nowStr, false, 0).unwrap();
-      setSimulationModalVisible(false);
-      setSnackbarMessage("Alarm dismissed.");
-      getAlarms();
-    } catch (err) {
-      setSnackbarMessage("Failed to dismiss alarm.");
-    }
+  const startSimulation = (alarm: any) => {
+    navigation.navigate('AlarmRinging', { alarm, isPreview: true });
   };
 
 
@@ -244,106 +120,6 @@ export const AlarmListScreen: React.FC<AlarmListScreenProps> = ({ navigation }) 
         color="#FFFFFF"
         onPress={() => navigation.navigate('CreateAlarm')}
       />
-
-      {/* Challenge Simulation Modal */}
-      <Modal
-        visible={simulationModalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setSimulationModalVisible(false)}
-      >
-        <View style={[styles.modalOverlay, { backgroundColor: 'rgba(11, 15, 25, 0.95)' }]}>
-          <Card style={[styles.modalCard, { backgroundColor: theme.colors.surface }]}>
-            <Card.Content style={styles.modalContent}>
-              <IconButton icon="alarm" size={48} iconColor={theme.colors.error} style={styles.modalIcon} />
-              <Text style={[styles.modalTitle, { color: theme.colors.onSurface }]}>Wake Up! Alarm Ringing</Text>
-              <Text style={[styles.modalSub, { color: theme.colors.onSurfaceVariant }]}>
-                {simulatingAlarm?.challenge_required
-                  ? `Complete the ${challengeCategoryName} challenge to silence the alarm.`
-                  : "Tap below to dismiss the alarm."}
-              </Text>
-              
-              {!simulatingAlarm?.challenge_required ? (
-                <AppButton mode="contained" onPress={handleSimpleDismiss} style={styles.solveBtn}>
-                  Dismiss Alarm
-                </AppButton>
-              ) : solvedMessage ? (
-                <View style={styles.successBox}>
-                  <IconButton icon="check-circle" size={48} iconColor="#22C55E" />
-                  <Text style={[styles.successText, { color: '#22C55E' }]}>CORRECT!</Text>
-                  <Text style={[styles.successDetails, { color: theme.colors.onSurface }]}>{solvedMessage}</Text>
-                </View>
-              ) : challengeLoading ? (
-                <LoadingOverlay visible={true} />
-              ) : (
-                <>
-                  <View style={styles.questionBox}>
-                    {challengeCategoryName === "Memory Challenges" && showMemorySequence ? (
-                      <View style={{ alignItems: 'center' }}>
-                        <Text style={[styles.questionText, { color: theme.colors.primary }]}>
-                          {memorySequence}
-                        </Text>
-                        <Text style={{ color: theme.colors.error, marginTop: 10, fontWeight: 'bold' }}>
-                          Memorize: {secondsRemaining}s
-                        </Text>
-                      </View>
-                    ) : challengeCategoryName === "Memory Challenges" && !showMemorySequence ? (
-                      <Text style={[styles.questionText, { color: theme.colors.primary, fontSize: 18, textAlign: 'center' }]}>
-                        Enter the sequence you just saw!
-                      </Text>
-                    ) : (
-                      <Text style={[styles.questionText, { color: theme.colors.primary, fontSize: challengeQuestion.length > 20 ? 18 : 28, textAlign: 'center' }]}>
-                        {challengeQuestion}
-                      </Text>
-                    )}
-                  </View>
-
-                  {challengeCategoryName === "Quick Quiz" ? (
-                    <View style={styles.optionsContainer}>
-                      {quickQuizOptions.map((opt) => (
-                        <TouchableOpacity
-                          key={opt}
-                          style={[styles.optionBtn, { backgroundColor: theme.colors.surfaceVariant, borderColor: theme.colors.outline }]}
-                          onPress={() => handleSolveChallenge(opt)}
-                        >
-                          <Text style={[styles.optionText, { color: theme.colors.onSurface }]}>{opt}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  ) : (
-                    <>
-                      <AppInput
-                        label={challengeCategoryName === "Memory Challenges" ? "Enter digits" : "Your Answer"}
-                        value={mathAnswer}
-                        onChangeText={setMathAnswer}
-                        keyboardType={
-                          challengeCategoryName === "Math Problems" ||
-                          challengeCategoryName === "Memory Challenges" ||
-                          challengeCategoryName === "Pattern Recognition"
-                            ? "numeric"
-                            : "default"
-                        }
-                        placeholder="Type answer here..."
-                        leftIcon={
-                          challengeCategoryName === "Math Problems" ? "calculator" :
-                          challengeCategoryName === "Memory Challenges" ? "brain" :
-                          challengeCategoryName === "Word Games" ? "alphabetical" :
-                          "lead-pencil"
-                        }
-                      />
-
-                      <AppButton mode="contained" onPress={() => handleSolveChallenge(mathAnswer)} style={styles.solveBtn}>
-                        Submit Answer
-                      </AppButton>
-                    </>
-                  )}
-                </>
-              )}
-            </Card.Content>
-          </Card>
-        </View>
-
-      </Modal>
 
       <Snackbar
         visible={!!error || !!snackbarMessage}
