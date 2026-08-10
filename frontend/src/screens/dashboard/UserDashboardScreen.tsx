@@ -480,7 +480,9 @@ const styles = StyleSheet.create({
   },
   statCard: {
     borderRadius: 16,
-    elevation: 1,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   center: {
     alignItems: 'center',
@@ -502,7 +504,9 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 16,
     borderRadius: 16,
-    elevation: 1,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   levelHeader: {
     flexDirection: 'row',

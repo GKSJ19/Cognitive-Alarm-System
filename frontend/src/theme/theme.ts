@@ -36,29 +36,38 @@ export const ICAPDarkTheme = {
   roundness: 12,
   colors: {
     ...MD3DarkTheme.colors,
-    primary: '#3B82F6',       // Vibrant Blue
-    onPrimary: '#FFFFFF',
-    primaryContainer: '#1E3A8A', // Darker Blue
-    onPrimaryContainer: '#93C5FD',
+    primary: '#60A5FA',       // Brighter blue for dark bg
+    onPrimary: '#1E3A8A',
+    primaryContainer: '#1E3A8A',
+    onPrimaryContainer: '#BFDBFE',
     
-    secondary: '#8B5CF6',     // Violet
-    onSecondary: '#FFFFFF',
-    secondaryContainer: '#4C1D95',
+    secondary: '#A78BFA',     // Lighter violet for dark bg
+    onSecondary: '#4C1D95',
+    secondaryContainer: '#5B21B6',
     onSecondaryContainer: '#DDD6FE',
     
-    background: '#0B0F19',    // Very Dark Blue-Gray
-    onBackground: '#F1F5F9',  // Light text
+    background: '#0F172A',    // Slate-900 (deep navy)
+    onBackground: '#E2E8F0',  // Slate-200 (bright text)
     
-    surface: '#1E293B',       // Slate-800 Surface
-    onSurface: '#F1F5F9',     // Light text
-    surfaceVariant: '#0F172A', // Slate-900 Dark surface
-    onSurfaceVariant: '#94A3B8',
+    surface: '#1E293B',       // Slate-800 (clearly lighter than bg)
+    onSurface: '#E2E8F0',     // Slate-200 (bright text on cards)
+    surfaceVariant: '#334155', // Slate-700 (visible variant)
+    onSurfaceVariant: '#CBD5E1', // Slate-300 (readable secondary text)
     
-    error: '#EF4444',
-    onError: '#FFFFFF',
+    error: '#F87171',         // Lighter red for dark bg
+    onError: '#7F1D1D',
     
-    outline: '#334155',
-    placeholder: '#64748B',
+    outline: '#475569',       // Slate-600 (visible borders)
+    placeholder: '#94A3B8',   // Slate-400
+    
+    elevation: {
+      level0: 'transparent',
+      level1: '#1E293B',
+      level2: '#283548',
+      level3: '#334155',
+      level4: '#3D4F68',
+      level5: '#475569',
+    },
   },
 };
 

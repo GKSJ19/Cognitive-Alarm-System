@@ -191,7 +191,9 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     marginBottom: 16,
-    elevation: 1,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   title: {
     fontSize: 16,

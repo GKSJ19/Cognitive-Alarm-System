@@ -302,6 +302,9 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 16,
     borderRadius: 12,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   sectionTitle: {
     fontSize: 16,
@@ -318,7 +321,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.02)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
   },
 });
 
