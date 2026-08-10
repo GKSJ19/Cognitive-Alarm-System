@@ -4,7 +4,6 @@ from progress import get_progress
 from challenge_score import calculate_challenge_score
 from verification import verify_user
 from challenge_analytics import challenge_report
-from cognitive_challenge import get_cognitive_challenge
 from active_users import get_active_users
 from alarm_statistics import get_alarm_statistics
 from daily_trends import daily_trends
@@ -122,10 +121,6 @@ def challenge_analytics(
         completed,
         total_score
     )
-
-@app.get("/cognitive-challenge")
-def cognitive_challenge():
-    return get_cognitive_challenge()
     
 @app.get("/sleep-score")
 def sleep_score():
