@@ -49,8 +49,13 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config as any;
 
+    // Do not attempt to refresh token on auth routes (login, register, refresh)
+    const isAuthRoute = originalRequest.url?.includes('/auth/login') || 
+                        originalRequest.url?.includes('/auth/register') ||
+                        originalRequest.url?.includes('/auth/refresh');
+
     // Check if error is 401 Unauthorized and not already retried
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !isAuthRoute && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });

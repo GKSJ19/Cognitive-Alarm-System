@@ -2,8 +2,8 @@
 
 ## Developer Details
 - **Team Member:** Ratnesh Kumar
-- **Branch:** `ratnesh`
-- **Project Status:** Full-Stack Active Development
+- **Branch:** `AI_ML_Integration`
+- **Project :** Intelligent Cognitive Alarm Platform 
 
 ---
 
