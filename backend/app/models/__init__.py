@@ -3,5 +3,5 @@ from app.models.user import User
 from app.models.role import Role
 from app.models.profile import UserProfile
 from app.models.token import RefreshToken
-
+from app.models.alarm import Alarm
 __all__ = ["Base", "User", "Role", "UserProfile", "RefreshToken"]

@@ -17,6 +17,7 @@ from app.routers.users import router as users_router
 from app.routers.roles import router as roles_router
 from app.routers.dashboard import router as dashboard_router
 from app.routers.challenge import router as challenge_router
+from app.routers.alarm import router as alarm_router
 
 # Import models so they are registered with Base.metadata
 import app.models  # noqa: F401
@@ -91,6 +92,11 @@ def create_app() -> FastAPI:
     app.include_router(
     challenge_router,
     prefix=f"{settings.api_v1_prefix}/challenge",
+)
+    app.include_router(
+    alarm_router,
+    prefix=f"{settings.api_v1_prefix}/alarms",
+    tags=["alarms"],
 )
 
     return app
