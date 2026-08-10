@@ -1,98 +1,52 @@
 from fastapi import FastAPI
+from api_client import (
+    get_user_profile,
+    get_habit_score,
+    get_difficulty,
+    get_recommendations
+)
 
-from api_client import get_user_profile
-from analytics import calculate_habit_score
-from difficulty import difficulty_level
-from recommendation import recommendation
 from progress import get_progress
-
 from challenge_score import calculate_challenge_score
 from verification import verify_user
 from challenge_analytics import challenge_report
-
-from sleep_score import calculate_sleep_score
 from active_users import get_active_users
 from alarm_statistics import get_alarm_statistics
 from daily_trends import daily_trends
 from weekly_trends import weekly_trends
 from monthly_trends import monthly_trends
-
 from coach_dashboard import get_coach_dashboard
 from coach_users import get_coach_users
 from user_analytics import get_user_analytics
-app = FastAPI()
+app = FastAPI(
+    title="Intelligent Cognitive Alarm - AI & Analytics API",
+    description="AI & Analytics Service",
+    version="1.0.0"
+)
 
 @app.get("/")
 def home():
     return {
         "message": "AI & Analytics Service"
     }
-    
+
 @app.get("/habit-score")
 def habit_score():
-    profile = get_user_profile()
-
-    on_time = 90
-    challenge = 80
-
-    snooze_limit = profile.get("habit_preferences", {}).get("snooze_limit", 0)
-    snooze_score = max(0, 100 - snooze_limit * 10)
-
-    score = calculate_habit_score(
-        on_time,
-        challenge,
-        snooze_score
-    )
-
-    return {
-        "username": profile["username"],
-        "Habit Score": score,
-        "sleep_duration": profile["sleep_duration_minutes"],
-        "snooze_limit": snooze_limit
-    }
+    return get_habit_score()
 
 @app.get("/difficulty")
 def difficulty():
-    profile = get_user_profile()
-
-    level = profile.get("difficulty_preference", "medium")
-
-    return {
-        "username": profile["username"],
-        "difficulty": level
-    }
+    return get_difficulty()
 
 @app.get("/recommendation")
-def recommendation():
-    profile = get_user_profile()
-
-    goal = profile.get("productivity_goals", "Stay productive")
-
-    recommendations = {
-        "Wake up early": [
-            "Sleep before 10 PM",
-            "Avoid phone before bed",
-            "Keep alarm away from bed"
-        ],
-        "Study": [
-            "Wake at 6 AM",
-            "Review notes after waking",
-            "Take short breaks"
-        ]
-    }
-
-    return {
-        "username": profile["username"],
-        "goal": goal,
-        "recommendation": recommendations.get(goal, ["Maintain a healthy sleep schedule"])
-    }
+def recommendation_api():
+    return get_recommendations()
 
 @app.get("/progress")
 def progress():
     profile = get_user_profile()
-
     return {
-        "username": profile["username"],
+        "username": profile.get("username"),
         "sleep_duration": profile.get("sleep_duration_minutes"),
         "difficulty": profile.get("difficulty_preference"),
         "goal": profile.get("productivity_goals"),
@@ -101,13 +55,11 @@ def progress():
 
 @app.get("/challenge-score")
 def challenge_score(correct: int, total: int):
-
     score = calculate_challenge_score(correct, total)
-
     return {
         "Challenge Score": score
     }
-
+    
 @app.get("/verification")
 def verification(correct: int, total: int):
     score = calculate_challenge_score(correct, total)
@@ -131,9 +83,10 @@ def challenge_analytics(
 @app.get("/sleep-score")
 def sleep_score():
     profile = get_user_profile()
-
-    sleep = profile.get("sleep_duration_minutes", 0)
-
+    sleep = profile.get(
+        "sleep_duration_minutes",
+        0
+    )
     if sleep >= 480:
         score = 100
     elif sleep >= 420:
@@ -142,9 +95,8 @@ def sleep_score():
         score = 70
     else:
         score = 50
-
     return {
-        "username": profile["username"],
+        "username": profile.get("username"),
         "sleep_duration": sleep,
         "sleep_score": score
     }
@@ -160,7 +112,12 @@ def alarm_statistics(
     missed: int,
     snoozed: int
 ):
-    return get_alarm_statistics(created, completed, missed, snoozed)
+    return get_alarm_statistics(
+        created,
+        completed,
+        missed,
+        snoozed
+    )
 
 @app.get("/daily-trends")
 def daily(
@@ -232,8 +189,8 @@ def coach_users(
         progress
     )
 
-@app.get("/coach/users/{user_id}/analytics")
-def coach_user_analytics(
+@app.get("/user-analytics")
+def user_analytics(
     user_id: int,
     habit_score: int,
     sleep_score: int,
@@ -249,9 +206,6 @@ def coach_user_analytics(
         recommendation,
         progress
     )
-
-
-from api_client import get_user_profile
 
 @app.get("/backend-profile")
 def backend_profile():
