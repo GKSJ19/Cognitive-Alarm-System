@@ -3,16 +3,25 @@ import { StatusBar } from 'expo-status-bar';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store } from './src/store';
-import { ICAPTheme } from './src/theme/theme';
+import { ThemeProvider, useAppTheme } from './src/theme/ThemeContext';
 import AppNavigator from './src/navigation/AppNavigator';
+
+function AppContent() {
+  const { theme, isDark } = useAppTheme();
+  return (
+    <PaperProvider theme={theme}>
+      <StatusBar style={isDark ? "light" : "dark"} />
+      <AppNavigator />
+    </PaperProvider>
+  );
+}
 
 export default function App() {
   return (
     <ReduxProvider store={store}>
-      <PaperProvider theme={ICAPTheme}>
-        <StatusBar style="light" />
-        <AppNavigator />
-      </PaperProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </ReduxProvider>
   );
 }

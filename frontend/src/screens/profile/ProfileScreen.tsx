@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, TouchableOpacity, Alert } from 'react-nat
 import { Text, useTheme, Avatar, Card, List, Button, Snackbar } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
+import { useAlarms } from '../../hooks/useAlarms';
 import LoadingOverlay from '../../components/common/LoadingOverlay';
 import AppButton from '../../components/common/AppButton';
 import { ENV } from '../../config/env';
@@ -15,11 +16,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   const { user } = useAuth();
   const { profile, isLoading, error, getProfile, uploadPhoto, deletePhoto, clearError } = useProfile();
+  const { history, getHistory } = useAlarms();
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
 
   useEffect(() => {
     getProfile();
-  }, [getProfile]);
+    getHistory();
+  }, [getProfile, getHistory]);
 
   const handleSelectPhoto = () => {
     Alert.alert(
@@ -81,6 +84,37 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   const photoUri = getProfilePhotoUri();
 
+  // Calculate dynamic gamification states for profile header
+  const totalXP = history.length * 150;
+  const level = Math.floor(totalXP / 500) + 1;
+  const uniqueDates = Array.from(new Set(
+    history.map(h => h.dismissed_at?.split('T')[0]).filter(Boolean)
+  )).sort();
+  
+  let bestStreak = 0;
+  if (uniqueDates.length > 0) {
+    let tempStreak = 1;
+    bestStreak = 1;
+    for (let i = 1; i < uniqueDates.length; i++) {
+      const d1 = new Date(uniqueDates[i]);
+      const d2 = new Date(uniqueDates[i - 1]);
+      const diff = (d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24);
+      if (diff === 1) {
+        tempStreak++;
+        bestStreak = Math.max(bestStreak, tempStreak);
+      } else if (diff > 1) {
+        tempStreak = 1;
+      }
+    }
+  }
+
+  const unlockedBadgesCount = [
+    history.some(h => h.wake_time && parseInt(h.wake_time.split(':')[0], 10) < 7),
+    history.some(h => h.solved),
+    bestStreak >= 3,
+    history.some(h => h.solved && h.solve_time > 0 && h.solve_time <= 15)
+  ].filter(Boolean).length;
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <LoadingOverlay visible={isLoading} />
@@ -108,6 +142,21 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <View style={[styles.roleBadge, { backgroundColor: theme.colors.primaryContainer }]}>
             <Text style={[styles.roleText, { color: theme.colors.onPrimaryContainer }]}>
               {user?.role?.toUpperCase()}
+            </Text>
+          </View>
+
+          {/* Level and Badge summary */}
+          <View style={styles.gamificationHeaderSummary}>
+            <Text style={{ fontWeight: 'bold', color: theme.colors.primary, fontSize: 13 }}>
+              🎓 Level {level}
+            </Text>
+            <Text style={{ marginHorizontal: 8, color: theme.colors.outline }}>|</Text>
+            <Text style={{ fontWeight: 'bold', color: theme.colors.secondary, fontSize: 13 }}>
+              🏆 {unlockedBadgesCount} / 4 Badges
+            </Text>
+            <Text style={{ marginHorizontal: 8, color: theme.colors.outline }}>|</Text>
+            <Text style={{ fontWeight: 'bold', color: '#EF4444', fontSize: 13 }}>
+              🔥 {bestStreak}d Streak
             </Text>
           </View>
         </View>
@@ -261,6 +310,15 @@ const styles = StyleSheet.create({
   },
   editBtn: {
     marginTop: 12,
+  },
+  gamificationHeaderSummary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.02)',
   },
 });
 
