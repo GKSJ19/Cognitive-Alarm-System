@@ -70,3 +70,47 @@ class DashboardSummaryResponse(BaseModel):
     wake_up_history: List[Dict[str, Any]]
     progress_report: Dict[str, Any]
     recommendations: List[RecommendationResponse]
+
+
+class ClientSummaryResponse(BaseModel):
+    id: UUID
+    full_name: str
+    email: str
+    is_active: bool
+    latest_score: Optional[float] = None
+    avg_score: Optional[float] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CoachDashboardResponse(BaseModel):
+    total_clients: int
+    clients: List[ClientSummaryResponse]
+
+
+class CoachUserDetailResponse(BaseModel):
+    user_id: UUID
+    full_name: str
+    email: str
+    profile: Optional[Dict[str, Any]] = None
+    summary: DashboardSummaryResponse
+
+
+class AdminDashboardResponse(BaseModel):
+    total_users: int
+    total_alarms: int
+    system_avg_habit_score: float
+    system_avg_snooze_count: float
+    system_avg_wake_up_delay_seconds: float
+    system_avg_sleep_duration_hours: float
+    challenge_category_breakdown: Dict[str, int]
+    active_users_count: int
+
+
+class SystemStatsResponse(BaseModel):
+    snooze_by_day_of_week: Dict[str, float]
+    challenge_accuracy_by_difficulty: Dict[str, float]
+    average_solve_time_by_category: Dict[str, float]
+    adherence_distribution: Dict[str, int]
+

@@ -31,5 +31,11 @@ from app.schemas.engines import (
     UserBehaviorSummaryResponse,
     HabitScoreResponse,
     RecommendationResponse,
-    DashboardSummaryResponse
+    DashboardSummaryResponse,
+    AdminDashboardResponse,
+    CoachDashboardResponse,
+    CoachUserDetailResponse,
+    SystemStatsResponse,
+    ClientSummaryResponse
 )
+

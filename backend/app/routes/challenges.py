@@ -159,7 +159,7 @@ def generate_pattern_challenge(difficulty: str):
         else:
             shapes = ["Triangle", "Square", "Pentagon", "Hexagon", "Heptagon", "Octagon"]
             start_idx = 0 if difficulty == "easy" else (1 if difficulty == "medium" else 2)
-            seq = shapes[start_idx:start_idx+5]
+            seq = [shapes[(start_idx + i) % len(shapes)] for i in range(5)]
             expr = ", ".join(seq[:4]) + ", ?"
             ans = seq[4]
         return f"Complete the shape sequence: {expr}", ans

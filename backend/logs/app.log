@@ -1,0 +1,490 @@
+2026-08-07 20:37:15 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-07 20:37:27 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-07 20:37:28 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 306.00ms
+2026-08-07 20:37:28 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:28 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 287.88ms
+2026-08-07 20:37:28 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:28 - app.main - INFO - POST /alarms - Status: 201 - Duration: 8.93ms
+2026-08-07 20:37:28 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:29 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 304.83ms
+2026-08-07 20:37:29 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:29 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 270.44ms
+2026-08-07 20:37:29 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:29 - app.main - INFO - POST /alarms - Status: 422 - Duration: 2.56ms
+2026-08-07 20:37:29 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 422 Unprocessable Entity"
+2026-08-07 20:37:29 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 282.09ms
+2026-08-07 20:37:29 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:30 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 314.23ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:30 - app.main - INFO - POST /alarms - Status: 422 - Duration: 5.03ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 422 Unprocessable Entity"
+2026-08-07 20:37:30 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 289.30ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:30 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 285.98ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:30 - app.main - INFO - POST /alarms - Status: 422 - Duration: 3.33ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 422 Unprocessable Entity"
+2026-08-07 20:37:30 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 307.44ms
+2026-08-07 20:37:30 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:31 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 275.69ms
+2026-08-07 20:37:31 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:31 - app.main - INFO - POST /alarms - Status: 201 - Duration: 4.57ms
+2026-08-07 20:37:31 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:31 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 292.25ms
+2026-08-07 20:37:31 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:31 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 291.65ms
+2026-08-07 20:37:31 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:32 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 347.06ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:32 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 286.18ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:32 - app.main - INFO - POST /alarms - Status: 201 - Duration: 4.28ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:32 - app.main - INFO - POST /alarms - Status: 201 - Duration: 4.07ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:32 - app.main - INFO - POST /alarms - Status: 201 - Duration: 4.35ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:32 - app.main - INFO - GET /alarms - Status: 200 - Duration: 4.44ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: GET http://testserver/alarms "HTTP/1.1 200 OK"
+2026-08-07 20:37:32 - app.main - INFO - GET /alarms - Status: 200 - Duration: 4.02ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: GET http://testserver/alarms "HTTP/1.1 200 OK"
+2026-08-07 20:37:32 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 307.97ms
+2026-08-07 20:37:32 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:33 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 302.74ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:33 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 283.70ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:33 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 363.40ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:33 - app.main - INFO - POST /alarms - Status: 201 - Duration: 9.08ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:33 - app.main - INFO - GET /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 403 - Duration: 4.32ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: GET http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:33 - app.main - INFO - PUT /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 403 - Duration: 4.78ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: PUT http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:33 - app.main - INFO - PATCH /alarms/40748cc5-f581-4211-b207-601792528aca/toggle - Status: 403 - Duration: 2.71ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: PATCH http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca/toggle "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:33 - app.main - INFO - DELETE /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 403 - Duration: 2.95ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: DELETE http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:33 - app.main - INFO - PUT /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 200 - Duration: 8.52ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: PUT http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 200 OK"
+2026-08-07 20:37:33 - app.main - INFO - PATCH /alarms/40748cc5-f581-4211-b207-601792528aca/toggle - Status: 200 - Duration: 5.84ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: PATCH http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca/toggle "HTTP/1.1 200 OK"
+2026-08-07 20:37:33 - app.main - INFO - DELETE /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 204 - Duration: 4.74ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: DELETE http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 204 No Content"
+2026-08-07 20:37:33 - app.main - INFO - GET /alarms/40748cc5-f581-4211-b207-601792528aca - Status: 404 - Duration: 2.71ms
+2026-08-07 20:37:33 - httpx - INFO - HTTP Request: GET http://testserver/alarms/40748cc5-f581-4211-b207-601792528aca "HTTP/1.1 404 Not Found"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 297.46ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 277.68ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 400 - Duration: 3.99ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 400 Bad Request"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 422 - Duration: 2.06ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 422 Unprocessable Entity"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 422 - Duration: 2.60ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 422 Unprocessable Entity"
+2026-08-07 20:37:34 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 284.58ms
+2026-08-07 20:37:34 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:35 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 279.58ms
+2026-08-07 20:37:35 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:35 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 275.40ms
+2026-08-07 20:37:35 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:35 - app.main - INFO - POST /auth/login - Status: 401 - Duration: 272.05ms
+2026-08-07 20:37:35 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:35 - app.main - INFO - POST /auth/login - Status: 401 - Duration: 1.57ms
+2026-08-07 20:37:35 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:35 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 274.91ms
+2026-08-07 20:37:35 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:36 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 275.21ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:36 - app.main - INFO - GET /auth/me - Status: 200 - Duration: 3.41ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: GET http://testserver/auth/me "HTTP/1.1 200 OK"
+2026-08-07 20:37:36 - app.main - INFO - GET /auth/me - Status: 401 - Duration: 0.94ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: GET http://testserver/auth/me "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:36 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 286.65ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:36 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 265.49ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:36 - app.main - INFO - POST /auth/logout - Status: 200 - Duration: 3.44ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: POST http://testserver/auth/logout "HTTP/1.1 200 OK"
+2026-08-07 20:37:36 - app.main - INFO - POST /auth/google - Status: 200 - Duration: 6.82ms
+2026-08-07 20:37:36 - httpx - INFO - HTTP Request: POST http://testserver/auth/google "HTTP/1.1 200 OK"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 275.47ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/google - Status: 200 - Duration: 4.61ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/google "HTTP/1.1 200 OK"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/apple - Status: 200 - Duration: 6.68ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/apple "HTTP/1.1 200 OK"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 299.73ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/apple - Status: 200 - Duration: 4.91ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/apple "HTTP/1.1 200 OK"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 275.90ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/forgot-password - Status: 200 - Duration: 2.55ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/forgot-password "HTTP/1.1 200 OK"
+2026-08-07 20:37:37 - app.main - INFO - POST /auth/forgot-password - Status: 404 - Duration: 2.18ms
+2026-08-07 20:37:37 - httpx - INFO - HTTP Request: POST http://testserver/auth/forgot-password "HTTP/1.1 404 Not Found"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 275.46ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/forgot-password - Status: 200 - Duration: 2.11ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/forgot-password "HTTP/1.1 200 OK"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/reset-password - Status: 200 - Duration: 274.39ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/reset-password "HTTP/1.1 200 OK"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/login - Status: 401 - Duration: 274.27ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 284.44ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:38 - app.main - INFO - POST /auth/reset-password - Status: 400 - Duration: 1.72ms
+2026-08-07 20:37:38 - httpx - INFO - HTTP Request: POST http://testserver/auth/reset-password "HTTP/1.1 400 Bad Request"
+2026-08-07 20:37:39 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 291.07ms
+2026-08-07 20:37:39 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:39 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 278.37ms
+2026-08-07 20:37:39 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:39 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 4.86ms
+2026-08-07 20:37:39 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:39 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 277.01ms
+2026-08-07 20:37:39 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:40 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 286.35ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 2.47ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 6.52ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=1984b584-92a9-4264-8fe9-28d0c09b70a2&difficulty=easy "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 6.21ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=4a363759-5deb-4fb6-a853-cdc1f1ead435&difficulty=medium "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 6.86ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=5efac2b9-56a1-410a-ba8c-c96646d84e61&difficulty=hard "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 283.38ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:40 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 267.82ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 3.07ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:40 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 6.46ms
+2026-08-07 20:37:40 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=18c2b977-b157-48cd-a2d9-3be305fbda00&difficulty=easy "HTTP/1.1 200 OK"
+2026-08-07 20:37:41 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 338.67ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:41 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 293.43ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:41 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 4.55ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:41 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 17.17ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=5d301f9d-0a6b-4787-9147-7642d02b72b7&difficulty=medium "HTTP/1.1 200 OK"
+2026-08-07 20:37:41 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 13.82ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:41 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 320.08ms
+2026-08-07 20:37:41 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:42 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 289.74ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 7.04ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 8.34ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=4317390f-f843-40ae-9865-54613ac4846d&difficulty=easy "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 6.98ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 323.61ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:42 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 320.49ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - GET /challenges/categories - Status: 200 - Duration: 4.19ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: GET http://testserver/challenges/categories "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 5.20ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=e5e5eb3d-2740-4b8b-b594-81317df7c31a&difficulty=easy "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 13.17ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:42 - app.main - INFO - GET /challenges/generate - Status: 200 - Duration: 6.12ms
+2026-08-07 20:37:42 - httpx - INFO - HTTP Request: GET http://testserver/challenges/generate?category_id=e5e5eb3d-2740-4b8b-b594-81317df7c31a&difficulty=easy "HTTP/1.1 200 OK"
+2026-08-07 20:37:43 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 275.38ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:43 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 277.36ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:43 - app.main - INFO - POST /alarms - Status: 201 - Duration: 5.57ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:43 - app.main - INFO - POST /alarms/dismiss - Status: 201 - Duration: 24.39ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: POST http://testserver/alarms/dismiss "HTTP/1.1 201 Created"
+2026-08-07 20:37:43 - app.main - INFO - GET /alarms/history - Status: 200 - Duration: 5.07ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: GET http://testserver/alarms/history "HTTP/1.1 200 OK"
+2026-08-07 20:37:43 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 308.59ms
+2026-08-07 20:37:43 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 312.43ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - PUT /profile - Status: 200 - Duration: 8.44ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: PUT http://testserver/profile "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - POST /alarms - Status: 201 - Duration: 6.03ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - POST /alarms/dismiss - Status: 201 - Duration: 12.99ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/alarms/dismiss "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - GET /behavioral-analytics/history - Status: 200 - Duration: 5.02ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: GET http://testserver/behavioral-analytics/history "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - GET /behavioral-analytics/summary - Status: 200 - Duration: 4.75ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: GET http://testserver/behavioral-analytics/summary "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 294.11ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 288.30ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - PUT /profile - Status: 200 - Duration: 6.50ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: PUT http://testserver/profile "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - POST /alarms - Status: 201 - Duration: 5.63ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - POST /alarms/dismiss - Status: 201 - Duration: 17.14ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: POST http://testserver/alarms/dismiss "HTTP/1.1 201 Created"
+2026-08-07 20:37:44 - app.main - INFO - GET /habit-scoring/current - Status: 200 - Duration: 6.35ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: GET http://testserver/habit-scoring/current "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - GET /habit-scoring/history - Status: 200 - Duration: 7.12ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: GET http://testserver/habit-scoring/history "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - GET /recommendations - Status: 200 - Duration: 14.82ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: GET http://testserver/recommendations "HTTP/1.1 200 OK"
+2026-08-07 20:37:44 - app.main - INFO - PATCH /recommendations/81392dc2-f2d6-4218-8573-cc89787d0d9e/read - Status: 200 - Duration: 8.02ms
+2026-08-07 20:37:44 - httpx - INFO - HTTP Request: PATCH http://testserver/recommendations/81392dc2-f2d6-4218-8573-cc89787d0d9e/read "HTTP/1.1 200 OK"
+2026-08-07 20:37:45 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 289.74ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:45 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 313.28ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:45 - app.main - INFO - POST /alarms - Status: 201 - Duration: 5.83ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:45 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 20.57ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:45 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 13.92ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:45 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 92.86ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:45 - app.main - INFO - GET /adaptive-difficulty/history - Status: 200 - Duration: 6.44ms
+2026-08-07 20:37:45 - httpx - INFO - HTTP Request: GET http://testserver/adaptive-difficulty/history "HTTP/1.1 200 OK"
+2026-08-07 20:37:46 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 307.62ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:46 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 300.53ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:46 - app.main - INFO - POST /alarms - Status: 201 - Duration: 3.64ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: POST http://testserver/alarms "HTTP/1.1 201 Created"
+2026-08-07 20:37:46 - app.main - INFO - POST /challenges/submit - Status: 200 - Duration: 12.48ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: POST http://testserver/challenges/submit "HTTP/1.1 200 OK"
+2026-08-07 20:37:46 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 15.89ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:37:46 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 272.03ms
+2026-08-07 20:37:46 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:47 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 277.66ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:47 - app.main - INFO - GET /protected/any-auth - Status: 200 - Duration: 3.06ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: GET http://testserver/protected/any-auth "HTTP/1.1 200 OK"
+2026-08-07 20:37:47 - app.main - INFO - GET /protected/any-auth - Status: 401 - Duration: 0.61ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: GET http://testserver/protected/any-auth "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:47 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 290.99ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:47 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 293.76ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:47 - app.main - INFO - GET /protected/coach-only - Status: 200 - Duration: 3.53ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: GET http://testserver/protected/coach-only "HTTP/1.1 200 OK"
+2026-08-07 20:37:47 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 323.61ms
+2026-08-07 20:37:47 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:48 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 286.71ms
+2026-08-07 20:37:48 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:48 - app.main - INFO - GET /protected/coach-only - Status: 200 - Duration: 2.35ms
+2026-08-07 20:37:48 - httpx - INFO - HTTP Request: GET http://testserver/protected/coach-only "HTTP/1.1 200 OK"
+2026-08-07 20:37:48 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 294.01ms
+2026-08-07 20:37:48 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:48 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 339.00ms
+2026-08-07 20:37:48 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:48 - app.main - INFO - GET /protected/coach-only - Status: 403 - Duration: 4.05ms
+2026-08-07 20:37:48 - httpx - INFO - HTTP Request: GET http://testserver/protected/coach-only "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:49 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 340.39ms
+2026-08-07 20:37:49 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:49 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 326.97ms
+2026-08-07 20:37:49 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:49 - app.main - INFO - GET /protected/admin-only - Status: 200 - Duration: 4.89ms
+2026-08-07 20:37:49 - httpx - INFO - HTTP Request: GET http://testserver/protected/admin-only "HTTP/1.1 200 OK"
+2026-08-07 20:37:49 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 317.86ms
+2026-08-07 20:37:49 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:50 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 305.16ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:50 - app.main - INFO - GET /protected/admin-only - Status: 403 - Duration: 3.91ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: GET http://testserver/protected/admin-only "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:50 - app.main - INFO - GET /protected/any-auth - Status: 401 - Duration: 2.02ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: GET http://testserver/protected/any-auth "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:50 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 285.63ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:50 - app.main - INFO - GET /protected/any-auth - Status: 401 - Duration: 1.63ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: GET http://testserver/protected/any-auth "HTTP/1.1 401 Unauthorized"
+2026-08-07 20:37:50 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 293.79ms
+2026-08-07 20:37:50 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:51 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 321.43ms
+2026-08-07 20:37:51 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:51 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 52.22ms
+2026-08-07 20:37:51 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:37:51 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 318.53ms
+2026-08-07 20:37:51 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:51 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 306.76ms
+2026-08-07 20:37:51 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:52 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 45.95ms
+2026-08-07 20:37:52 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:37:52 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 306.97ms
+2026-08-07 20:37:52 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:52 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 284.70ms
+2026-08-07 20:37:52 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:52 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 28.39ms
+2026-08-07 20:37:52 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 292.87ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:53 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 279.88ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - GET /reports/wake-up - Status: 200 - Duration: 4.76ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: GET http://testserver/reports/wake-up?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - GET /reports/challenge-performance - Status: 200 - Duration: 4.93ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: GET http://testserver/reports/challenge-performance?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - GET /reports/productivity - Status: 200 - Duration: 5.32ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: GET http://testserver/reports/productivity?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - GET /reports/sleep-analytics - Status: 200 - Duration: 4.96ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: GET http://testserver/reports/sleep-analytics?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 287.73ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:53 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 316.05ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:53 - app.main - INFO - GET /reports/habit - Status: 400 - Duration: 2.60ms
+2026-08-07 20:37:53 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=invalid "HTTP/1.1 400 Bad Request"
+2026-08-07 20:37:54 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 306.51ms
+2026-08-07 20:37:54 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:54 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 298.22ms
+2026-08-07 20:37:54 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:54 - app.main - INFO - GET /reports/habit - Status: 400 - Duration: 7.29ms
+2026-08-07 20:37:54 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?start_date=2026-08-10&end_date=2026-08-01 "HTTP/1.1 400 Bad Request"
+2026-08-07 20:37:54 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 276.85ms
+2026-08-07 20:37:54 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:55 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 284.29ms
+2026-08-07 20:37:55 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:55 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 21.43ms
+2026-08-07 20:37:55 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:37:55 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 278.37ms
+2026-08-07 20:37:55 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:55 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 302.95ms
+2026-08-07 20:37:55 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:55 - app.main - INFO - GET /dashboard/admin - Status: 403 - Duration: 5.14ms
+2026-08-07 20:37:55 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:56 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 285.63ms
+2026-08-07 20:37:56 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:56 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 302.52ms
+2026-08-07 20:37:56 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:56 - app.main - INFO - GET /dashboard/admin - Status: 403 - Duration: 3.23ms
+2026-08-07 20:37:56 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:56 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 335.62ms
+2026-08-07 20:37:56 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:57 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 302.36ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:57 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 12.91ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:37:57 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 285.91ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:57 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 286.51ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:57 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 4.71ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:37:57 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 282.85ms
+2026-08-07 20:37:57 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:58 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 297.35ms
+2026-08-07 20:37:58 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:58 - app.main - INFO - GET /dashboard/coach - Status: 403 - Duration: 4.09ms
+2026-08-07 20:37:58 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 403 Forbidden"
+2026-08-07 20:37:58 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 354.89ms
+2026-08-07 20:37:58 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:58 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 317.21ms
+2026-08-07 20:37:58 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:59 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 288.82ms
+2026-08-07 20:37:59 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:59 - app.main - INFO - GET /dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff - Status: 200 - Duration: 10.19ms
+2026-08-07 20:37:59 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff "HTTP/1.1 200 OK"
+2026-08-07 20:37:59 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 335.33ms
+2026-08-07 20:37:59 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:37:59 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 307.31ms
+2026-08-07 20:37:59 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:37:59 - app.main - INFO - GET /dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff - Status: 200 - Duration: 12.05ms
+2026-08-07 20:37:59 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff "HTTP/1.1 200 OK"
+2026-08-07 20:38:00 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 325.00ms
+2026-08-07 20:38:00 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:38:00 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 290.20ms
+2026-08-07 20:38:00 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:38:00 - app.main - INFO - GET /dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff - Status: 403 - Duration: 3.66ms
+2026-08-07 20:38:00 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach/user/a65541c0-f98d-4942-b8df-3b6fff9e9eff "HTTP/1.1 403 Forbidden"
+2026-08-07 20:38:08 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-07 20:38:09 - app.main - INFO - POST /auth/register - Status: 201 - Duration: 283.56ms
+2026-08-07 20:38:09 - httpx - INFO - HTTP Request: POST http://testserver/auth/register "HTTP/1.1 201 Created"
+2026-08-07 20:38:10 - app.main - INFO - POST /auth/login - Status: 200 - Duration: 307.08ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: POST http://testserver/auth/login "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 23.23ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 11.70ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 11.53ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 12.36ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/summary - Status: 200 - Duration: 21.65ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/summary "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/statistics - Status: 200 - Duration: 7.16ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/statistics "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/statistics - Status: 200 - Duration: 5.13ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/statistics "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/statistics - Status: 200 - Duration: 5.33ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/statistics "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/statistics - Status: 200 - Duration: 5.37ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/statistics "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/statistics - Status: 200 - Duration: 4.08ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/statistics "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 11.80ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 6.99ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 7.17ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 11.94ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/admin - Status: 200 - Duration: 8.19ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/admin "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 4.32ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 5.35ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 5.83ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 3.52ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /dashboard/coach - Status: 200 - Duration: 7.06ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/dashboard/coach "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 16.83ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 5.91ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 7.31ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 6.84ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 6.22ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=json "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 16.44ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 12.76ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 11.80ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 12.02ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 11.80ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=pdf "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 50.97ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 18.78ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 19.08ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 14.99ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:38:10 - app.main - INFO - GET /reports/habit - Status: 200 - Duration: 18.15ms
+2026-08-07 20:38:10 - httpx - INFO - HTTP Request: GET http://testserver/reports/habit?format=excel "HTTP/1.1 200 OK"
+2026-08-07 20:52:50 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-07 20:52:58 - app.main - INFO - GET /docs - Status: 200 - Duration: 6.35ms
+2026-08-07 20:52:59 - app.main - INFO - GET /openapi.json - Status: 200 - Duration: 53.14ms
+2026-08-07 20:56:45 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-07 20:59:15 - app.main - INFO - GET /docs - Status: 200 - Duration: 7.20ms
+2026-08-07 20:59:23 - app.main - INFO - GET /openapi.json - Status: 200 - Duration: 64.94ms
+2026-08-10 20:10:09 - root - INFO - Logging configured successfully. Writing to console and logs/app.log
+2026-08-10 20:10:40 - app.main - INFO - GET /docs - Status: 200 - Duration: 8.23ms
+2026-08-10 20:10:41 - app.main - INFO - GET /openapi.json - Status: 200 - Duration: 88.54ms
