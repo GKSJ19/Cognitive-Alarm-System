@@ -5,6 +5,7 @@ import { useAlarms } from '../../hooks/useAlarms';
 import AppInput from '../../components/common/AppInput';
 import AppButton from '../../components/common/AppButton';
 import LoadingOverlay from '../../components/common/LoadingOverlay';
+import ClockTimePicker from '../../components/common/ClockTimePicker';
 
 interface EditAlarmScreenProps {
   route: any;
@@ -73,7 +74,7 @@ export const EditAlarmScreen: React.FC<EditAlarmScreenProps> = ({ route, navigat
   const handleSave = async () => {
     setTimeError(null);
     if (!alarmTime.trim() || !/^\d{2}:\d{2}$/.test(alarmTime.trim())) {
-      setTimeError("Please specify time in HH:MM format");
+      setTimeError("Please select a time using the clock");
       return;
     }
 
@@ -115,13 +116,11 @@ export const EditAlarmScreen: React.FC<EditAlarmScreenProps> = ({ route, navigat
 
         <Card style={styles.card}>
           <Card.Content>
-            <AppInput
-              label="Alarm Time (HH:MM)"
+            <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Alarm Time</Text>
+            <ClockTimePicker
               value={alarmTime}
-              onChangeText={setAlarmTime}
+              onChange={setAlarmTime}
               error={timeError}
-              placeholder="e.g. 07:15"
-              leftIcon="clock-outline"
             />
 
             <AppInput
