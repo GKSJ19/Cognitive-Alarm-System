@@ -1,15 +1,10 @@
 from fastapi import FastAPI
-from api_client import (
-    get_user_profile,
-    get_habit_score,
-    get_difficulty,
-    get_recommendations
-)
-
+from api_client import get_user_profile
 from progress import get_progress
 from challenge_score import calculate_challenge_score
 from verification import verify_user
 from challenge_analytics import challenge_report
+from cognitive_challenge import get_cognitive_challenge
 from active_users import get_active_users
 from alarm_statistics import get_alarm_statistics
 from daily_trends import daily_trends
@@ -18,6 +13,7 @@ from monthly_trends import monthly_trends
 from coach_dashboard import get_coach_dashboard
 from coach_users import get_coach_users
 from user_analytics import get_user_analytics
+
 app = FastAPI(
     title="Intelligent Cognitive Alarm - AI & Analytics API",
     description="AI & Analytics Service",
@@ -32,15 +28,62 @@ def home():
 
 @app.get("/habit-score")
 def habit_score():
-    return get_habit_score()
+    profile = get_user_profile()
+    snooze_limit = profile.get(
+        "habit_preferences", {}
+    ).get("snooze_limit", 0)
+    on_time = 90
+    challenge = 80
+    snooze_score = max(
+        0,
+        100 - snooze_limit * 10
+    )
+    score = (
+        on_time * 0.5 +
+        challenge * 0.3 +
+        snooze_score * 0.2
+    )
+    return {
+        "username": profile.get("username"),
+        "habit_score": round(score, 2),
+        "snooze_limit": snooze_limit
+    }
 
 @app.get("/difficulty")
 def difficulty():
-    return get_difficulty()
+    profile = get_user_profile()
+    return {
+        "username": profile.get("username"),
+        "difficulty": profile.get("difficulty_preference")
+    }
 
 @app.get("/recommendation")
 def recommendation_api():
-    return get_recommendations()
+    profile = get_user_profile()
+    goal = profile.get(
+        "productivity_goals",
+        "Stay productive"
+    )
+    recommendations = {
+        "Wake up early": [
+            "Sleep before 10 PM",
+            "Avoid phone before bed",
+            "Keep alarm away from bed"
+        ],
+        "Study": [
+            "Wake at 6 AM",
+            "Review notes after waking",
+            "Take short breaks"
+        ]
+    }
+    return {
+        "username": profile.get("username"),
+        "goal": goal,
+        "recommendation": recommendations.get(
+            goal,
+            ["Maintain a healthy sleep schedule"]
+        )
+    }
 
 @app.get("/progress")
 def progress():
@@ -52,14 +95,14 @@ def progress():
         "goal": profile.get("productivity_goals"),
         "habit_preferences": profile.get("habit_preferences")
     }
-
+    
 @app.get("/challenge-score")
 def challenge_score(correct: int, total: int):
     score = calculate_challenge_score(correct, total)
     return {
         "Challenge Score": score
     }
-    
+
 @app.get("/verification")
 def verification(correct: int, total: int):
     score = calculate_challenge_score(correct, total)
@@ -80,6 +123,10 @@ def challenge_analytics(
         total_score
     )
 
+@app.get("/cognitive-challenge")
+def cognitive_challenge():
+    return get_cognitive_challenge()
+    
 @app.get("/sleep-score")
 def sleep_score():
     profile = get_user_profile()
@@ -130,7 +177,7 @@ def daily(
         challenge_score,
         sleep_score
     )
-
+    
 @app.get("/weekly-trends")
 def weekly(
     avg_habit: int,
