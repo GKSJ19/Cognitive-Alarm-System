@@ -37,3 +37,7 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
             yield session
         finally:
             await session.close()
+
+async def get_db():
+    async with async_session_maker() as session:
+        yield session
