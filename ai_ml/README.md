@@ -10,7 +10,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Relational-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-✅_All_Milestones_Complete-brightgreen?style=for-the-badge)
 
-**Developer:** Debajyoti Mukhopadhyay &nbsp;|&nbsp; **Role:** AI/ML Engineer &nbsp;|&nbsp; **Program:** Infosys Springboard Internship &nbsp;|&nbsp; **Team:** 3
+**Developer:** Debajyoti Mukhopadhyay &nbsp;|&nbsp; **Role:** AI/ML &nbsp;|&nbsp; **Team:** 3
 
 </div>
 
@@ -468,29 +468,41 @@ Mobile Request → GET /users/{user_id}/challenge
 ## 📁 Project File Structure
 
 ```
-ai_ml/
-├── src/
-│   ├── data_ingest.py              # Dual-DB connector: PostgreSQL + MongoDB → unified user context dict
-│   ├── features.py                 # Behavior Analysis: 4 normalized behavioral score computation
-│   ├── habit_scoring.py            # Habit Scoring: weighted habit index formula (0–100)
-│   ├── reinforcement.py            # Adaptive Difficulty: Elo engine → 5 difficulty tiers
-│   ├── challenge_generator.py      # Cognitive Challenge Engine: 7 procedural generators × 5 tiers
-│   ├── classifier.py               # Snooze Prediction: XGBoost binary classifier (92.5% accuracy)
-│   ├── recommendation_engine.py    # Recommendation Engine: rule-based habit improvement tips
-│   └── main.py                     # FastAPI Router: REST endpoints + Pydantic schemas + Swagger UI
+Cognitive-Alarm-System/
+├── ai_ml/
+│   ├── docs/
+│   │   ├── aiml_architecture_diagram.png           # AI/ML 4-tier architecture diagram
+│   │   ├── ICAP_Milestone3_AIML_Executive_Present.. # Milestone 3 executive presentation
+│   │   ├── Milestone1_Theory_Document.pdf           # Milestone 1 theoretical foundation doc
+│   │   └── Milestone2_Cognitive_Engine_Report.pdf   # Milestone 2 cognitive engine report
+│   │
+│   ├── models/
+│   │   ├── .gitkeep
+│   │   └── snooze_predictor.joblib                  # Serialized XGBoost snooze risk classifier
+│   │
+│   ├── notebooks/
+│   │   └── .gitkeep                                 # Reserved for Jupyter experiment notebooks
+│   │
+│   ├── pipelines/
+│   │   ├── data_ingest.py                           # Dual-DB connector: PostgreSQL + MongoDB → unified user context dict
+│   │   ├── features.py                              # Behavior Analysis: 4 normalized behavioral score computation
+│   │   └── recommendation_engine.py                 # Recommendation Engine: rule-based habit improvement tips
+│   │
+│   ├── src/
+│   │   ├── challenge_generator.py                   # Cognitive Challenge Engine: 7 procedural generators × 5 tiers
+│   │   ├── classifier.py                            # Snooze Prediction: XGBoost binary classifier (92.5% accuracy)
+│   │   └── reinforcement.py                         # Adaptive Difficulty: Elo engine → 5 difficulty tiers
+│   │
+│   ├── static/
+│   │   └── landing.html                             # Static landing page
+│   │
+│   ├── habit_scoring.py                             # Habit Scoring: weighted habit index formula (0–100)
+│   ├── main.py                                      # FastAPI Router: REST endpoints + Pydantic schemas + Swagger UI
+│   ├── README.md                                    # This documentation file
+│   └── requirements.txt                             # All Python dependencies for AI/ML layer
 │
-├── models/
-│   ├── snooze_predictor.joblib     # Serialized XGBoost snooze risk classifier
-│   └── difficulty_model.joblib     # Serialized difficulty calibration model
-│
-├── training/
-│   └── train_models.py             # Model training: generates synthetic data, trains, serializes
-│
-├── tests/
-│   └── test_endpoints.py           # FastAPI TestClient unit tests for all 3 challenge endpoints
-│
-├── requirements.txt                # All Python dependencies for AI/ML layer
-└── README.md                       # This documentation file
+├── .gitignore
+└── LICENSE
 ```
 
 ---
@@ -547,8 +559,7 @@ ai_ml/
 <div align="center">
 
 **ICAP — Intelligent Cognitive Alarm Platform**  
-*Infosys Springboard Internship Project · Team 3*  
-*Debajyoti Mukhopadhyay — AI/ML Engineer*
+*Team 3 · Debajyoti Mukhopadhyay — AI/ML*
 
 ![Built with Python](https://img.shields.io/badge/Built%20with-Python%203.13-3776AB?style=flat-square&logo=python)
 ![FastAPI](https://img.shields.io/badge/Served%20via-FastAPI-009688?style=flat-square&logo=fastapi)
