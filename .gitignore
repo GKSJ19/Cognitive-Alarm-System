@@ -52,3 +52,8 @@ htmlcov/
 backend_backup/
 mobile_backup/
 Cognitive-Alarm-System/
+
+
+# Backup files
+*.bak
+*.backup
