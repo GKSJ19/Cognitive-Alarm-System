@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Alarm — AI/ML Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: radial-gradient(circle at 20% 10%, #131c31 0%, #0a0f1c 55%, #060a13 100%);
+            color: #e6edf7;
+            min-height: 100vh;
+            padding: 48px 24px 80px;
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #7dd3fc;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+
+        .badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, #e6edf7 20%, #7dd3fc 60%, #38bdf8 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-top: 14px;
+            font-size: 16px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+
+        /* meta row */
+        .meta-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .meta-chip {
+            background: #111a2c;
+            border: 1px solid #1f2b45;
+            color: #94a3b8;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .meta-chip b {
+            color: #e6edf7;
+        }
+
+        /* section title */
+        .section-title {
+            margin-top: 56px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .section-title h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+        }
+
+        .section-title .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #1f2b45, transparent);
+        }
+
+        /* model grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: linear-gradient(160deg, #101828 0%, #0c1322 100%);
+            border: 1px solid #1f2b45;
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: transform .15s ease, border-color .15s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #38bdf8;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid #1f2b45;
+        }
+
+        .status-live {
+            font-size: 11px;
+            font-weight: 700;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            padding: 3px 9px;
+            border-radius: 999px;
+            letter-spacing: .4px;
+        }
+
+        .card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 13.5px;
+            color: #94a3b8;
+            line-height: 1.55;
+            margin-bottom: 16px;
+            min-height: 58px;
+        }
+
+        .endpoint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #080d17;
+            border: 1px solid #1c2740;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12.5px;
+            color: #7dd3fc;
+            text-decoration: none;
+        }
+
+        .endpoint:hover {
+            border-color: #38bdf8;
+        }
+
+        .method-get {
+            background: #0e2a1e;
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 10.5px;
+            padding: 2px 7px;
+            border-radius: 5px;
+            letter-spacing: .5px;
+        }
+
+        /* per-card accent colors */
+        .c1 {
+            --accent1: #38bdf8;
+            --accent2: #818cf8;
+        }
+
+        .c2 {
+            --accent1: #818cf8;
+            --accent2: #c084fc;
+        }
+
+        .c3 {
+            --accent1: #fb923c;
+            --accent2: #f472b6;
+        }
+
+        .c4 {
+            --accent1: #4ade80;
+            --accent2: #38bdf8;
+        }
+
+        .c5 {
+            --accent1: #f472b6;
+            --accent2: #fb923c;
+        }
+
+        /* pipeline strip */
+        .pipeline {
+            margin-top: 56px;
+            background: #0c1322;
+            border: 1px solid #1f2b45;
+            border-radius: 14px;
+            padding: 26px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pstep {
+            background: #101828;
+            border: 1px solid #1f2b45;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: #cbd5e1;
+            white-space: nowrap;
+        }
+
+        .parrow {
+            color: #38bdf8;
+            font-size: 16px;
+        }
+
+        /* footer cta */
+        .cta {
+            margin-top: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(120deg, #0e1a2f, #0c1322);
+            border: 1px solid #1f2b45;
+            border-radius: 14px;
+            padding: 26px 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .cta div h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .cta div p {
+            color: #94a3b8;
+            font-size: 13.5px;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            color: #04101f;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 12px 24px;
+            border-radius: 9px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            color: #475569;
+            font-size: 12.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <span class="badge"><span class="dot"></span> Service Online</span>
+        <h1>Intelligent Cognitive Alarm Platform<br>AI/ML Service</h1>
+        <p class="subtitle">Five behavioral-intelligence models — turning raw wake-up, snooze, and challenge
+            data into adaptive difficulty, habit scores, personalized recommendations, and oversleep-risk predictions.
+        </p>
+
+        <div class="meta-row">
+            <div class="meta-chip">Version <b>1.0.0</b></div>
+            <div class="meta-chip">Framework <b>FastAPI</b></div>
+            <div class="meta-chip">Spec <b>OpenAPI 3.1</b></div>
+            <div class="meta-chip">Author <b>Debajyoti Mukhopadhyay</b> — AI/ML Module</div>
+        </div>
+
+        <div class="section-title">
+            <h2>Models in Production</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="grid">
+
+            <div class="card c1">
+                <div class="card-top">
+                    <div class="icon-box">📊</div>
+                    <span class="status-live">● LIVE</span>
+                </div>
+                <h3>Habit Scoring Model</h3>
+                <p>Weighted formula combining wake-up consistency (35%), challenge completion (25%),
+                    snooze reduction (20%), and sleep schedule adherence (20%) into a single habit score.</p>
+                <a class="endpoint" href="/users/1/habit-score" target="_blank">
+                    <span class="method-get">GET</span> /users/{user_id}/habit-score
+                </a>
+            </div>
+
+            <div class="card c4">
+                <div class="card-top">
+                    <div class="icon-box">🎯</div>
+                    <span class="status-live">● LIVE</span>
+                </div>
+                <h3>Adaptive Difficulty Model</h3>
+                <p>Elo-style reinforcement engine that replays a user's real challenge attempts and
+                    returns their current rating plus the next recommended difficulty level.</p>
+                <a class="endpoint" href="/users/1/difficulty" target="_blank">
+                    <span class="method-get">GET</span> /users/{user_id}/difficulty
+                </a>
+            </div>
+
+            <div class="card c2">
+                <div class="card-top">
+                    <div class="icon-box">🧠</div>
+                    <span class="status-live">● LIVE</span>
+                </div>
+                <h3>Behavior Analysis Model</h3>
+                <p>Analyzes snooze patterns, wake-up confirmation behavior, and sleep-duration adherence
+                    to produce the four normalized inputs the Habit Scoring Model needs.</p>
+                <a class="endpoint" href="/openapi.json" target="_blank">
+                    <span class="method-get">GET</span> internal · feeds habit-score
+                </a>
+            </div>
+
+            <div class="card c5">
+                <div class="card-top">
+                    <div class="icon-box">💡</div>
+                    <span class="status-live">● LIVE</span>
+                </div>
+                <h3>Recommendation Model</h3>
+                <p>Identifies each user's weakest habit-score component and maps it to a targeted,
+                    content-library recommendation for sleep, wake-up, or habit improvement.</p>
+                <a class="endpoint" href="/users/1/recommendation" target="_blank">
+                    <span class="method-get">GET</span> /users/{user_id}/recommendation
+                </a>
+            </div>
+
+            <div class="card c3">
+                <div class="card-top">
+                    <div class="icon-box">⚠️</div>
+                    <span class="status-live">● LIVE</span>
+                </div>
+                <h3>Prediction Model</h3>
+                <p>XGBoost classifier trained to flag oversleep / snooze risk, achieving 92.5% validation
+                    accuracy, serialized as snooze_predictor.joblib.</p>
+                <a class="endpoint" href="/users/1/risk-prediction" target="_blank">
+                    <span class="method-get">GET</span> /users/{user_id}/risk-prediction
+                </a>
+            </div>
+
+        </div>
+
+        <div class="section-title">
+            <h2>Data Pipeline</h2>
+            <div class="line"></div>
+        </div>
+        <div class="pipeline">
+            <div class="pstep">PostgreSQL + MongoDB</div><span class="parrow">→</span>
+            <div class="pstep">data_ingest.py</div><span class="parrow">→</span>
+            <div class="pstep">features.py</div><span class="parrow">→</span>
+            <div class="pstep">habit_scoring.py</div><span class="parrow">→</span>
+            <div class="pstep">recommendation_engine.py</div><span class="parrow">→</span>
+            <div class="pstep">FastAPI Response</div>
+        </div>
+
+        <div class="cta">
+            <div>
+                <h3>Explore the full API reference</h3>
+                <p>Interactive request/response testing for every endpoint, schemas, and live examples.</p>
+            </div>
+            <a class="btn" href="/docs">Open API Explorer →</a>
+        </div>
+
+        <footer>Intelligent Cognitive Alarm Platform · AI/ML Layer · Infosys Springboard Internship Project</footer>
+    </div>
+</body>
+
+</html>
