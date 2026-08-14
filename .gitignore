@@ -1,0 +1,54 @@
+# OS Files
+.DS_Store
+Thumbs.db
+db.sqlite3
+
+# Node/React Native/Expo
+node_modules/
+.expo/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.expo-shared/
+web-build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Databases
+*.db
+*.sqlite
+
+# Environment/Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+
+# Local backups / old project copy
+backend_backup/
+mobile_backup/
+Cognitive-Alarm-System/
