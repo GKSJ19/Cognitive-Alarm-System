@@ -13,7 +13,7 @@ engine = create_async_engine(
     settings.DATABASE_URL,
     echo=False,
     connect_args=connect_args
-)
+)   
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
