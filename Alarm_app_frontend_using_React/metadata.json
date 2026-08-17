@@ -1,0 +1,6 @@
+{
+  "name": "Wellness Challenge & Coaching Platform",
+  "description": "Comprehensive role-based wellness app featuring a challenge engine, user habit tracking, wellness coach dashboard, and administrative controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
