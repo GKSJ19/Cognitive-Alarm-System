@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "ICAP Mobile",
+    "slug": "icap-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.icap.mobile"
+    },
+    "android": {
+    "package": "com.icap.mobile"
+    },
+    "scheme": "icap",
+    "extra": {
+      "eas": {
+        "projectId": "f147de3a-a5a1-4039-8755-98c5932aef2e"
+      }
+    }
+  }
+}
