@@ -11,6 +11,9 @@ from app.routers import evaluation
 from app.routers import adaptive
 from app.models.habit_score import HabitScore
 from app.routers import habit
+from app.routers import workflow
+from app.routers import analytics
+from app.routers import report
 Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=engine)
@@ -26,6 +29,9 @@ app.include_router(verification.router)
 app.include_router(evaluation.router)
 app.include_router(adaptive.router)
 app.include_router(habit.router)
+app.include_router(workflow.router)
+app.include_router(analytics.router)
+app.include_router(report.router)
 @app.get("/")
 def home():
 
