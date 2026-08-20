@@ -1,0 +1,204 @@
+.alarm-list-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.alarm-list-container h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+}
+
+.alarm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.alarm-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.alarm-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.alarm-card.inactive {
+  opacity: 0.7;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+}
+
+.alarm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.alarm-header h3 {
+  color: #333;
+  margin: 0;
+  font-size: 1.2rem;
+  flex: 1;
+}
+
+.alarm-status {
+  display: flex;
+  gap: 10px;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge.enabled {
+  background: #4ade80;
+  color: white;
+}
+
+.status-badge.disabled {
+  background: #ef4444;
+  color: white;
+}
+
+.alarm-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.alarm-details {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  flex: 1;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.detail:last-child {
+  margin-bottom: 0;
+}
+
+.detail .label {
+  color: #666;
+  font-weight: 500;
+}
+
+.detail .value {
+  color: #333;
+  font-weight: 600;
+}
+
+.intensity-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.intensity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #fbbf24, #ef4444);
+  border-radius: 3px;
+}
+
+.alarm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.btn-toggle {
+  flex: 1;
+  background: #667eea;
+  color: white;
+}
+
+.btn-toggle:hover {
+  background: #5568d3;
+  transform: scale(1.02);
+}
+
+.btn-delete {
+  padding: 8px 12px;
+  background: #ef4444;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  transform: scale(1.02);
+}
+
+.alarm-meta {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: #999;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .alarm-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alarm-list-container {
+    padding: 20px;
+  }
+
+  .detail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .intensity-bar {
+    width: 100%;
+    margin: 8px 0;
+  }
+}
