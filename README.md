@@ -200,6 +200,13 @@ The following section outlines the complete roadmap of how the Intelligent Cogni
 * **Step 7.4:** Programmed a database backup utility script (`backend/scripts/backup_db.py`) executing automated database dumps.
 * **Step 7.5:** Finalized complete system tests verifying API performance and database schema alignment.
 
+### Week 8: Coach Communication System, Real-Time Notifications & Final Polish
+* **Step 8.1:** Formulated the **Coach Notification Engine** (`backend/app/routes/notifications.py`) and relational database model `CoachNotification` (`backend/app/models/models.py`), enabling wellness coaches to issue real-time advice, reminders, and tips to targeted users.
+* **Step 8.2:** Implemented notification endpoints including recipient lookup, inbox fetching (`/notifications/inbox`), coach sent history (`/notifications/sent`), and read status updates (`/notifications/{id}/read`).
+* **Step 8.3:** Integrated mobile ringtone pickers and audio playback services (`alarmSoundService.ts`) for custom alarm sound management.
+* **Step 8.4:** Added comprehensive unit and security test suites (`backend/tests/test_security.py`) validating JWT authorization and API security boundaries.
+* **Step 8.5:** Finalized full system documentation, cross-platform synchronization, and production deployment readiness.
+
 ---
 
 ## 🔌 API Endpoint Catalog
@@ -225,6 +232,13 @@ The following section outlines the complete roadmap of how the Intelligent Cogni
 * `GET /challenges/next` - Generates a new puzzle based on user difficulty settings.
 * `POST /challenges/verify` - Evaluates accuracy of a puzzle answer.
 * `GET /challenges/results` - Details metrics of past solves.
+
+### Notifications (`/notifications`)
+* `POST /notifications/send` - Allows coaches or admins to send targeted notifications to users.
+* `GET /notifications/inbox` - Fetches unread/read notifications for the current authenticated user.
+* `GET /notifications/sent` - Retrieves all notifications sent by the logged-in coach.
+* `PATCH /notifications/{id}/read` - Marks a specific notification as read.
+* `PATCH /notifications/inbox/read-all` - Marks all user notifications as read.
 
 ### Dashboards & Analytics (`/dashboard` & `/analytics`)
 * `GET /dashboard/user` - High-level details of habit scores and recommendations.
