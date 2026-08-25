@@ -17,6 +17,7 @@ from app.routes.protected import router as protected_router
 from app.routes.alarms import router as alarms_router
 from app.routes.profile import router as profile_router
 from app.routes.challenges import router as challenges_router
+from app.routes.notifications import router as notifications_router
 
 # New engine routers
 from app.adaptive_engine import router as adaptive_router
@@ -123,6 +124,7 @@ app.include_router(protected_router)
 app.include_router(alarms_router)
 app.include_router(profile_router)
 app.include_router(challenges_router)
+app.include_router(notifications_router)
 
 # Include new engine routers
 app.include_router(adaptive_router)

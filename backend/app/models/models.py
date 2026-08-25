@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Boolean, DateTime, Time, Integer, Float, ForeignKey, func, Uuid
+from sqlalchemy import Column, String, Boolean, DateTime, Time, Integer, Float, ForeignKey, func, Uuid, Text
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -17,7 +17,6 @@ class User(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
-    # Relationship to Alarms (cascade delete ensures orphans are cleaned up)
     alarms = relationship("Alarm", back_populates="owner", cascade="all, delete-orphan")
     profile = relationship("UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
 
@@ -47,9 +46,9 @@ class Alarm(Base):
     user_id = Column(Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     title = Column(String(100), nullable=False)
     alarm_time = Column(Time, nullable=False)
-    repeat_type = Column(String(20), default="daily")  # once, daily, weekdays, weekends, custom
-    custom_days = Column(String(50), nullable=True)     # e.g. "MON,WED,FRI"
-    challenge_type = Column(String(50), default="math") # math, memory, logic, etc.
+    repeat_type = Column(String(20), default="daily")
+    custom_days = Column(String(50), nullable=True)
+    challenge_type = Column(String(50), default="math")
     volume = Column(Integer, default=80)
     vibration = Column(Boolean, default=True)
     snooze_enabled = Column(Boolean, default=True)
@@ -59,11 +58,10 @@ class Alarm(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
-    # New fields mapping to React Native frontend
-    repeat_days = Column(String(50), nullable=True)     # e.g. "1,2,3,4,5"
+    repeat_days = Column(String(50), nullable=True)
     ringtone = Column(String(100), default="cyber_alarm.mp3")
     challenge_required = Column(Boolean, default=True)
-    difficulty = Column(String(20), default="medium")   # easy, medium, hard
+    difficulty = Column(String(20), default="medium")
 
     owner = relationship("User", back_populates="alarms")
 
@@ -86,9 +84,9 @@ class Challenge(Base):
     id = Column(Uuid, primary_key=True, default=uuid.uuid4)
     category_id = Column(Uuid, ForeignKey("challenge_categories.id", ondelete="CASCADE"), nullable=False)
     question_text = Column(String(500), nullable=False)
-    difficulty = Column(String(50), nullable=False)     # easy, medium, hard
+    difficulty = Column(String(50), nullable=False)
     correct_answer = Column(String(200), nullable=False)
-    additional_data = Column(String(1000), nullable=True) # JSON details (options, arrays, etc.)
+    additional_data = Column(String(1000), nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     category = relationship("ChallengeCategory", back_populates="challenges")
@@ -116,7 +114,7 @@ class ChallengeResult(Base):
     challenge_id = Column(Uuid, ForeignKey("challenges.id", ondelete="SET NULL"), nullable=True)
     score = Column(Integer, nullable=False)
     accuracy = Column(Float, nullable=False)
-    completion_time = Column(Integer, nullable=False)   # in seconds
+    completion_time = Column(Integer, nullable=False)
     total_attempts = Column(Integer, nullable=False)
     solved_at = Column(DateTime, server_default=func.now())
 
@@ -133,7 +131,7 @@ class AlarmHistory(Base):
     wake_time = Column(String(20), nullable=False)
     solved = Column(Boolean, default=True)
     solve_time = Column(Integer, default=0)
-    snooze_count = Column(Integer, default=0)  # Added snooze count tracking field
+    snooze_count = Column(Integer, default=0)
     dismissed_at = Column(DateTime, server_default=func.now())
 
     alarm = relationship("Alarm")
@@ -142,3 +140,20 @@ class AlarmHistory(Base):
     @property
     def history_id(self):
         return self.id
+
+
+class CoachNotification(Base):
+    """Notifications sent by a coach to a specific user."""
+    __tablename__ = "coach_notifications"
+
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
+    coach_id = Column(Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    recipient_id = Column(Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    title = Column(String(200), nullable=False)
+    message = Column(Text, nullable=False)
+    notification_type = Column(String(50), default="tip")  # tip, warning, praise, reminder
+    is_read = Column(Boolean, default=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+    coach = relationship("User", foreign_keys=[coach_id])
+    recipient = relationship("User", foreign_keys=[recipient_id])
